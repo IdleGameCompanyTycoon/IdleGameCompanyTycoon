@@ -1,8 +1,20 @@
+
+//Global Variables
 let money = 0;
 
-function increaseAssignment(max, earning) {
+//Construcor Function for assignments
+function Assignments(max, pay, assignment){
+  this.assignment = assignment;
+  this.max = max;
+  this.earnings = pay;
+}
+
+//Adding the function to increase LoC count to the Constructors Prototype
+Assignments.prototype.increase = function increaseAssignment() {
   let progressVal = 0;
   let loc = 0;
+  let max = this.max;
+  let earning = this.earnings;
 
   return function() {
     const assignment = document.querySelector('.assignment');
@@ -29,7 +41,9 @@ function increaseAssignment(max, earning) {
   }
 }
 
-let taskOne = increaseAssignment(10, 10);
+//Test
+let taskOne = new Assignments(10, 10, 'The first Assignment');
 
+//LoC Button Event Handler
 const locButton = document.querySelector('.loc');
-locButton.addEventListener('click', taskOne);
+locButton.addEventListener('click', taskOne.increase());
