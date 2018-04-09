@@ -1,1 +1,1 @@
-##Idle Game Company Tycoon Project
+# Idle Game Company Tycoon Project
