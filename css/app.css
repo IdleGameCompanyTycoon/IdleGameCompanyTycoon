@@ -1,11 +1,77 @@
+html  {
+  height: 100%;
+}
+
 body {
   display: flex;
   flex-wrap: wrap;
+  height: 100%;
+  width: 100vw;
+  min-height: 500px;
+  min-width: 300px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+/*Section Styles*/
+
+header  {
+width: 100vw;
+height: 24%;
+background: yellow;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+}
+
+nav {
+  width: 100vw;
+  height: 70px;
+  background: grey;
+}
+
+.secondary {
+  width: 50vw;
+  height: calc(80% - 70px);
+  background: red;
+}
+
+main {
+  box-sizing: border-box;
+  width: 50vw;
+  height: calc(80% - 70px);
+  background: blue;
+  padding: 16px;
+}
+
+/*Header Related content*/
+
+.loc  {
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+
+.Aligner-item {
+  max-width: 50%;
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+/*Assignments Menue*/
 
 .assignment {
   position: relative;
-  width: 400px;
+  width: 80%;
+  max-width: 400px;
   height: 20px;
   border: 1px solid black;
   border-radius: 5px;

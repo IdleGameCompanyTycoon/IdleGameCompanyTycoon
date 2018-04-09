@@ -37,7 +37,7 @@ class Assignments {
         text.textContent = 'Finished';
         money += earning;
         moneyElem.textContent = `${money}$`;
-        taskOne= null;
+        taskOne = null;
       }
     }
   }
