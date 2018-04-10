@@ -6,7 +6,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   height: 100%;
-  width: 100vw;
+  width: 100%;
   min-height: 500px;
   min-width: 300px;
   box-sizing: border-box;
@@ -16,42 +16,69 @@ body {
 
 /*Section Styles*/
 
+.info-panel  {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  background: url('../img/final.jpg') repeat;
+  -webkit-box-shadow: 0px 3px 29px 8px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 3px 29px 8px rgba(0,0,0,0.75);
+  box-shadow: 0px 3px 29px 8px rgba(0,0,0,0.75);
+  border-bottom: 1px solid black;
+  z-index: 1;
+  padding: 0px 20px;
+  color: white;
+}
+
 header  {
-width: 100vw;
-height: 24%;
-background: yellow;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: column;
+  width: 100%;
+  height: 24%;
+  background: url('../img/header-sky-test.jpg') no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 nav {
-  width: 100vw;
-  height: 70px;
+  width: 100%;
+  height: 50px;
   background: grey;
 }
 
 .secondary {
-  width: 50vw;
-  height: calc(80% - 70px);
-  background: red;
+  box-sizing: border-box;
+  width: 50%;
+  height: calc(76% - 90px);
+  background: url('../img/final.jpg') repeat;
+  border: 5px solid black;
+  padding: 16px;
+  overflow: auto;
 }
 
 main {
   box-sizing: border-box;
-  width: 50vw;
-  height: calc(80% - 70px);
-  background: blue;
+  width: 50%;
+  height: calc(76% - 90px);
+  background: url('../img/final.jpg') repeat;
+  border: 5px solid black;
+  color: white;
   padding: 16px;
+  font-size: 0.8em;
 }
 
 /*Header Related content*/
 
 .loc  {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50px;
+  -webkit-box-shadow: inset 0px 0px 13px 0px rgba(255,255,255,1), 2px 2px 18px 0px rgba(0,0,0,0.75);;
+  -moz-box-shadow: inset 0px 0px 13px 0px rgba(255,255,255,1), 2px 2px 18px 0px rgba(0,0,0,0.75);;
+  box-shadow: inset 0px 0px 13px 0px rgba(255,255,255,1),  2px 2px 18px 0px rgba(0,0,0,0.75);;
+  background: #0dba21;
+  border: 0;
 }
 
 .Aligner-item {
@@ -66,6 +93,20 @@ main {
   align-self: flex-end;
 }
 
+/*Available Tasks Menue*/
+
+.available-tasks {
+  box-sizing: border-box;
+  width: 40vw;
+  height: 35vw;
+  color: white;
+  background: #552382;
+  border: 10px solid #8d1af4;
+  padding: 10px;
+  font-size: 0.8em;
+  margin-bottom: 5px;
+}
+
 /*Assignments Menue*/
 
 .assignment {
@@ -73,7 +114,7 @@ main {
   width: 80%;
   max-width: 400px;
   height: 20px;
-  border: 1px solid black;
+  border: 1px solid blue;
   border-radius: 5px;
 }
 

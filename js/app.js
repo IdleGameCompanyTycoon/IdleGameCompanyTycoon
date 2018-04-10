@@ -1,6 +1,7 @@
 
 //Global Variables
 let money = 0;
+let availableTasks  =  [];
 
 //Construcor Function for assignments
 
@@ -43,12 +44,33 @@ class Assignments {
   }
 }
 
-//Adding the function to increase LoC count to the Constructors Prototype
+//Function to add the Available Tasks to the DOM
 
+function addTaskToDom(object) {
+  const tasksElement = document.querySelector('.secondary');
+  const container = document.createElement('div');
+  container.className = 'available-tasks';
+
+  container.innerHTML = `${object.assignment} <br><br>
+                        Scale: ${object.max} LoC <br>
+                        Reward: ${object.earnings}$`;
+  tasksElement.appendChild(container);
+}
 
 //Test
 let taskOne = new Assignments(10, 10, 'The first Assignment');
 let taskTwo = new Assignments(10, 10, 'The Second Assignment');
+let taskThree = new Assignments(10, 10, 'The Third Assignment');
+
+availableTasks.push(taskOne);
+availableTasks.push(taskTwo);
+availableTasks.push(taskThree);
+
+(() => {
+  for(let task of availableTasks){
+    addTaskToDom(task);
+  }
+})()
 
 //LoC Button Event Handler
 const locButton = document.querySelector('.loc');
