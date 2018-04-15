@@ -1,8 +1,11 @@
-var http = require('http');
+const express = require('express');
+const app = express()
 const PORT = process.env.PORT;
 
-var server = http.createServer(function(req, res) {
-res.writeHead(200);
-res.end('Hi everybody!');
-});
-server.listen(PORT);
+app.use(express.static('public'));
+app.set('view engine', 'ejs')
+
+app.get('/', function (req, res) {
+  res.render('index');
+})
+app.listen(PORT);
