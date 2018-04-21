@@ -1,3 +1,5 @@
+var db = require('./db');
+
 
 //Global Variables
 let money = 0;
@@ -75,5 +77,3 @@ availableTasks.push(taskThree);
 //LoC Button Event Handler
 const locButton = document.querySelector('.loc');
 locButton.addEventListener('click', taskOne.increase(2));
-
-console.log(client);

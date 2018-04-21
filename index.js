@@ -9,12 +9,3 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 app.listen(PORT);
-
-const { Client } = require('pg');
-
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
-
-client.connect();
