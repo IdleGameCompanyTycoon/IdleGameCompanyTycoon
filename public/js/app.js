@@ -86,6 +86,6 @@ function get (path, data) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    console.log(data.results);
+    console.log(data results);
   })
 }
