@@ -79,13 +79,9 @@ locButton.addEventListener('click', taskOne.increase(2));
 
 //Test
 
-function get (path, data) {
-  return window.fetch(path, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    console.log(data results);
-  })
+function get() {
+  fetch('/getData')
+    .then(function(response){
+      return response.json();
+    })
 }
