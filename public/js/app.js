@@ -1,4 +1,3 @@
-var db = require('./db');
 
 
 //Global Variables
@@ -77,3 +76,16 @@ availableTasks.push(taskThree);
 //LoC Button Event Handler
 const locButton = document.querySelector('.loc');
 locButton.addEventListener('click', taskOne.increase(2));
+
+//Test
+
+function get (path, data) {
+  return window.fetch(path, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    console.log(data.results);
+  })
+}
