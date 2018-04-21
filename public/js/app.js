@@ -6,33 +6,33 @@ let availableTasks  =  [];
 //Construcor Function for assignments
 
 class Assignments {
-  constructor(max, pay, assignment) {
+  constructor(codeSize, pay, assignment) {
     this.assignment = assignment;
-    this.max = max;
+    this.codeSize = codeSize;
     this.earnings = pay;
   }
 
   increase(increase = 1) {
     let progressVal = 0;
     let loc = 0;
-    let max = this.max;
+    let codeSize = this.codeSize;
     let earning = this.earnings;
 
     return () => {
       const assignment = document.querySelector('.assignment');
       const progress = assignment.querySelector('.progress');
       const text = assignment.querySelector('.assign-text');
-      console.log(max);
+      console.log(codeSize);
 
-      if(loc < max){
+      if(loc < codeSize){
         console.log('you');
-        progressVal += 100/max*increase;
+        progressVal += 100/codeSize*increase;
         loc += increase;
         progress.style.width = `${progressVal}%`;
-        text.textContent = `This is the first Task ${loc}/${max}`;
+        text.textContent = `This is the first Task ${loc}/${codeSize}`;
       }
 
-       if(loc == max){
+       if(loc == codeSize){
          loc += increase;
         const moneyElem = document.querySelector('.money');
         text.textContent = 'Finished';
@@ -52,7 +52,7 @@ function addTaskToDom(object) {
   container.className = 'available-tasks';
 
   container.innerHTML = `${object.assignment} <br><br>
-                        Scale: ${object.max} LoC <br>
+                        Scale: ${object.codeSize} LoC <br>
                         Reward: ${object.earnings}$`;
   tasksElement.appendChild(container);
 }
@@ -75,3 +75,5 @@ availableTasks.push(taskThree);
 //LoC Button Event Handler
 const locButton = document.querySelector('.loc');
 locButton.addEventListener('click', taskOne.increase(2));
+
+console.log(client);
