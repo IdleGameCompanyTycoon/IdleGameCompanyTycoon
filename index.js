@@ -15,7 +15,7 @@ app.get('/getData', function(request, response){
     if (error){
       response.status(400).send('Error in database operation');
     } else {
-      response.send('nice');
+      response.send(results.json());
     }
   })
 })
