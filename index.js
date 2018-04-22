@@ -10,7 +10,14 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 
-app.get('/getData', function(request, response){
+app.use(function(request, response, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
+app.get('/getData', function(request, response, next){
   db.query('SELECT * FROM contracts', function(error, results){
     if (error){
       response.status(400).send('Error in database operation');
