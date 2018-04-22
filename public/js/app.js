@@ -80,8 +80,10 @@ locButton.addEventListener('click', taskOne.increase(2));
 //Test
 
 function get() {
-  fetch('/getData')
+  fetch('/getData', {
+    method: 'GET',
+  })
     .then(function(response){
-      return response;
+      console.log(response);
     })
 }
