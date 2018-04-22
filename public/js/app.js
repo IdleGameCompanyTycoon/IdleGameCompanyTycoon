@@ -82,6 +82,6 @@ locButton.addEventListener('click', taskOne.increase(2));
 function get() {
   fetch('/getData')
     .then(function(response){
-      return response.json();
+      return response;
     })
 }
