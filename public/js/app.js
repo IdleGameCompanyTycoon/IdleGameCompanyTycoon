@@ -84,6 +84,6 @@ function get() {
     method: 'GET',
   })
     .then(function(response){
-      return response.json().rows;
+      return response.json();
     })
 }
