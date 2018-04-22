@@ -85,6 +85,6 @@ function get() {
   })
     .then(response => response.json())
     .then(response => {
-      return response;
+      availableTasks = response.rows;
     })
 }
