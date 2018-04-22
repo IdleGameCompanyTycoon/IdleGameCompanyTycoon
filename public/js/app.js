@@ -83,7 +83,8 @@ function get() {
   fetch('/getData', {
     method: 'GET',
   })
-    .then(function(response){
-      return response.json();
+    .then(response => response.json())
+    .then(response => {
+      return response;
     })
 }
