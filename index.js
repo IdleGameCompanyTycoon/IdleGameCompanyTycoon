@@ -22,7 +22,7 @@ app.get('/getData', function(request, response, next){
     if (error){
       response.status(400).send('Error in database operation');
     } else {
-      response.send(results.json());
+      response.send(results);
     }
   })
 })
