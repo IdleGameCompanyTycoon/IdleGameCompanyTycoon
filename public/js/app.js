@@ -11,23 +11,20 @@ class Contracts {
   }
 
   increase(increase = 1) {
+    const that = this;
 
-    let loc = 0;
-    let codeSize = this.codeSize;
-    let earning = this.earnings;
-
-    return () => {
-
-      if(loc < codeSize){
-        this.progressVal += 100/codeSize*increase;
-        loc += increase;
-      }
-
-       if(loc == codeSize){
-         loc += increase;
-        model.money += earning;
-      }
+    if(that.progressCode < that.codeSize){
+      that.progressVal += 100/that.codeSize*increase;
+      that.progressCode += increase;
     }
+
+    if(that.progressCode == that.codeSize){
+      that.progressCode += increase;
+      model.money += that.earnings;
+      return 'finished';
+    }
+
+    return 'in progress';
   }
 }
 
@@ -114,11 +111,36 @@ class GameController {
     this.gameView.addActiveContracts(contractObject);
   }
 
+  //Function for to add LoC to contract
+  addLoc() {
+    const activeContract = document.querySelector('.assignment');
+
+    if (activeContract != undefined){
+      let contractObject = model.activeContracts.find(obj => obj.domElem === activeContract);
+      const statusCon = contractObject.increase();
+
+      if (statusCon == 'in progress') {
+        gameApp.gameView.progressBar(contractObject);
+      }
+
+      else if (statusCon == 'finished') {
+        model.deleteFromArray(model.activeContracts, contractObject)
+        gameApp.gameView.removeElem(contractObject.domElem);
+        contractObject = null;
+        gameApp.gameView.updateMoney();
+      }
+    }
+  }
+
   //Handles all click events
   clickHandler(evt) {
     if (evt.target.classList.contains('fa-check', 'accept-contract-button')) {
       let elem = evt.target;
       gameApp.contractAccepted(elem);
+    }
+
+    if (evt.target.classList.contains('loc')) {
+      gameApp.addLoc();
     }
   }
 
@@ -184,6 +206,22 @@ class GameView {
   //Remove dom elemen
   removeElem(elem) {
     elem.remove();
+  }
+
+  //Update money
+  updateMoney() {
+    const money = gameApp.getMoney();
+    document.querySelector('.money').textContent = `${money}$`;
+  }
+
+  //Adjust progress bar
+  progressBar(obj) {
+    const elem = obj.domElem;
+    const progress = elem.querySelector('.progress');
+    const text = elem.querySelector('.assign-text');
+
+    progress.style.width = `${obj.progressVal}%`;
+    text.textContent = `${obj.assignment} ${obj.progressCode}/${obj.codeSize}`;
   }
 }
 
