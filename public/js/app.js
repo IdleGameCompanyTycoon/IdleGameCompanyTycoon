@@ -127,11 +127,11 @@ class GameView {
     text.innerHTML = `${object.assignment} <br><br>
                           Scale: ${object.codeSize} LoC <br>
                           Reward: ${object.earnings}$`;
-    text.setAttribute('class', '.Aligner-item--top .Aligner-item')
-    button.setAttribute('class', 'fas fa-check avContractButton Aligner-item Aligner-item--bottom')
+    text.setAttribute('class', 'Aligner-item--top Aligner-item')
+    button.setAttribute('class', 'fas fa-check accept-contract-button')
 
     container.append(text, button);
-    
+
     return container;
   }
 
