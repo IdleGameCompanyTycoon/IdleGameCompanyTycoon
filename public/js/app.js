@@ -89,7 +89,6 @@ class GameController {
         dataRequests.getContract()
                     .then(response => response.json())
                     .then(response => {
-                        console.log(response);
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
                         model.availableContracts.push(newContract);
@@ -97,6 +96,10 @@ class GameController {
                         })
       }
     }, 10000)
+  }
+
+  clickHandler(evt) {
+
   }
 
   init() {
@@ -117,11 +120,18 @@ class GameView {
   //Creates new Dom element for contracts
   createNewContractDom(object) {
     const container = document.createElement('div');
+    const text = document.createElement('p');
+    const button = document.createElement('i');
     container.className = 'available-tasks';
 
-    container.innerHTML = `${object.assignment} <br><br>
+    text.innerHTML = `${object.assignment} <br><br>
                           Scale: ${object.codeSize} LoC <br>
                           Reward: ${object.earnings}$`;
+    text.setAttribute('class', '.Aligner-item--top .Aligner-item')
+    button.setAttribute('class', 'fas fa-check avContractButton Aligner-item Aligner-item--bottom')
+
+    container.append(text, button);
+    
     return container;
   }
 
