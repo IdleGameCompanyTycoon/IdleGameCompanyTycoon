@@ -107,10 +107,6 @@ main {
   padding: 10px;
   font-size: 0.8em;
   margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
 
 /*Assignments Menue*/
@@ -122,6 +118,7 @@ main {
   height: 20px;
   border: 1px solid blue;
   border-radius: 5px;
+  margin-top: 20px;
 }
 
 .progress {

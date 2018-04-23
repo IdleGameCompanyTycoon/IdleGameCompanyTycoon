@@ -6,6 +6,7 @@ class Contracts {
     this.earnings = pay;
     this.description = descr;
     this.progressVal = 0;
+    this.progressCode = 0;
     this.domElem = gameApp.newContractDomElem(this);
   }
 
@@ -51,6 +52,11 @@ const model = {
     activeContracts: [],
     createContract: function(obj){
       return new Contracts(obj.codesize, obj.payment, obj.contract, obj.description);
+    },
+
+    deleteFromArray: function(arr, object){
+      let i = arr.indexOf(object);
+      arr.splice(i, 1);
     }
 }
 
@@ -98,8 +104,22 @@ class GameController {
     }, 10000)
   }
 
-  clickHandler(evt) {
+  //Function to accept an contract
+  contractAccepted(elem) {
+    let contractObject = model.availableContracts.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.availableContracts, contractObject);
+    contractObject.domElem = this.gameView.createActiveContractDom(contractObject);
+    model.activeContracts.push(contractObject);
+    this.gameView.removeElem(elem.closest('div'));
+    this.gameView.addActiveContracts(contractObject);
+  }
 
+  //Handles all click events
+  clickHandler(evt) {
+    if (evt.target.classList.contains('fa-check', 'accept-contract-button')) {
+      let elem = evt.target;
+      gameApp.contractAccepted(elem);
+    }
   }
 
   init() {
@@ -127,7 +147,6 @@ class GameView {
     text.innerHTML = `${object.assignment} <br><br>
                           Scale: ${object.codeSize} LoC <br>
                           Reward: ${object.earnings}$`;
-    text.setAttribute('class', 'Aligner-item--top Aligner-item')
     button.setAttribute('class', 'fas fa-check accept-contract-button')
 
     container.append(text, button);
@@ -145,7 +164,7 @@ class GameView {
     newProgressBar.classList.add('progress');
     newContractText.classList.add('assign-text');
 
-    newContractText.textContent = `${object.assignment} 0/${object.codeSize}`;
+    newContractText.textContent = `${object.assignment} ${object.progressCode}/${object.codeSize}`;
 
     newActiveContract.append(newProgressBar, newContractText);
 
@@ -156,6 +175,16 @@ class GameView {
   addAvailableContracts(obj) {
     document.querySelector('.secondary').appendChild(obj.domElem);
   }
+
+  //Add active tasks to dom
+  addActiveContracts(obj) {
+    document.querySelector('.assignments').appendChild(obj.domElem);
+  }
+
+  //Remove dom elemen
+  removeElem(elem) {
+    elem.remove();
+  }
 }
 
 
@@ -164,3 +193,6 @@ const gameView = new GameView();
 const gameApp = new GameController(gameView);
 
 gameApp.init();
+
+//eventlistener for all clicks
+document.querySelector('body').addEventListener('click', gameApp.clickHandler);
