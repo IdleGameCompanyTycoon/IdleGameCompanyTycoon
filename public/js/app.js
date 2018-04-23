@@ -89,6 +89,7 @@ class GameController {
         dataRequests.getContract()
                     .then(response => response.json())
                     .then(response => {
+                        console.log(response);
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
                         model.availableContracts.push(newContract);
@@ -100,7 +101,7 @@ class GameController {
 
   init() {
     this.gameView.init();
-    this.createContracts;
+    this.createContracts();
   }
 }
 
