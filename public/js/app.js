@@ -93,7 +93,7 @@ class GameController {
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
                         model.availableContracts.push(newContract);
-                        this.gameView.addAvailableContracts(newContract);
+                        gameApp.gameView.addAvailableContracts(newContract);
                         })
       }
     }, 10000)
