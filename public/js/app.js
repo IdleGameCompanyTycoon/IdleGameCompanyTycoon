@@ -35,13 +35,9 @@ class Contracts {
 //Fetch requests
 const dataRequests = {
   getContract: function () {
-        fetch('/getData', {
-          method: 'GET',
-          })
-          .then(response => response.json())
-          .then(response => {
-            return response.rows[0];
-          })
+          return fetch('/getData', {
+                    method: 'GET',
+                    })
         }
 
 }
@@ -91,6 +87,10 @@ class GameController {
     setInterval(function() {
       if(model.availableContracts.length < 6) {
         dataRequests.getContract()
+                    .then(response => response.json())
+                    .then(response => {
+                        return response.rows[0];
+                        })
                     .then(model.createContract(result))
                     .then(function(result) {
                       model.availableContracts.push(result);
