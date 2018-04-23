@@ -89,19 +89,18 @@ class GameController {
         dataRequests.getContract()
                     .then(response => response.json())
                     .then(response => {
-                        return response.rows[0];
+                        const obj = response.rows[0];
+                        const newContract = model.createContract(obj);
+                        model.availableContracts.push(newContract);
+                        this.gameView.addAvailableContracts(newContract);
                         })
-                    .then(model.createContract(result))
-                    .then(function(result) {
-                      model.availableContracts.push(result);
-                      this.gameView.addAvailableContracts(result);
-                    })
       }
     }, 10000)
   }
 
   init() {
     this.gameView.init();
+    this.createContracts;
   }
 }
 
