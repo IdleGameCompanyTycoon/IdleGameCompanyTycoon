@@ -97,6 +97,7 @@ main {
 /*Available Tasks Menue*/
 
 .available-tasks {
+  position: relative;
   box-sizing: border-box;
   width: 40vw;
   height: 35vw;
