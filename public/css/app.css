@@ -81,6 +81,7 @@ main {
   border: 0;
 }
 
+/*Align classes for flex containers*/
 .Aligner-item {
   max-width: 50%;
 }
@@ -96,6 +97,7 @@ main {
 /*Available Tasks Menue*/
 
 .available-tasks {
+  position: relative;
   box-sizing: border-box;
   width: 40vw;
   height: 35vw;
@@ -116,6 +118,7 @@ main {
   height: 20px;
   border: 1px solid blue;
   border-radius: 5px;
+  margin-top: 20px;
 }
 
 .progress {
@@ -131,4 +134,13 @@ main {
   width: 100%;
   position: absolute;
   line-height: 20px;
+}
+
+/*Buttons*/
+.accept-contract-button {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  border: green solid 2px;
+  box-sizing: border-box;
 }
