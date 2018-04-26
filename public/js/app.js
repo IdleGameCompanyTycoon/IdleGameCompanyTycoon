@@ -13,11 +13,13 @@ class Contracts {
   increase(increase = 1) {
     const that = this;
 
+    //Will be esecuted if the contract hasn't met its target yet
     if(that.progressCode < that.codeSize){
       that.progressVal += 100/that.codeSize*increase;
       that.progressCode += increase;
     }
 
+    //Will be executed when the contract is finished
     if(that.progressCode == that.codeSize){
       that.progressCode += increase;
       model.money += that.earnings;
