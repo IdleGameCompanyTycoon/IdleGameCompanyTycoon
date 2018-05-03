@@ -33,8 +33,9 @@ class Contracts {
 //Class for employees
 
 class Employee {
-  constructor(name, img, job) {
-    this.name = name;
+  constructor(firtsName, lastName, img, job) {
+    this.firstName = firtsName;
+    this.lastName = lastName;
     this.picture = img;
     this.job = job;
   }
@@ -43,9 +44,10 @@ class Employee {
 //Subclass for developers
 
 class Developer extends Employee {
-  constructor(name = 'Max Mustermann', img = '') {
-    super(name, img, 'Developer');
+  constructor(firstName = 'Max', lastName = 'Mustermann', img = '') {
+    super(firstName, lastName, img, 'Developer');
     this.skills = new Skills();
+    this.domElem = gameApp.newApplicationDomElem(this);
   }
 }
 
@@ -87,10 +89,16 @@ const model = {
     money: 0,
     availableContracts: [],
     activeContracts: [],
+    availableApplications: [],
     createContract: function(obj){
       return new Contracts(obj.codesize, obj.payment, obj.contract, obj.description);
     },
 
+    createEmployee: function(obj) {
+      return new Developer(obj.firstname, obj.lastname, obj.picture);
+    },
+
+    //Function to delete an object from an Array
     deleteFromArray: function(arr, object){
       let i = arr.indexOf(object);
       arr.splice(i, 1);
@@ -108,6 +116,11 @@ class GameController {
   //Create a new Contract Dom element
   newContractDomElem(obj) {
     return this.gameView.createNewContractDom(obj);
+  }
+
+  //newApplicationElement
+  newApplicationDomElem(obj) {
+    return this.gameView.createNewApplicationDom(obj);
   }
 
   //Get all available tasks from the model
@@ -146,6 +159,11 @@ class GameController {
 
       that.createContracts();
     }, rand*1000)
+  }
+
+  //Create Available applications
+  createApplications() {
+    
   }
 
   //Function to accept an contract
@@ -219,6 +237,24 @@ class GameView {
     button.setAttribute('class', 'fas fa-check accept-contract-button')
 
     container.append(text, button);
+
+    return container;
+  }
+
+  //Creates a new dom element for Employee applications
+  createNewApplicationDom(object) {
+    const container = document.createElement('div');
+    const text = document.createElement('p');
+    const button = document.createElement('i');
+    const picture = document.createElement('img');
+    container.className = 'available-applications';
+    picture.setAttribute('src', object.picture);
+
+    text.innerHTML = `${object.firstName} ${object.lastName}<br><br>
+                          Job: ${object.job}`;
+    button.setAttribute('class', 'fas fa-check accept-contract-button')
+
+    container.append(text, picture, button);
 
     return container;
   }
