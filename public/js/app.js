@@ -30,7 +30,45 @@ class Contracts {
   }
 }
 
+//Class for employees
 
+class Employee {
+  constructor(name, img, job) {
+    this.name = name;
+    this.picture = img;
+    this.job = job;
+  }
+}
+
+//Subclass for developers
+
+class Developer extends Employee {
+  constructor(name = 'Max Mustermann', img = '') {
+    super(name, img, 'Developer');
+    this.skills = new Skills();
+  }
+}
+
+//Class for Employee skills
+
+class Skills {
+  constructor() {
+    this.speed = this.randomVal();
+    this.social = this.randomVal();
+
+    //Game Developement skills
+    this.action = this.randomVal();
+    this.strategie = this.randomVal();
+    this.puzzle = this.randomVal();
+    this.tycoon = this.randomVal();
+    this.shoote = this.randomVal();
+    this.jumpNrun = this.randomVal();
+  }
+
+  randomVal() {
+    return Number(Math.random().toFixed(2));
+  }
+}
 
 //Fetch requests
 const dataRequests = {
