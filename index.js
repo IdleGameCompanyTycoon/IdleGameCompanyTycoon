@@ -18,7 +18,7 @@ app.use(function(request, response, next) {
 
 //Get random contract
 app.get('/getData', function(request, response, next){
-  db.query('SELECT * FROM contracts ORDER BY RANDOM() limit 1', function(error, results){
+  db.query(`SELECT * FROM ${request.query.table} ORDER BY RANDOM() limit 1`, function(error, results){
     if (error){
       response.status(400).send('Error in database operation');
     } else {

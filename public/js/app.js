@@ -34,8 +34,8 @@ class Contracts {
 
 //Fetch requests
 const dataRequests = {
-  getContract: function () {
-          return fetch('/getData', {
+  getRandomEntry: function (table) {
+          return fetch(`/getData?table=${table}`, {
                     method: 'GET',
                     })
         }
@@ -89,9 +89,14 @@ class GameController {
 
   //Create contract interval
   createContracts() {
-    setInterval(function() {
+    const that = this;
+    const min = 5,
+    max = 30;
+    let rand = Math.floor(Math.random() * (max - min + 1) + min);
+
+    setTimeout(function() {
       if(model.availableContracts.length < 6) {
-        dataRequests.getContract()
+        dataRequests.getRandomEntry('contracts')
                     .then(response => response.json())
                     .then(response => {
                         const obj = response.rows[0];
@@ -100,7 +105,9 @@ class GameController {
                         gameApp.gameView.addAvailableContracts(newContract);
                         })
       }
-    }, 10000)
+
+      that.createContracts();
+    }, rand*1000)
   }
 
   //Function to accept an contract
