@@ -163,7 +163,7 @@ class GameController {
 
   //Create Available applications
   createApplications() {
-    
+
   }
 
   //Function to accept an contract
@@ -278,7 +278,7 @@ class GameView {
 
   //Add available Task to domElem
   addAvailableContracts(obj) {
-    document.querySelector('.secondary').appendChild(obj.domElem);
+    document.querySelector('.available-contracts').appendChild(obj.domElem);
   }
 
   //Add active tasks to dom
