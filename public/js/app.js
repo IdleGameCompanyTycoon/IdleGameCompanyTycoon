@@ -133,6 +133,10 @@ class GameController {
     return model.activeContracts;
   }
 
+  getAvailableApplications() {
+    return model.availableApplications;
+  }
+
   //Get the money
   getMoney() {
     return model.money;
@@ -297,6 +301,15 @@ class GameView {
     }
   }
 
+  // General add to dom function
+  addToDom(obj, target) {
+    const targetElem = document.querySelector(target);
+
+    if (targetElem != undefined) {
+      targetElem.appendChild(obj.domElem);
+    }
+  }
+
   //Remove dom elemen
   removeElem(elem) {
     elem.remove();
@@ -304,6 +317,7 @@ class GameView {
 
   //Change panel
   changeMenue(elem) {
+    const that = this;
     const menue = elem.parentElement;
     let panel,
         parent;
@@ -311,6 +325,7 @@ class GameView {
     if (menue.classList.contains('first-nav')) {
       parent = document.querySelector('.second-panel');
       panel = parent.children[0];
+      setTimeout(that.renderHandlerSecondaryMenue(), 0);
     }
     else if (menue.classList.contains('second-nav')) {
       parent = document.querySelector('main');
@@ -339,6 +354,24 @@ class GameView {
 
     progress.style.width = `${obj.progressVal}%`;
     text.textContent = `${obj.assignment} ${obj.progressCode}/${obj.codeSize}`;
+  }
+
+  //Function to handle render actions
+  renderHandlerSecondaryMenue() {
+    const that = this;
+    const menue = document.querySelector('.second-panel').children[0].classList;
+    if (menue.contains('available-contracts-menue')) {
+      const data = that.getAvailableApplications();
+      that.renderLoop(data, '.available-contracts-menue');
+    }
+  }
+
+  //Loops through the elements of an array and adds them to the dom
+  renderLoop(arr, target) {
+    const that = this;
+    for (let val of arr) {
+      that.addToDom(val, target);
+    }
   }
 }
 
