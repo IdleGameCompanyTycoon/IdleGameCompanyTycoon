@@ -207,6 +207,11 @@ class GameController {
     if (evt.target.classList.contains('loc')) {
       gameApp.addLoc();
     }
+
+    if (evt.target.classList.contains('nav-button')) {
+      let elem = evt.target;
+      gameApp.gameView.changeMenue(elem);
+    }
   }
 
   init() {
@@ -278,17 +283,46 @@ class GameView {
 
   //Add available Task to domElem
   addAvailableContracts(obj) {
-    document.querySelector('.available-contracts').appendChild(obj.domElem);
+    const target = document.querySelector('.available-contracts-menue');
+    if (target != undefined) {
+      target.appendChild(obj.domElem);
+    }
   }
 
   //Add active tasks to dom
   addActiveContracts(obj) {
-    document.querySelector('.assignments').appendChild(obj.domElem);
+    const target = document.querySelector('.assignments');
+    if (target != undefined) {
+      target.appendChild(obj.domElem);
+    }
   }
 
   //Remove dom elemen
   removeElem(elem) {
     elem.remove();
+  }
+
+  //Change panel
+  changeMenue(elem) {
+    const menue = elem.parentElement;
+    let panel,
+        parent;
+
+    if (menue.classList.contains('first-nav')) {
+      parent = document.querySelector('.second-panel');
+      panel = parent.children[0];
+    }
+    else if (menue.classList.contains('second-nav')) {
+      parent = document.querySelector('main');
+      panel = parent.children[0];
+    }
+    const newPanelClass = elem.classList[1] + '-menue';
+
+    const newPanel = document.createElement('div');
+    newPanel.classList.add(newPanelClass);
+    panel.remove();
+
+    parent.appendChild(newPanel);
   }
 
   //Update money
