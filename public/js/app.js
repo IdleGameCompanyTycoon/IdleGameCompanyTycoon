@@ -317,7 +317,6 @@ class GameView {
 
   //Change panel
   changeMenue(elem) {
-    const that = this;
     const menue = elem.parentElement;
     let panel,
         parent;
@@ -325,7 +324,6 @@ class GameView {
     if (menue.classList.contains('first-nav')) {
       parent = document.querySelector('.second-panel');
       panel = parent.children[0];
-      setTimeout(that.renderHandlerSecondaryMenue(), 0);
     }
     else if (menue.classList.contains('second-nav')) {
       parent = document.querySelector('main');
@@ -338,6 +336,8 @@ class GameView {
     panel.remove();
 
     parent.appendChild(newPanel);
+
+    gameApp.gameView.renderHandlerSecondaryMenue();
   }
 
   //Update money
@@ -359,9 +359,9 @@ class GameView {
   //Function to handle render actions
   renderHandlerSecondaryMenue() {
     const that = this;
-    const menue = document.querySelector('.second-panel').children[0].classList;
-    if (menue.contains('available-contracts-menue')) {
-      const data = that.getAvailableApplications();
+    const menue = document.querySelector('.second-panel').children[0];
+    if (menue.classList.contains('available-contracts-menue')) {
+      const data = gameApp.getAvailableContracts();
       that.renderLoop(data, '.available-contracts-menue');
     }
   }
