@@ -143,6 +143,16 @@ main {
   line-height: 20px;
 }
 
+/*Available applications menue*/
+.available-applications {
+  box-sizing: border-box;
+  background: blue;
+  border: 10px solid #006;
+  color: white;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
 /*Buttons*/
 .accept-contract-button {
   position: absolute;
@@ -174,6 +184,8 @@ main {
 }
 
 .nav-button {
+  box-sizing: border-box;
+  border: 2px blue solid;
   height: 100%;
   width: calc(100% / 3);
   background: green;

@@ -167,7 +167,25 @@ class GameController {
 
   //Create Available applications
   createApplications() {
+    const that = this;
+    const min = 5,
+    max = 30;
+    let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
+    setTimeout(function() {
+      if(model.availableContracts.length < 6) {
+        dataRequests.getRandomEntry('employees')
+                    .then(response => response.json())
+                    .then(response => {
+                        const obj = response.rows[0];
+                        const newApplicant = model.createEmployee(obj);
+                        model.availableApplications.push(newApplicant);
+                        gameApp.gameView.addToDom(newApplicant.domElem, '.applications-menue');
+                        })
+      }
+
+      that.createApplications();
+    }, rand*1000)
   }
 
   //Function to accept an contract
@@ -221,6 +239,7 @@ class GameController {
   init() {
     this.gameView.init();
     this.createContracts();
+    this.createApplications();
   }
 }
 
@@ -299,17 +318,21 @@ class GameView {
 
   //Change panel
   changeMenue(elem) {
+    const that = this;
     const menue = elem.parentElement;
     let panel,
-        parent;
+        parent,
+        navMenueFunction;
 
     if (menue.classList.contains('first-nav')) {
       parent = document.querySelector('.second-panel');
       panel = parent.children[0];
+      navMenueFunction = that.renderHandlerSecondaryMenue;
     }
     else if (menue.classList.contains('second-nav')) {
       parent = document.querySelector('main');
       panel = parent.children[0];
+      navMenueFunction = that.renderHandlerMainMenue;
     }
     const newPanelClass = elem.classList[1] + '-menue';
 
@@ -319,7 +342,7 @@ class GameView {
 
     parent.appendChild(newPanel);
 
-    gameApp.gameView.renderHandlerSecondaryMenue();
+    navMenueFunction();
   }
 
   //Update money
@@ -344,8 +367,17 @@ class GameView {
     const menue = document.querySelector('.second-panel').children[0];
     if (menue.classList.contains('available-contracts-menue')) {
       const data = gameApp.getAvailableContracts();
-      that.renderLoop(data, '.available-contracts-menue');
+      gameApp.gameView.renderLoop(data, '.available-contracts-menue');
     }
+
+    if (menue.classList.contains('applications-menue')) {
+      const data = gameApp.getAvailableApplications();
+      gameApp.gameView.renderLoop(data, '.applications-menue');
+    }
+  }
+
+  renderHandlerMainMenue() {
+
   }
 
   //Loops through the elements of an array and adds them to the dom
