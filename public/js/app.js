@@ -157,7 +157,7 @@ class GameController {
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
                         model.availableContracts.push(newContract);
-                        gameApp.gameView.addAvailableContracts(newContract);
+                        gameApp.gameView.addToDom(newContract.domElem, '.available-contracts-menue');
                         })
       }
 
@@ -177,7 +177,7 @@ class GameController {
     contractObject.domElem = this.gameView.createActiveContractDom(contractObject);
     model.activeContracts.push(contractObject);
     this.gameView.removeElem(elem.closest('div'));
-    this.gameView.addActiveContracts(contractObject);
+    this.gameView.addToDom(contractObject.domElem, '.active-contracts-menue');
   }
 
   //Function for to add LoC to contract
@@ -229,8 +229,6 @@ class GameController {
 //View rendering
 class GameView {
   init() {
-    const allAvailableContracts = gameApp.getAvailableContracts();
-    allAvailableContracts.forEach(obj => this.addAvailableContracts(obj));
   }
 
   //Creates new Dom element for contracts
@@ -285,28 +283,12 @@ class GameView {
     return newActiveContract;
   }
 
-  //Add available Task to domElem
-  addAvailableContracts(obj) {
-    const target = document.querySelector('.available-contracts-menue');
-    if (target != undefined) {
-      target.appendChild(obj.domElem);
-    }
-  }
-
-  //Add active tasks to dom
-  addActiveContracts(obj) {
-    const target = document.querySelector('.assignments');
-    if (target != undefined) {
-      target.appendChild(obj.domElem);
-    }
-  }
-
   // General add to dom function
-  addToDom(obj, target) {
+  addToDom(elem, target) {
     const targetElem = document.querySelector(target);
 
     if (targetElem != undefined) {
-      targetElem.appendChild(obj.domElem);
+      targetElem.appendChild(elem);
     }
   }
 
@@ -368,10 +350,12 @@ class GameView {
 
   //Loops through the elements of an array and adds them to the dom
   renderLoop(arr, target) {
-    const that = this;
+    const wrapper = document.createElement('div');
     for (let val of arr) {
-      that.addToDom(val, target);
+      wrapper.appendChild(val.domElem);
     }
+
+    this.addToDom(wrapper, target);
   }
 }
 
