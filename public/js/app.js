@@ -192,10 +192,10 @@ class GameController {
   contractAccepted(elem) {
     let contractObject = model.availableContracts.find(obj => obj.domElem === elem.closest('div'));
     model.deleteFromArray(model.availableContracts, contractObject);
-    contractObject.domElem = this.gameView.createActiveContractDom(contractObject);
+    contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     model.activeContracts.push(contractObject);
-    this.gameView.removeElem(elem.closest('div'));
-    this.gameView.addToDom(contractObject.domElem, '.active-contracts-menue');
+    gameApp.gameView.removeElem(elem.closest('div'));
+    gameApp.gameView.addToDom(contractObject.domElem, '.active-contracts-menue');
   }
 
   //Function for to add LoC to contract
@@ -221,9 +221,8 @@ class GameController {
 
   //Handles all click events
   clickHandler(evt) {
-    if (evt.target.classList.contains('fa-check', 'accept-contract-button')) {
-      let elem = evt.target;
-      gameApp.contractAccepted(elem);
+    if (evt.target.classList.contains('fa-check')) {
+      gameApp.eventHandler(evt);
     }
 
     if (evt.target.classList.contains('loc')) {
@@ -234,6 +233,14 @@ class GameController {
       let elem = evt.target;
       gameApp.gameView.changeMenue(elem);
     }
+  }
+
+  //Custome Event Handler for the Buttons
+  eventHandler(evt)  {
+    let eventsObj = {
+      'accept-contract-button' : gameApp.contractAccepted,
+    }
+    eventsObj[evt.target.classList[2]](evt.target);
   }
 
   init() {
@@ -260,7 +267,7 @@ class GameView {
     text.innerHTML = `${object.assignment} <br><br>
                           Scale: ${object.codeSize} LoC <br>
                           Reward: ${object.earnings}$`;
-    button.setAttribute('class', 'fas fa-check accept-contract-button')
+    button.setAttribute('class', 'fas fa-check accept-contract-button accept-button')
 
     container.append(text, button);
 
@@ -278,7 +285,7 @@ class GameView {
 
     text.innerHTML = `${object.firstName} ${object.lastName}<br><br>
                           Job: ${object.job}`;
-    button.setAttribute('class', 'fas fa-check accept-contract-button')
+    button.setAttribute('class', 'fas fa-check accept-application-button accept button')
 
     container.append(text, picture, button);
 
