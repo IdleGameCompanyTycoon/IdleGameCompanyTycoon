@@ -219,10 +219,19 @@ class GameController {
     }
   }
 
+  //Function for activating one contract
+  activateContract() {
+
+  }
+
   //Handles all click events
   clickHandler(evt) {
     if (evt.target.classList.contains('fa-check')) {
       gameApp.eventHandler(evt);
+    }
+
+    if (evt.target.classList.contains('assignment')) {
+      gameApp.activateContract();
     }
 
     if (evt.target.classList.contains('loc')) {
