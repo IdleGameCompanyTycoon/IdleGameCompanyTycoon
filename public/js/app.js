@@ -200,7 +200,7 @@ class GameController {
 
   //Function for to add LoC to contract
   addLoc() {
-    const activeContract = document.querySelector('.assignment');
+      const activeContract = document.querySelector('div.current-contract .assignment');
 
     if (activeContract != undefined){
       let contractObject = model.activeContracts.find(obj => obj.domElem === activeContract);
@@ -223,11 +223,16 @@ class GameController {
   activateContract(evt) {
     
     let currentContract = document.querySelector('div.current-contract .assignment');
-    let curcontractObject = model.availableContracts.find(obj => obj.domElem === currentContract);
-    if (currentContract == undefined) {
-      console.log(currentContract);
+
+    if (currentContract == undefined) 
+    {
+      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
+
+    } else {
+      gameApp.gameView.addToDom(currentContract, '.accepted-contract');
       gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
     }
+
   }
 
   //Handles all click events
