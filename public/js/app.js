@@ -195,7 +195,7 @@ class GameController {
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     model.activeContracts.push(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
-    gameApp.gameView.addToDom(contractObject.domElem, '.active-contracts-menue');
+    gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
   }
 
   //Function for to add LoC to contract
@@ -220,8 +220,14 @@ class GameController {
   }
 
   //Function for activating one contract
-  activateContract() {
-
+  activateContract(evt) {
+    
+    let currentContract = document.querySelector('div.current-contract .assignment');
+    let curcontractObject = model.availableContracts.find(obj => obj.domElem === currentContract);
+    if (currentContract == undefined) {
+      console.log(currentContract);
+      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
+    }
   }
 
   //Handles all click events
@@ -230,8 +236,8 @@ class GameController {
       gameApp.eventHandler(evt);
     }
 
-    if (evt.target.classList.contains('assignment')) {
-      gameApp.activateContract();
+    if (evt.target.classList.contains('assignment') || evt.target.parentElement.classList.contains('assignment')) {
+      gameApp.activateContract(evt);
     }
 
     if (evt.target.classList.contains('loc')) {
@@ -264,6 +270,19 @@ class GameController {
 //View rendering
 class GameView {
   init() {
+    this.createContractCategorys();
+  }
+
+
+  //Creates the contract categorys for main
+  createContractCategorys() {
+    var current = document.createElement('p');
+    current.innerHTML = `<h2>Current Contract</h2><br>`;
+    document.querySelector('.current-contract').appendChild(current);
+
+    var accepted = document.createElement('p');
+    accepted.innerHTML = `<br><h2>All Contracts</h2><br>`;
+    document.querySelector('.accepted-contract').appendChild(accepted);
   }
 
   //Creates new Dom element for contracts
@@ -415,4 +434,5 @@ const gameApp = new GameController(gameView);
 gameApp.init();
 
 //eventlistener for all clicks
+document.querySelector('body').addEventListener('touchstart', gameApp.clickHandler);
 document.querySelector('body').addEventListener('click', gameApp.clickHandler);
