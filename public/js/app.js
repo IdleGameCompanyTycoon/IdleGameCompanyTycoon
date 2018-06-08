@@ -195,7 +195,14 @@ class GameController {
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     model.activeContracts.push(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
-    gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
+    let currentContract = document.querySelector('div.current-contract .assignment')
+
+    if (currentContract == undefined) {
+      gameApp.gameView.addToDom(contractObject.domElem, '.current-contract');
+    } else {
+      gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
+    }
+    
   }
 
   //Function for to add LoC to contract
@@ -215,6 +222,9 @@ class GameController {
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
+
+        let nextContract = document.querySelector('div.accepted-contract .assignment');
+        gameApp.gameView.addToDom(nextContract, '.current-contract');
       }
     }
   }
