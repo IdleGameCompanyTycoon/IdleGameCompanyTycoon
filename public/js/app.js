@@ -11,18 +11,17 @@ class Contracts {
   }
 
   increase(increase = 1) {
-    const that = this;
 
     //Will be esecuted if the contract hasn't met its target yet
-    if(that.progressCode < that.codeSize){
-      that.progressVal += 100/that.codeSize*increase;
-      that.progressCode += increase;
+    if(this.progressCode < this.codeSize){
+      this.progressVal += 100/this.codeSize*increase;
+      this.progressCode += increase;
     }
 
     //Will be executed when the contract is finished
-    if(that.progressCode == that.codeSize){
-      that.progressCode += increase;
-      model.money += that.earnings;
+    if(this.progressCode == this.codeSize){
+      this.progressCode += increase;
+      model.money += this.earnings;
       return 'finished';
     }
 
@@ -202,7 +201,7 @@ class GameController {
     } else {
       gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
     }
-    
+
   }
 
   //Function for to add LoC to contract
@@ -224,6 +223,7 @@ class GameController {
         gameApp.gameView.updateMoney();
 
         let nextContract = document.querySelector('div.accepted-contract .assignment');
+        if (nextContract === null) return;
         gameApp.gameView.addToDom(nextContract, '.current-contract');
       }
     }
@@ -231,10 +231,10 @@ class GameController {
 
   //Function for activating one contract
   activateContract(evt) {
-    
+
     let currentContract = document.querySelector('div.current-contract .assignment');
 
-    if (currentContract == undefined) 
+    if (currentContract == undefined)
     {
       gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
 
