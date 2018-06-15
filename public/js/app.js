@@ -11,18 +11,17 @@ class Contracts {
   }
 
   increase(increase = 1) {
-    const that = this;
 
     //Will be esecuted if the contract hasn't met its target yet
-    if(that.progressCode < that.codeSize){
-      that.progressVal += 100/that.codeSize*increase;
-      that.progressCode += increase;
+    if(this.progressCode < this.codeSize){
+      this.progressVal += 100/this.codeSize*increase;
+      this.progressCode += increase;
     }
 
     //Will be executed when the contract is finished
-    if(that.progressCode == that.codeSize){
-      that.progressCode += increase;
-      model.money += that.earnings;
+    if(this.progressCode == this.codeSize){
+      this.progressCode += increase;
+      model.money += this.earnings;
       return 'finished';
     }
 
@@ -195,12 +194,19 @@ class GameController {
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     model.activeContracts.push(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
-    gameApp.gameView.addToDom(contractObject.domElem, '.active-contracts-menue');
+    let currentContract = document.querySelector('div.current-contract .assignment')
+
+    if (currentContract == undefined) {
+      gameApp.gameView.addToDom(contractObject.domElem, '.current-contract');
+    } else {
+      gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
+    }
+
   }
 
   //Function for to add LoC to contract
   addLoc() {
-    const activeContract = document.querySelector('.assignment');
+      const activeContract = document.querySelector('div.current-contract .assignment');
 
     if (activeContract != undefined){
       let contractObject = model.activeContracts.find(obj => obj.domElem === activeContract);
@@ -215,14 +221,38 @@ class GameController {
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
+
+        let nextContract = document.querySelector('div.accepted-contract .assignment');
+        if (nextContract === null) return;
+        gameApp.gameView.addToDom(nextContract, '.current-contract');
       }
     }
+  }
+
+  //Function for activating one contract
+  activateContract(evt) {
+
+    let currentContract = document.querySelector('div.current-contract .assignment');
+
+    if (currentContract == undefined)
+    {
+      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
+
+    } else {
+      gameApp.gameView.addToDom(currentContract, '.accepted-contract');
+      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
+    }
+
   }
 
   //Handles all click events
   clickHandler(evt) {
     if (evt.target.classList.contains('fa-check')) {
       gameApp.eventHandler(evt);
+    }
+
+    if (evt.target.classList.contains('assignment') || evt.target.parentElement.classList.contains('assignment')) {
+      gameApp.activateContract(evt);
     }
 
     if (evt.target.classList.contains('loc')) {
@@ -255,6 +285,19 @@ class GameController {
 //View rendering
 class GameView {
   init() {
+    this.createContractCategorys();
+  }
+
+
+  //Creates the contract categorys for main
+  createContractCategorys() {
+    var current = document.createElement('p');
+    current.innerHTML = `<h2>Current Contract</h2><br>`;
+    document.querySelector('.current-contract').appendChild(current);
+
+    var accepted = document.createElement('p');
+    accepted.innerHTML = `<br><h2>All Contracts</h2><br>`;
+    document.querySelector('.accepted-contract').appendChild(accepted);
   }
 
   //Creates new Dom element for contracts
@@ -406,4 +449,5 @@ const gameApp = new GameController(gameView);
 gameApp.init();
 
 //eventlistener for all clicks
+document.querySelector('body').addEventListener('touchstart', gameApp.clickHandler);
 document.querySelector('body').addEventListener('click', gameApp.clickHandler);
