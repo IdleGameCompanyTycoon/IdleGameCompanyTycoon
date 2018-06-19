@@ -21,7 +21,7 @@ class Contracts {
     //Will be executed when the contract is finished
     if(this.progressCode == this.codeSize){
       this.progressCode += increase;
-      model.money += this.earnings;
+      model.gameprogress.money += this.earnings;
       return 'finished';
     }
 
@@ -85,10 +85,12 @@ const dataRequests = {
 
 // Model for Data
 const model = {
-    money: 0,
-    availableContracts: [],
-    activeContracts: [],
-    availableApplications: [],
+    gameprogress: {
+      money: 0,
+      availableContracts: [],
+      activeContracts: [],
+      availableApplications: []
+    },
     createContract: function(obj){
       return new Contracts(obj.codesize, obj.payment, obj.contract, obj.description);
     },
@@ -101,7 +103,9 @@ const model = {
     deleteFromArray: function(arr, object){
       let i = arr.indexOf(object);
       arr.splice(i, 1);
-    }
+    },
+
+    //Object for all save relevant variables
 }
 
 
@@ -124,21 +128,21 @@ class GameController {
 
   //Get all available tasks from the model
   getAvailableContracts() {
-    return model.availableContracts;
+    return model.gameprogress.availableContracts;
   }
 
   //Get all active tasks from the model
   getActiveContracts() {
-    return model.activeContracts;
+    return model.gameprogress.activeContracts;
   }
 
   getAvailableApplications() {
-    return model.availableApplications;
+    return model.gameprogress.availableApplications;
   }
 
   //Get the money
   getMoney() {
-    return model.money;
+    return model.gameprogress.money;
   }
 
   //Create contract interval
@@ -149,13 +153,13 @@ class GameController {
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
-      if(model.availableContracts.length < 6) {
+      if(model.gameprogress.availableContracts.length < 6) {
         dataRequests.getRandomEntry('contracts')
                     .then(response => response.json())
                     .then(response => {
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
-                        model.availableContracts.push(newContract);
+                        model.gameprogress.availableContracts.push(newContract);
                         gameApp.gameView.addToDom(newContract.domElem, '.available-contracts-menue');
                         })
       }
@@ -172,13 +176,13 @@ class GameController {
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
-      if(model.availableContracts.length < 6) {
+      if(model.gameprogress.availableContracts.length < 6) {
         dataRequests.getRandomEntry('employees')
                     .then(response => response.json())
                     .then(response => {
                         const obj = response.rows[0];
                         const newApplicant = model.createEmployee(obj);
-                        model.availableApplications.push(newApplicant);
+                        model.gameprogress.availableApplications.push(newApplicant);
                         gameApp.gameView.addToDom(newApplicant.domElem, '.applications-menue');
                         })
       }
@@ -189,10 +193,10 @@ class GameController {
 
   //Function to accept an contract
   contractAccepted(elem) {
-    let contractObject = model.availableContracts.find(obj => obj.domElem === elem.closest('div'));
-    model.deleteFromArray(model.availableContracts, contractObject);
+    let contractObject = model.gameprogress.availableContracts.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.gameprogress.availableContracts, contractObject);
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
-    model.activeContracts.push(contractObject);
+    model.gameprogress.activeContracts.push(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
     let currentContract = document.querySelector('div.current-contract .assignment')
 
@@ -207,9 +211,9 @@ class GameController {
   //Function for to add LoC to contract
   addLoc() {
       const activeContract = document.querySelector('div.current-contract .assignment');
-
+    console.log(model.gameprogress);
     if (activeContract != undefined){
-      let contractObject = model.activeContracts.find(obj => obj.domElem === activeContract);
+      let contractObject = model.gameprogress.activeContracts.find(obj => obj.domElem === activeContract);
       const statusCon = contractObject.increase();
 
       if (statusCon == 'in progress') {
@@ -217,7 +221,7 @@ class GameController {
       }
 
       else if (statusCon == 'finished') {
-        model.deleteFromArray(model.activeContracts, contractObject)
+        model.deleteFromArray(model.gameprogress.activeContracts, contractObject)
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
