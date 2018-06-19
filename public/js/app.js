@@ -19,7 +19,7 @@ class Contracts {
     }
 
     //Will be executed when the contract is finished
-    if(this.progressCode == this.codeSize){
+    if(this.progressCode === this.codeSize){
       this.progressCode += increase;
       model.gameprogress.money += this.earnings;
       return 'finished';
@@ -200,7 +200,7 @@ class GameController {
     gameApp.gameView.removeElem(elem.closest('div'));
     let currentContract = document.querySelector('div.current-contract .assignment')
 
-    if (currentContract == undefined) {
+    if (currentContract === undefined) {
       gameApp.gameView.addToDom(contractObject.domElem, '.current-contract');
     } else {
       gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
@@ -212,15 +212,15 @@ class GameController {
   addLoc() {
       const activeContract = document.querySelector('div.current-contract .assignment');
     console.log(model.gameprogress);
-    if (activeContract != undefined){
+    if (activeContract !== undefined){
       let contractObject = model.gameprogress.activeContracts.find(obj => obj.domElem === activeContract);
       const statusCon = contractObject.increase();
 
-      if (statusCon == 'in progress') {
+      if (statusCon === 'in progress') {
         gameApp.gameView.progressBar(contractObject);
       }
 
-      else if (statusCon == 'finished') {
+      else if (statusCon === 'finished') {
         model.deleteFromArray(model.gameprogress.activeContracts, contractObject)
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
@@ -238,7 +238,7 @@ class GameController {
 
     let currentContract = document.querySelector('div.current-contract .assignment');
 
-    if (currentContract == undefined)
+    if (currentContract === undefined)
     {
       gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
 
@@ -405,7 +405,7 @@ class GameView {
   addToDom(elem, target) {
     const targetElem = document.querySelector(target);
 
-    if (targetElem != undefined) {
+    if (targetElem !== undefined) {
       targetElem.appendChild(elem);
     }
   }
