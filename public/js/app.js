@@ -46,6 +46,7 @@ class Developer extends Employee {
   constructor(firstName = 'Max', lastName = 'Mustermann', img = '') {
     super(firstName, lastName, img, 'Developer');
     this.skills = new Skills();
+    this.salary = 1;
     this.domElem = gameApp.newApplicationDomElem(this);
   }
 }
@@ -89,6 +90,7 @@ const model = {
     availableContracts: [],
     activeContracts: [],
     availableApplications: [],
+    activeEmployees: [],
     createContract: function(obj){
       return new Contracts(obj.codesize, obj.payment, obj.contract, obj.description);
     },
@@ -183,7 +185,7 @@ class GameController {
                         })
       }
 
-      that.createApplications();
+        that.createApplications();
     }, rand*1000)
   }
 
@@ -202,6 +204,14 @@ class GameController {
       gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
     }
 
+  }
+
+  employeeAccepted(elem) {
+    let contractObject = model.availableContracts.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.availableContracts, contractObject);
+    contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
+    model.activeContracts.push(contractObject);
+    gameApp.gameView.removeElem(elem.closest('div'));
   }
 
   //Function for to add LoC to contract
@@ -245,6 +255,22 @@ class GameController {
 
   }
 
+  //Loop functions
+
+  /*    TODO: Make the Monthly Loop work, pay salaries and other monthly costs, events and so on IMPORTANT -> Make it work via the game loop so the game loop
+        and the months are in sync.
+        TODO: Make the Game Loop work for the code that has to run every second, like LoC Generation  */
+
+  //Function which gets called every "month"
+  monthLoop() {
+
+  }
+
+  //Gameloop to simulate work and sales
+  gameLoop() {
+
+  }
+
   //Handles all click events
   clickHandler(evt) {
     if (evt.target.classList.contains('fa-check')) {
@@ -267,9 +293,12 @@ class GameController {
 
   //Custome Event Handler for the Buttons
   eventHandler(evt)  {
+    //Object to store the different events and function calls associated with them
     let eventsObj = {
       'accept-contract-button' : gameApp.contractAccepted,
     }
+
+    //Call the event selected by the class of the clicked button
     eventsObj[evt.target.classList[2]](evt.target);
   }
 
@@ -350,6 +379,20 @@ class GameView {
     newActiveContract.append(newProgressBar, newContractText);
 
     return newActiveContract;
+  }
+
+  createActiveEmployeeDom(object) {
+    const newActiveEmployee = document.createElement('div');
+    const text = document.createElement('p');
+    const picture = document.createElement('img');
+    newActiveEmployee.className = 'available-applications';
+    picture.setAttribute('src', object.picture);
+
+    text.innerHTML = `${object.firstName} ${object.lastName}<br><br>
+                          Job: ${object.job}`;
+
+
+    return newActiveEmployee;
   }
 
   // General add to dom function
