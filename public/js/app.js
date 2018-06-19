@@ -291,12 +291,18 @@ class GameView {
 
   //Creates the contract categorys for main
   createContractCategorys() {
+    const containercur = document.createElement('div');
     var current = document.createElement('p');
+    containercur.className = 'current-contract';
     current.innerHTML = `<h2>Current Contract</h2><br>`;
+    document.querySelector('.active-contracts-menue').appendChild(containercur);
     document.querySelector('.current-contract').appendChild(current);
 
+    const containeracc = document.createElement('div');
     var accepted = document.createElement('p');
+    containeracc.className = 'accepted-contract';
     accepted.innerHTML = `<br><h2>All Contracts</h2><br>`;
+    document.querySelector('.active-contracts-menue').appendChild(containeracc);
     document.querySelector('.accepted-contract').appendChild(accepted);
   }
 
