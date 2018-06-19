@@ -1,3 +1,5 @@
+//test
+
 //Class to create new contracts
 class Contracts {
   constructor(codeSize, pay, assignment, descr) {
