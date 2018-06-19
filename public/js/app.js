@@ -249,6 +249,16 @@ class GameController {
 
   }
 
+  //Saves all progress to localStorage
+  saveProgress() {
+    localStorage.setItem('SaveGameIGCT', JSON.stringify(model.gameprogress));
+  }
+  loadProgress(){
+    var retrievedItem = localStorage.getItem('SaveGameIGCT');
+    var savegame = JSON.parse(retrievedItem);
+    model.gameprogress = savegame;
+  }
+
   //Handles all click events
   clickHandler(evt) {
     if (evt.target.classList.contains('fa-check')) {
@@ -266,6 +276,12 @@ class GameController {
     if (evt.target.classList.contains('nav-button')) {
       let elem = evt.target;
       gameApp.gameView.changeMenue(elem);
+    }
+    if (evt.target.classList.contains('save')|| evt.target.parentElement.classList.contains('save')) {
+      gameApp.saveProgress();
+    }
+    if (evt.target.classList.contains('load')|| evt.target.parentElement.classList.contains('load')) {
+      gameApp.loadProgress();
     }
   }
 
@@ -290,8 +306,31 @@ class GameController {
 class GameView {
   init() {
     this.createContractCategorys();
+    this.createsaveButtons();
   }
 
+
+  //Save and Load Buttons
+  createsaveButtons() {
+    const saveload = document.createElement('div');
+    saveload.className = 'saveload';
+    const containersave = document.createElement('div');
+    containersave.className = 'save';
+    const containerload = document.createElement('div');
+    containerload.className = 'load';
+    const textsave = document.createElement('p');
+    textsave.innerHTML = `Save`;
+    const textload = document.createElement('p');
+    textload.innerHTML = `Load`;
+    const buttonsave = document.createElement('i');
+    const buttonload = document.createElement('i');
+    containersave.append(textsave, buttonsave);
+    containerload.append(textload, buttonload);
+    saveload.appendChild(containersave);
+    saveload.appendChild(containerload);
+    document.querySelector('.info-panel').appendChild(saveload);
+    
+  }
 
   //Creates the contract categorys for main
   createContractCategorys() {

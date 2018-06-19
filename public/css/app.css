@@ -162,6 +162,34 @@ main {
   box-sizing: border-box;
 }
 
+.saveload{
+  margin-top: -18px;
+  height: 100%;
+}
+.save{
+  float: right;
+  box-sizing: border-box;
+  border: 2px blue solid;
+  height: 100%;
+  width: calc(100% / 8);
+  background: green;
+  text-align: center;
+  line-height: 35px;
+  color: white;
+}
+.load {
+  float: right;
+  box-sizing: border-box;
+  border: 2px blue solid;
+  height: 100%;
+  width: calc(100% / 8);
+  background: green;
+  text-align: center;
+  line-height: 35px;
+  color: white;
+}
+
+
 /*Navigation menues*/
 
 .first-nav {
@@ -193,3 +221,4 @@ main {
   line-height: 45px;
   color: white;
 }
+
