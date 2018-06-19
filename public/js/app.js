@@ -85,12 +85,15 @@ const dataRequests = {
 
 // Model for Data
 const model = {
+    //Object for all save relevant variables
     gameprogress: {
       money: 0,
       availableContracts: [],
       activeContracts: [],
+      currentContracts: [],
       availableApplications: []
     },
+
     createContract: function(obj){
       return new Contracts(obj.codesize, obj.payment, obj.contract, obj.description);
     },
@@ -105,15 +108,17 @@ const model = {
       arr.splice(i, 1);
     },
 
-    //Object for all save relevant variables
+    //Object for all DOM page elements
+    pageObject: {}
 }
 
 
 
 //Controller for communication between model and view
 class GameController {
-  constructor(gameView) {
+  constructor(gameView, pageCreation) {
     this.gameView = gameView;
+    this.pageCreationView = pageCreation;
   }
 
   //Create a new Contract Dom element
@@ -160,7 +165,7 @@ class GameController {
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
                         model.gameprogress.availableContracts.push(newContract);
-                        gameApp.gameView.addToDom(newContract.domElem, '.available-contracts-menue');
+                        gameApp.gameView.addToDom(newContract.domElem, model.pageObject.availableContractsPage);
                         })
       }
 
@@ -183,7 +188,7 @@ class GameController {
                         const obj = response.rows[0];
                         const newApplicant = model.createEmployee(obj);
                         model.gameprogress.availableApplications.push(newApplicant);
-                        gameApp.gameView.addToDom(newApplicant.domElem, '.applications-menue');
+                        gameApp.gameView.addToDom(newApplicant.domElem, model.pageObject.employeeApplicationsPage);
                         })
       }
 
@@ -196,24 +201,25 @@ class GameController {
     let contractObject = model.gameprogress.availableContracts.find(obj => obj.domElem === elem.closest('div'));
     model.deleteFromArray(model.gameprogress.availableContracts, contractObject);
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
-    model.gameprogress.activeContracts.push(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
     let currentContract = document.querySelector('div.current-contract .assignment')
 
-    if (currentContract === undefined) {
-      gameApp.gameView.addToDom(contractObject.domElem, '.current-contract');
+    if (!currentContract) {
+      gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage, '.current-contract');
+      model.gameprogress.currentContracts.push(contractObject);
     } else {
-      gameApp.gameView.addToDom(contractObject.domElem, '.accepted-contract');
+      gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage,'.accepted-contract');
+      model.gameprogress.activeContracts.push(contractObject);
     }
 
   }
 
   //Function for to add LoC to contract
   addLoc() {
-      const activeContract = document.querySelector('div.current-contract .assignment');
-    console.log(model.gameprogress);
-    if (activeContract !== undefined){
-      let contractObject = model.gameprogress.activeContracts.find(obj => obj.domElem === activeContract);
+    const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
+
+    if (activeContract){
+      let contractObject = model.gameprogress.currentContracts.find(obj => obj.domElem === activeContract);
       const statusCon = contractObject.increase();
 
       if (statusCon === 'in progress') {
@@ -228,7 +234,7 @@ class GameController {
 
         let nextContract = document.querySelector('div.accepted-contract .assignment');
         if (nextContract === null) return;
-        gameApp.gameView.addToDom(nextContract, '.current-contract');
+        gameApp.gameView.addToDom(nextContract, model.pageObject.acceptedContractsPage, '.current-contract');
       }
     }
   }
@@ -238,13 +244,19 @@ class GameController {
 
     let currentContract = document.querySelector('div.current-contract .assignment');
 
-    if (currentContract === undefined)
+    if (!currentContract)
     {
-      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
-
+      gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
+      model.deleteFromArray(model.gameprogress.activeContracts, evt.target.parentElement);
+      model.gameprogress.currentContracts.push(evt.target.parentElement);
     } else {
-      gameApp.gameView.addToDom(currentContract, '.accepted-contract');
-      gameApp.gameView.addToDom(evt.target.parentElement, '.current-contract');
+      gameApp.gameView.addToDom(currentContract, model.pageObject.acceptedContractsPage, '.accepted-contract');
+      gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
+
+      model.deleteFromArray(model.gameprogress.activeContracts, evt.target.parentElement);
+      model.gameprogress.currentContracts.push(evt.target.parentElement);
+      model.deleteFromArray(model.gameprogress.currentContracts, currentContract);
+      model.gameprogress.activeContracts.push(currentContract);
     }
 
   }
@@ -290,13 +302,21 @@ class GameController {
     let eventsObj = {
       'accept-contract-button' : gameApp.contractAccepted,
     }
+
+    //Uses the class of the object as identifier for the event function which has to be called
     eventsObj[evt.target.classList[2]](evt.target);
   }
 
   init() {
+    model.pageObject = this.pageCreationView.initPages(model.gameprogress.availableContracts,
+                                    model.gameprogress.currentContracts,
+                                    model.gameprogress.activeContracts,
+                                    model.gameprogress.availableApplications);
     this.gameView.init();
     this.createContracts();
     this.createApplications();
+    document.querySelector('.second-panel').appendChild(model.pageObject.availableContractsPage);
+    document.querySelector('main').appendChild(model.pageObject.acceptedContractsPage);
   }
 }
 
@@ -305,13 +325,12 @@ class GameController {
 //View rendering
 class GameView {
   init() {
-    this.createContractCategorys();
-    this.createsaveButtons();
+    this.createSaveButtons();
   }
 
 
   //Save and Load Buttons
-  createsaveButtons() {
+  createSaveButtons() {
     const saveload = document.createElement('div');
     saveload.className = 'saveload';
     const containersave = document.createElement('div');
@@ -319,9 +338,9 @@ class GameView {
     const containerload = document.createElement('div');
     containerload.className = 'load';
     const textsave = document.createElement('p');
-    textsave.innerHTML = `Save`;
+    textsave.textContent = `Save`;
     const textload = document.createElement('p');
-    textload.innerHTML = `Load`;
+    textload.textContent = `Load`;
     const buttonsave = document.createElement('i');
     const buttonload = document.createElement('i');
     containersave.append(textsave, buttonsave);
@@ -329,24 +348,7 @@ class GameView {
     saveload.appendChild(containersave);
     saveload.appendChild(containerload);
     document.querySelector('.info-panel').appendChild(saveload);
-    
-  }
 
-  //Creates the contract categorys for main
-  createContractCategorys() {
-    const containercur = document.createElement('div');
-    var current = document.createElement('p');
-    containercur.className = 'current-contract';
-    current.innerHTML = `<h2>Current Contract</h2><br>`;
-    document.querySelector('.active-contracts-menue').appendChild(containercur);
-    document.querySelector('.current-contract').appendChild(current);
-
-    const containeracc = document.createElement('div');
-    var accepted = document.createElement('p');
-    containeracc.className = 'accepted-contract';
-    accepted.innerHTML = `<br><h2>All Contracts</h2><br>`;
-    document.querySelector('.active-contracts-menue').appendChild(containeracc);
-    document.querySelector('.accepted-contract').appendChild(accepted);
   }
 
   //Creates new Dom element for contracts
@@ -402,11 +404,15 @@ class GameView {
   }
 
   // General add to dom function
-  addToDom(elem, target) {
-    const targetElem = document.querySelector(target);
+  addToDom(elem, target, optionalSelector) {
 
-    if (targetElem !== undefined) {
-      targetElem.appendChild(elem);
+    if(optionalSelector && target) {
+      target.querySelector(optionalSelector).appendChild(elem);
+      return
+    }
+
+    if (target !== undefined) {
+      target.appendChild(elem);
     }
   }
 
@@ -417,7 +423,6 @@ class GameView {
 
   //Change panel
   changeMenue(elem) {
-    const that = this;
     const menue = elem.parentElement;
     let panel,
         parent,
@@ -426,22 +431,16 @@ class GameView {
     if (menue.classList.contains('first-nav')) {
       parent = document.querySelector('.second-panel');
       panel = parent.children[0];
-      navMenueFunction = that.renderHandlerSecondaryMenue;
+      navMenueFunction = this.renderHandlerSecondaryMenue;
     }
     else if (menue.classList.contains('second-nav')) {
       parent = document.querySelector('main');
       panel = parent.children[0];
-      navMenueFunction = that.renderHandlerMainMenue;
+      navMenueFunction = this.renderHandlerMainMenue;
     }
-    const newPanelClass = elem.classList[1] + '-menue';
-
-    const newPanel = document.createElement('div');
-    newPanel.classList.add(newPanelClass);
     panel.remove();
 
-    parent.appendChild(newPanel);
-
-    navMenueFunction();
+    navMenueFunction(elem);
   }
 
   //Update money
@@ -461,39 +460,93 @@ class GameView {
   }
 
   //Function to handle render actions
-  renderHandlerSecondaryMenue() {
-    const that = this;
-    const menue = document.querySelector('.second-panel').children[0];
-    if (menue.classList.contains('available-contracts-menue')) {
-      const data = gameApp.getAvailableContracts();
-      gameApp.gameView.renderLoop(data, '.available-contracts-menue');
-    }
+  renderHandlerSecondaryMenue(elem) {
+    const menue = document.querySelector('.second-panel');
 
-    if (menue.classList.contains('applications-menue')) {
-      const data = gameApp.getAvailableApplications();
-      gameApp.gameView.renderLoop(data, '.applications-menue');
+    switch (elem.classList[1]) {
+      case 'applications':
+        menue.appendChild(model.pageObject.employeeApplicationsPage);
+        break;
+      case 'available-contracts':
+        menue.appendChild(model.pageObject.availableContractsPage);
+        break;
+      default:
+        menue.appendChild(document.createElement('div'));
+        break;
     }
   }
 
-  renderHandlerMainMenue() {
+  renderHandlerMainMenue(elem) {
+    const menue = document.querySelector('main');
 
+    switch (elem.classList[1]) {
+      case 'active-contracts':
+        menue.appendChild(model.pageObject.acceptedContractsPage);
+        break;
+      default:
+        menue.appendChild(document.createElement('div'));
+        break;
+    }
   }
 
   //Loops through the elements of an array and adds them to the dom
-  renderLoop(arr, target) {
+  renderLoop(arr, target, optionalSelector) {
     const wrapper = document.createElement('div');
     for (let val of arr) {
-      wrapper.appendChild(val.domElem);
+      this.addToDom(val, target);
     }
-
-    this.addToDom(wrapper, target);
   }
 }
 
+//Class for the generation of Page DOM Objects
+class MenuPages extends GameView {
+  availableContractsPage(objArr) {
+    const page = document.createElement('div');
+    this.renderLoop(objArr, page);
+    return page;
+  }
+
+  acceptedContractsPage(acceptedObjArr, currentObjArr) {
+    const page = document.createElement('div');
+
+    const containerCur = document.createElement('div');
+    containerCur.className = 'current-contract';
+    containerCur.innerHTML = `<p><h2>Current Contract</h2><br></p>`;
+
+    const containerAcc = document.createElement('div');
+    containerAcc.className = 'accepted-contract';
+    containerAcc.innerHTML = `<p><br><h2>All Contracts</h2><br></p>`;
+
+    this.renderLoop(acceptedObjArr, containerAcc);
+    this.renderLoop(currentObjArr, containerCur);
+
+    page.append(containerCur, containerAcc);
+
+    return page;
+  }
+
+  employeeApplicationsPage(objArr) {
+    const page = document.createElement('div');
+    this.renderLoop(objArr, page);
+    return page;
+  }
+
+  //All pages get created and the function returns an page object with all pages
+  initPages(availableContractsArr, currentContractsArr, acceptedContractsArr, employeeApplicationsArr) {
+    const pageObject = {
+      availableContractsPage: this.availableContractsPage(availableContractsArr),
+      acceptedContractsPage: this.acceptedContractsPage(acceptedContractsArr, currentContractsArr),
+      employeeApplicationsPage: this.employeeApplicationsPage(employeeApplicationsArr)
+    }
+
+    return pageObject;
+  }
+}
 
 //Init everything
 const gameView = new GameView();
-const gameApp = new GameController(gameView);
+const gamePageCreation = new MenuPages();
+const gameApp = new GameController(gameView, gamePageCreation);
 
 gameApp.init();
 
