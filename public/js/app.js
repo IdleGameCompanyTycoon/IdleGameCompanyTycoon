@@ -220,7 +220,7 @@ class GameController {
 
     if (activeContract){
       let contractObject = model.gameprogress.currentContracts.find(obj => obj.domElem === activeContract);
-      const statusCon = contractObject.increase();
+      const statusCon = contractObject.increase(); //TODO When changing current Contract via clicking on it contractObject is undefined
 
       if (statusCon === 'in progress') {
         gameApp.gameView.progressBar(contractObject);
@@ -502,6 +502,7 @@ class GameView {
 class MenuPages extends GameView {
   availableContractsPage(objArr) {
     const page = document.createElement('div');
+    page.innerHTML = `<p><h2>Available Contracts</h2><br></p>`;
     this.renderLoop(objArr, page);
     return page;
   }
@@ -527,6 +528,7 @@ class MenuPages extends GameView {
 
   employeeApplicationsPage(objArr) {
     const page = document.createElement('div');
+    page.innerHTML = `<p><h2>Applications</h2><br></p>`;
     this.renderLoop(objArr, page);
     return page;
   }

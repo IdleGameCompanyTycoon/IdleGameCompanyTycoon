@@ -60,6 +60,7 @@ nav {
   height: calc(76% - 90px);
   background: url('../img/final.jpg') repeat;
   border: 5px solid black;
+  color: white;
   padding: 16px;
   overflow: auto;
 }
