@@ -108,6 +108,10 @@ const model = {
       arr.splice(i, 1);
     },
 
+    getObject: function(arr, elem) {
+      return arr.find(obj => obj.domElem === elem);
+    },
+
     //Object for all DOM page elements
     pageObject: {}
 }
@@ -219,15 +223,17 @@ class GameController {
     const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
 
     if (activeContract){
-      let contractObject = model.gameprogress.currentContracts.find(obj => obj.domElem === activeContract);
-      const statusCon = contractObject.increase(); //TODO When changing current Contract via clicking on it contractObject is undefined
+      let contractObject = model.getObject(model.gameprogress.currentContracts, activeContract);
+
+      //Increases the LoC and gets back a status if the contract is finished or not
+      const statusCon = contractObject.increase();
 
       if (statusCon === 'in progress') {
         gameApp.gameView.progressBar(contractObject);
       }
 
       else if (statusCon === 'finished') {
-        model.deleteFromArray(model.gameprogress.activeContracts, contractObject)
+        model.deleteFromArray(model.gameprogress.currentContracts, contractObject)
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
@@ -242,21 +248,26 @@ class GameController {
   //Function for activating one contract
   activateContract(evt) {
 
-    let currentContract = document.querySelector('div.current-contract .assignment');
+    let currentContract = document.querySelector('.current-contract .assignment');
 
     if (!currentContract)
     {
       gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
       model.deleteFromArray(model.gameprogress.activeContracts, evt.target.parentElement);
-      model.gameprogress.currentContracts.push(evt.target.parentElement);
-    } else {
+      model.gameprogress.currentContracts.push(model.getObject(model.gameprogress.activeContracts, evt.target.parentElement));
+    } else if (currentContract !== evt.target.parentElement) {
       gameApp.gameView.addToDom(currentContract, model.pageObject.acceptedContractsPage, '.accepted-contract');
       gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
 
-      model.deleteFromArray(model.gameprogress.activeContracts, evt.target.parentElement);
-      model.gameprogress.currentContracts.push(evt.target.parentElement);
-      model.deleteFromArray(model.gameprogress.currentContracts, currentContract);
-      model.gameprogress.activeContracts.push(currentContract);
+      //Get the actual Objects from the DOM nodes with the helper function getObject
+      const newCurObj = model.getObject(model.gameprogress.activeContracts, evt.target.parentElement);
+      const oldCurObj = model.getObject(model.gameprogress.currentContracts, currentContract);
+
+      //Delete the contracts from their prior arrays and put them into their new arrays
+      model.gameprogress.currentContracts.push(newCurObj);
+      model.gameprogress.activeContracts.push(oldCurObj);
+      model.deleteFromArray(model.gameprogress.activeContracts, newCurObj);
+      model.deleteFromArray(model.gameprogress.currentContracts, oldCurObj);
     }
 
   }
