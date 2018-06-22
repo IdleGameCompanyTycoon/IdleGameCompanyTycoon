@@ -164,13 +164,13 @@ class GameController {
     var days = 0;
 
     setInterval(function() {
-
+      var loc = 0;
       //Employee Loc Generation
       model.gameProgress.activeEmployees.forEach(element => {
-        var loc = element.skills.speed;
-        gameApp.addLoc(loc);
-      });
+        loc += element.skills.speed;
 
+      });
+      gameApp.addLoc(loc);
 
       //Month interval
       if(days === monthDuration){
@@ -193,7 +193,7 @@ class GameController {
   createContracts() {
     const that = this;
     const min = 5,
-    max = 30;
+    max = 5;
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
@@ -217,7 +217,7 @@ class GameController {
   createApplications() {
     const that = this;
     const min = 5,
-    max = 30;
+    max = 5;
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
@@ -247,6 +247,7 @@ class GameController {
     if (!currentContract) {
       gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage, '.current-contract');
       model.gameProgress.currentContracts.push(contractObject);
+      model.gameProgress.activeContracts.push(contractObject);
     } else {
       gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage,'.accepted-contract');
       model.gameProgress.activeContracts.push(contractObject);
@@ -279,7 +280,8 @@ class GameController {
       }
 
       else if (statusCon === 'finished') {
-        model.deleteFromArray(model.gameProgress.currentContracts, contractObject)
+        model.deleteFromArray(model.gameProgress.currentContracts, contractObject);
+        model.deleteFromArray(model.gameProgress.activeContracts, contractObject);
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
@@ -306,20 +308,15 @@ class GameController {
       const newCurObj = model.getObject(model.gameProgress.activeContracts, elem);
 
       gameApp.gameView.addToDom(elem, model.pageObject.acceptedContractsPage, '.current-contract');
-      model.deleteFromArray(model.gameProgress.activeContracts, elem);
       model.gameProgress.currentContracts.push(newCurObj);
     } else if (currentContract !== elem) {
       gameApp.gameView.addToDom(currentContract, model.pageObject.acceptedContractsPage, '.accepted-contract');
       gameApp.gameView.addToDom(elem, model.pageObject.acceptedContractsPage, '.current-contract');
 
-      //Get the actual Objects from the DOM nodes with the helper function getObject
       const newCurObj = model.getObject(model.gameProgress.activeContracts, elem);
       const oldCurObj = model.getObject(model.gameProgress.currentContracts, currentContract);
 
-      //Delete the contracts from their prior arrays and put them into their new arrays
       model.gameProgress.currentContracts.push(newCurObj);
-      model.gameProgress.activeContracts.push(oldCurObj);
-      model.deleteFromArray(model.gameProgress.activeContracts, newCurObj);
       model.deleteFromArray(model.gameProgress.currentContracts, oldCurObj);
     }
 
