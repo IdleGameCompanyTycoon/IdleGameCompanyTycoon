@@ -184,11 +184,11 @@ class GameController {
     const that=this;
 
     setTimeout(function() {
-      if(model.gameprogress.activeEmployees.length > 0) {
-        model.gameprogress.activeEmployees.forEach(element => {
+      if(model.gameProgress.activeEmployees.length > 0) {
+        model.gameProgress.activeEmployees.forEach(element => {
           var loc = element.skills.speed;
           that.addLoc(loc);
-          console.log(model.gameprogress.activeEmployees);
+          console.log(model.gameProgress.activeEmployees);
         });
         
       }
@@ -356,11 +356,11 @@ class GameController {
   }
 
   init() {
-    model.pageObject = this.pageCreationView.initPages(model.gameprogress.availableContracts,
-                                    model.gameprogress.currentContracts,
-                                    model.gameprogress.activeContracts,
-                                    model.gameprogress.availableApplications,
-                                    model.gameprogress.activeEmployees);
+    model.pageObject = this.pageCreationView.initPages(model.gameProgress.availableContracts,
+                                    model.gameProgress.currentContracts,
+                                    model.gameProgress.activeContracts,
+                                    model.gameProgress.availableApplications,
+                                    model.gameProgress.activeEmployees);
     this.gameView.init();
     this.createContracts();
     this.createApplications();
