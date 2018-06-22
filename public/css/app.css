@@ -154,6 +154,22 @@ main {
   border-radius: 5px;
 }
 
+.employee {
+  box-sizing: border-box;
+  background: blue;
+  border: 2px solid #006;
+  color: white;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.empl-text {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  line-height: 20px;
+}
+
 /*Buttons*/
 .accept-button {
   position: absolute;

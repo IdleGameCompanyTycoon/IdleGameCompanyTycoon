@@ -91,7 +91,8 @@ const model = {
       availableContracts: [],
       activeContracts: [],
       currentContracts: [],
-      availableApplications: []
+      availableApplications: [],
+      activeEmployees: []
     },
 
     createContract: function(obj){
@@ -218,6 +219,16 @@ class GameController {
 
   }
 
+  //Function to accept an employee
+  employeeAccepted(elem) {
+    let employeeObject = model.gameprogress.availableApplications.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.gameprogress.availableApplications, employeeObject);
+    employeeObject.domElem = gameApp.gameView.createActiveEmployeeDom(employeeObject);
+    gameApp.gameView.removeElem(elem.closest('div'));
+    gameApp.gameView.addToDom(employeeObject.domElem, model.pageObject.activeEmployeesPage, '.active-employees');
+    model.gameprogress.activeEmployees.push(employeeObject);
+  }
+
   //Function for to add LoC to contract
   addLoc() {
     const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
@@ -312,6 +323,7 @@ class GameController {
   eventHandler(evt)  {
     let eventsObj = {
       'accept-contract-button' : gameApp.contractAccepted,
+      'accept-application-button' : gameApp.employeeAccepted,
     }
 
     //Uses the class of the object as identifier for the event function which has to be called
@@ -322,7 +334,8 @@ class GameController {
     model.pageObject = this.pageCreationView.initPages(model.gameprogress.availableContracts,
                                     model.gameprogress.currentContracts,
                                     model.gameprogress.activeContracts,
-                                    model.gameprogress.availableApplications);
+                                    model.gameprogress.availableApplications,
+                                    model.gameprogress.activeEmployees);
     this.gameView.init();
     this.createContracts();
     this.createApplications();
@@ -395,6 +408,19 @@ class GameView {
     container.append(text, picture, button);
 
     return container;
+  }
+
+  //Create active dom element for Employee
+  createActiveEmployeeDom(object) {
+    const newActiveEmployee = document.createElement('div');
+    const newEmployeeText = document.createElement('span');
+    newActiveEmployee.classList.add('active-employee');
+    newEmployeeText.classList.add('empl-text');
+    newEmployeeText.textContent = `${object.firstName} ${object.lastName} ${object.job} ${object.speed}`;
+
+    newActiveEmployee.append(newEmployeeText);
+
+    return newActiveEmployee;
   }
 
   //Creates active dom element for Contracts
@@ -494,6 +520,9 @@ class GameView {
       case 'active-contracts':
         menue.appendChild(model.pageObject.acceptedContractsPage);
         break;
+      case 'active-employees':
+        menue.appendChild(model.pageObject.activeEmployeesPage);
+        break;
       default:
         menue.appendChild(document.createElement('div'));
         break;
@@ -544,12 +573,20 @@ class MenuPages extends GameView {
     return page;
   }
 
+  activeEmployeesPage(objArr) {
+    const page = document.createElement('div');
+    page.innerHTML = `<p><h2>Employees</h2><br></p>`;
+    this.renderLoop(objArr, page);
+    return page;
+  }
+
   //All pages get created and the function returns an page object with all pages
-  initPages(availableContractsArr, currentContractsArr, acceptedContractsArr, employeeApplicationsArr) {
+  initPages(availableContractsArr, currentContractsArr, acceptedContractsArr, employeeApplicationsArr, activeEmployeesArr) {
     const pageObject = {
       availableContractsPage: this.availableContractsPage(availableContractsArr),
       acceptedContractsPage: this.acceptedContractsPage(acceptedContractsArr, currentContractsArr),
-      employeeApplicationsPage: this.employeeApplicationsPage(employeeApplicationsArr)
+      employeeApplicationsPage: this.employeeApplicationsPage(employeeApplicationsArr),
+      activeEmployeesPage: this.activeEmployeesPage(activeEmployeesArr)
     }
 
     return pageObject;
