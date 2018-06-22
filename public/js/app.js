@@ -15,11 +15,13 @@ class Contracts {
     //Will be esecuted if the contract hasn't met its target yet
     if(this.progressCode < this.codeSize){
       this.progressVal += 100/this.codeSize*increase;
-      this.progressCode += increase;
+      var test = this.progressCode +increase;
+      this.progressCode = Math.round(test*100)/100;
+      //this.progressCode += increase;
     }
 
     //Will be executed when the contract is finished
-    if(this.progressCode === this.codeSize){
+    if(this.progressCode >= this.codeSize){
       this.progressCode += increase;
       model.gameprogress.money += this.earnings;
       return 'finished';
@@ -178,6 +180,22 @@ class GameController {
     }, rand*1000)
   }
 
+  employeeLocGen(){
+    const that=this;
+
+    setTimeout(function() {
+      if(model.gameprogress.activeEmployees.length > 0) {
+        model.gameprogress.activeEmployees.forEach(element => {
+          var loc = element.skills.speed;
+          that.addLoc(loc);
+          console.log(model.gameprogress.activeEmployees);
+        });
+        
+      }
+      that.employeeLocGen();
+    },1000)
+  }
+
   //Create Available applications
   createApplications() {
     const that = this;
@@ -225,19 +243,19 @@ class GameController {
     model.deleteFromArray(model.gameprogress.availableApplications, employeeObject);
     employeeObject.domElem = gameApp.gameView.createActiveEmployeeDom(employeeObject);
     gameApp.gameView.removeElem(elem.closest('div'));
-    gameApp.gameView.addToDom(employeeObject.domElem, model.pageObject.activeEmployeesPage, '.active-employees');
+    gameApp.gameView.addToDom(employeeObject.domElem, model.pageObject.activeEmployeesPage);
     model.gameprogress.activeEmployees.push(employeeObject);
   }
 
   //Function for to add LoC to contract
-  addLoc() {
+  addLoc(amount) {
     const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
 
     if (activeContract){
       let contractObject = model.getObject(model.gameprogress.currentContracts, activeContract);
 
       //Increases the LoC and gets back a status if the contract is finished or not
-      const statusCon = contractObject.increase();
+      const statusCon = contractObject.increase(amount);
 
       if (statusCon === 'in progress') {
         gameApp.gameView.progressBar(contractObject);
@@ -339,6 +357,7 @@ class GameController {
     this.gameView.init();
     this.createContracts();
     this.createApplications();
+    this.employeeLocGen();
     document.querySelector('.second-panel').appendChild(model.pageObject.availableContractsPage);
     document.querySelector('main').appendChild(model.pageObject.acceptedContractsPage);
   }
@@ -413,10 +432,10 @@ class GameView {
   //Create active dom element for Employee
   createActiveEmployeeDom(object) {
     const newActiveEmployee = document.createElement('div');
-    const newEmployeeText = document.createElement('span');
-    newActiveEmployee.classList.add('active-employee');
+    const newEmployeeText = document.createElement('p');
+    newActiveEmployee.classList.add('employee');
     newEmployeeText.classList.add('empl-text');
-    newEmployeeText.textContent = `${object.firstName} ${object.lastName} ${object.job} ${object.speed}`;
+    newEmployeeText.textContent = `${object.firstName} ${object.lastName} ${object.job} ${object.skills.speed}`;
 
     newActiveEmployee.append(newEmployeeText);
 
@@ -575,6 +594,7 @@ class MenuPages extends GameView {
 
   activeEmployeesPage(objArr) {
     const page = document.createElement('div');
+    page.classList.add('working-employees');
     page.innerHTML = `<p><h2>Employees</h2><br></p>`;
     this.renderLoop(objArr, page);
     return page;
