@@ -15,9 +15,8 @@ class Contracts {
     //Will be esecuted if the contract hasn't met its target yet
     if(this.progressCode < this.codeSize){
       this.progressVal += 100/this.codeSize*increase;
-      var test = this.progressCode +increase;
-      this.progressCode = Math.round(test*100)/100;
-      //this.progressCode += increase;
+      const progressCodeRound = this.progressCode +increase;
+      this.progressCode = Math.round(progressCodeRound*100)/100;
     }
 
     //Will be executed when the contract is finished
@@ -64,8 +63,9 @@ class Skills {
     this.strategie = this.randomVal();
     this.puzzle = this.randomVal();
     this.tycoon = this.randomVal();
-    this.shoote = this.randomVal();
+    this.shooter = this.randomVal();
     this.jumpNrun = this.randomVal();
+    this.salary = (this.speed*2+this.social+this.action+this.strategie+this.puzzle+this.tycoon+this.shooter+this.jumpNrun)*25;
   }
 
   randomVal() {
@@ -157,6 +157,38 @@ class GameController {
     return model.gameProgress.money;
   }
 
+  //GameLoop for GameTime
+  gameLoop() {
+    const tickDuration = 1000;
+    const monthDuration = 50;
+    var days = 0;
+
+    setInterval(function() {
+
+      //Employee Loc Generation
+      model.gameProgress.activeEmployees.forEach(element => {
+        var loc = element.skills.speed;
+        gameApp.addLoc(loc);
+      });
+
+
+      //Month interval
+      if(days === monthDuration){
+        days = 0;
+        //Employee salary
+        model.gameProgress.activeEmployees.forEach(element => {
+          model.gameProgress.money -= element.skills.salary;
+          console.log(element.skills.salary);
+          gameView.updateMoney();
+        });
+      }
+
+
+      days += 1;
+    },tickDuration)
+
+
+  }
   //Create contract interval
   createContracts() {
     const that = this;
@@ -180,21 +212,6 @@ class GameController {
     }, rand*1000)
   }
 
-  employeeLocGen(){
-    const that=this;
-
-    setTimeout(function() {
-      if(model.gameProgress.activeEmployees.length > 0) {
-        model.gameProgress.activeEmployees.forEach(element => {
-          var loc = element.skills.speed;
-          that.addLoc(loc);
-          console.log(model.gameProgress.activeEmployees);
-        });
-        
-      }
-      that.employeeLocGen();
-    },1000)
-  }
 
   //Create Available applications
   createApplications() {
@@ -362,9 +379,9 @@ class GameController {
                                     model.gameProgress.availableApplications,
                                     model.gameProgress.activeEmployees);
     this.gameView.init();
+    this.gameLoop();
     this.createContracts();
     this.createApplications();
-    this.employeeLocGen();
     document.querySelector('.second-panel').appendChild(model.pageObject.availableContractsPage);
     document.querySelector('main').appendChild(model.pageObject.acceptedContractsPage);
   }
