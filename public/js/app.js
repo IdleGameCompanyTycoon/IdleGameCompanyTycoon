@@ -239,12 +239,12 @@ class GameController {
 
   //Function to accept an employee
   employeeAccepted(elem) {
-    let employeeObject = model.gameprogress.availableApplications.find(obj => obj.domElem === elem.closest('div'));
-    model.deleteFromArray(model.gameprogress.availableApplications, employeeObject);
+    let employeeObject = model.gameProgress.availableApplications.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.gameProgress.availableApplications, employeeObject);
     employeeObject.domElem = gameApp.gameView.createActiveEmployeeDom(employeeObject);
     gameApp.gameView.removeElem(elem.closest('div'));
     gameApp.gameView.addToDom(employeeObject.domElem, model.pageObject.activeEmployeesPage);
-    model.gameprogress.activeEmployees.push(employeeObject);
+    model.gameProgress.activeEmployees.push(employeeObject);
   }
 
   //Function for to add LoC to contract
