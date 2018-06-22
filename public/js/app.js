@@ -242,7 +242,7 @@ class GameController {
     model.deleteFromArray(model.gameProgress.availableContracts, contractObject);
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
-    let currentContract = document.querySelector('div.current-contract .assignment')
+    let currentContract = model.gameProgress.currentContracts[0];
 
     if (!currentContract) {
       gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage, '.current-contract');
