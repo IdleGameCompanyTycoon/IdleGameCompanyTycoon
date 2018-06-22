@@ -21,7 +21,7 @@ class Contracts {
     //Will be executed when the contract is finished
     if(this.progressCode === this.codeSize){
       this.progressCode += increase;
-      model.gameprogress.money += this.earnings;
+      model.gameProgress.money += this.earnings;
       return 'finished';
     }
 
@@ -86,7 +86,7 @@ const dataRequests = {
 // Model for Data
 const model = {
     //Object for all save relevant variables
-    gameprogress: {
+    gameProgress: {
       money: 0,
       availableContracts: [],
       activeContracts: [],
@@ -137,21 +137,21 @@ class GameController {
 
   //Get all available tasks from the model
   getAvailableContracts() {
-    return model.gameprogress.availableContracts;
+    return model.gameProgress.availableContracts;
   }
 
   //Get all active tasks from the model
   getActiveContracts() {
-    return model.gameprogress.activeContracts;
+    return model.gameProgress.activeContracts;
   }
 
   getAvailableApplications() {
-    return model.gameprogress.availableApplications;
+    return model.gameProgress.availableApplications;
   }
 
   //Get the money
   getMoney() {
-    return model.gameprogress.money;
+    return model.gameProgress.money;
   }
 
   //Create contract interval
@@ -162,13 +162,13 @@ class GameController {
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
-      if(model.gameprogress.availableContracts.length < 6) {
+      if(model.gameProgress.availableContracts.length < 6) {
         dataRequests.getRandomEntry('contracts')
                     .then(response => response.json())
                     .then(response => {
                         const obj = response.rows[0];
                         const newContract = model.createContract(obj);
-                        model.gameprogress.availableContracts.push(newContract);
+                        model.gameProgress.availableContracts.push(newContract);
                         gameApp.gameView.addToDom(newContract.domElem, model.pageObject.availableContractsPage);
                         })
       }
@@ -185,13 +185,13 @@ class GameController {
     let rand = Math.floor(Math.random() * (max - min + 1) + min);
 
     setTimeout(function() {
-      if(model.gameprogress.availableContracts.length < 6) {
+      if(model.gameProgress.availableContracts.length < 6) {
         dataRequests.getRandomEntry('employees')
                     .then(response => response.json())
                     .then(response => {
                         const obj = response.rows[0];
                         const newApplicant = model.createEmployee(obj);
-                        model.gameprogress.availableApplications.push(newApplicant);
+                        model.gameProgress.availableApplications.push(newApplicant);
                         gameApp.gameView.addToDom(newApplicant.domElem, model.pageObject.employeeApplicationsPage);
                         })
       }
@@ -202,18 +202,18 @@ class GameController {
 
   //Function to accept an contract
   contractAccepted(elem) {
-    let contractObject = model.gameprogress.availableContracts.find(obj => obj.domElem === elem.closest('div'));
-    model.deleteFromArray(model.gameprogress.availableContracts, contractObject);
+    let contractObject = model.gameProgress.availableContracts.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.gameProgress.availableContracts, contractObject);
     contractObject.domElem = gameApp.gameView.createActiveContractDom(contractObject);
     gameApp.gameView.removeElem(elem.closest('div'));
     let currentContract = document.querySelector('div.current-contract .assignment')
 
     if (!currentContract) {
       gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage, '.current-contract');
-      model.gameprogress.currentContracts.push(contractObject);
+      model.gameProgress.currentContracts.push(contractObject);
     } else {
       gameApp.gameView.addToDom(contractObject.domElem, model.pageObject.acceptedContractsPage,'.accepted-contract');
-      model.gameprogress.activeContracts.push(contractObject);
+      model.gameProgress.activeContracts.push(contractObject);
     }
 
   }
@@ -223,7 +223,7 @@ class GameController {
     const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
 
     if (activeContract){
-      let contractObject = model.getObject(model.gameprogress.currentContracts, activeContract);
+      let contractObject = model.getObject(model.gameProgress.currentContracts, activeContract);
 
       //Increases the LoC and gets back a status if the contract is finished or not
       const statusCon = contractObject.increase();
@@ -233,53 +233,60 @@ class GameController {
       }
 
       else if (statusCon === 'finished') {
-        model.deleteFromArray(model.gameprogress.currentContracts, contractObject)
+        model.deleteFromArray(model.gameProgress.currentContracts, contractObject)
         gameApp.gameView.removeElem(contractObject.domElem);
         contractObject = null;
         gameApp.gameView.updateMoney();
 
-        let nextContract = document.querySelector('div.accepted-contract .assignment');
-        if (nextContract === null) return;
-        gameApp.gameView.addToDom(nextContract, model.pageObject.acceptedContractsPage, '.current-contract');
+        let nextContract = model.gameProgress.activeContracts[0];
+        if (!nextContract) return;
+        this.newActiveContract(nextContract.domElem);
       }
     }
   }
 
   //Function for activating one contract
   activateContract(evt) {
+    gameApp.newActiveContract(evt.target.parentElement);
+  }
 
-    let currentContract = document.querySelector('.current-contract .assignment');
+  //Function to select new active contract (Accepts the DOM Element of the contract as argument)
+  newActiveContract(elem) {
+
+    const currentContract = document.querySelector('.current-contract .assignment');
 
     if (!currentContract)
     {
-      gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
-      model.deleteFromArray(model.gameprogress.activeContracts, evt.target.parentElement);
-      model.gameprogress.currentContracts.push(model.getObject(model.gameprogress.activeContracts, evt.target.parentElement));
-    } else if (currentContract !== evt.target.parentElement) {
+      const newCurObj = model.getObject(model.gameProgress.activeContracts, elem);
+
+      gameApp.gameView.addToDom(elem, model.pageObject.acceptedContractsPage, '.current-contract');
+      model.deleteFromArray(model.gameProgress.activeContracts, elem);
+      model.gameProgress.currentContracts.push(newCurObj);
+    } else if (currentContract !== elem) {
       gameApp.gameView.addToDom(currentContract, model.pageObject.acceptedContractsPage, '.accepted-contract');
-      gameApp.gameView.addToDom(evt.target.parentElement, model.pageObject.acceptedContractsPage, '.current-contract');
+      gameApp.gameView.addToDom(elem, model.pageObject.acceptedContractsPage, '.current-contract');
 
       //Get the actual Objects from the DOM nodes with the helper function getObject
-      const newCurObj = model.getObject(model.gameprogress.activeContracts, evt.target.parentElement);
-      const oldCurObj = model.getObject(model.gameprogress.currentContracts, currentContract);
+      const newCurObj = model.getObject(model.gameProgress.activeContracts, elem);
+      const oldCurObj = model.getObject(model.gameProgress.currentContracts, currentContract);
 
       //Delete the contracts from their prior arrays and put them into their new arrays
-      model.gameprogress.currentContracts.push(newCurObj);
-      model.gameprogress.activeContracts.push(oldCurObj);
-      model.deleteFromArray(model.gameprogress.activeContracts, newCurObj);
-      model.deleteFromArray(model.gameprogress.currentContracts, oldCurObj);
+      model.gameProgress.currentContracts.push(newCurObj);
+      model.gameProgress.activeContracts.push(oldCurObj);
+      model.deleteFromArray(model.gameProgress.activeContracts, newCurObj);
+      model.deleteFromArray(model.gameProgress.currentContracts, oldCurObj);
     }
 
   }
 
   //Saves all progress to localStorage
   saveProgress() {
-    localStorage.setItem('SaveGameIGCT', JSON.stringify(model.gameprogress));
+    localStorage.setItem('SaveGameIGCT', JSON.stringify(model.gameProgress));
   }
   loadProgress(){
     var retrievedItem = localStorage.getItem('SaveGameIGCT');
     var savegame = JSON.parse(retrievedItem);
-    model.gameprogress = savegame;
+    model.gameProgress = savegame;
   }
 
   //Handles all click events
@@ -319,10 +326,10 @@ class GameController {
   }
 
   init() {
-    model.pageObject = this.pageCreationView.initPages(model.gameprogress.availableContracts,
-                                    model.gameprogress.currentContracts,
-                                    model.gameprogress.activeContracts,
-                                    model.gameprogress.availableApplications);
+    model.pageObject = this.pageCreationView.initPages(model.gameProgress.availableContracts,
+                                    model.gameProgress.currentContracts,
+                                    model.gameProgress.activeContracts,
+                                    model.gameProgress.availableApplications);
     this.gameView.init();
     this.createContracts();
     this.createApplications();
