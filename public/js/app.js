@@ -160,7 +160,7 @@ class GameController {
   //GameLoop for GameTime
   gameLoop() {
     const tickDuration = 1000;
-    const monthDuration = 50;
+    const monthDuration = 300;
     var days = 0;
 
     setInterval(function() {
