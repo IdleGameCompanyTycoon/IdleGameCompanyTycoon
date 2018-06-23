@@ -2,7 +2,9 @@
   padding: 0;
   margin: 0;
 }
-
+tab {
+  margin-left: 2em;
+}
 html  {
   height: 100%;
 }
@@ -73,7 +75,6 @@ main {
   border: 5px solid black;
   color: white;
   padding: 16px;
-  font-size: 0.8em;
 }
 
 /*Header Related content*/
@@ -127,6 +128,8 @@ main {
   border: 1px solid blue;
   border-radius: 5px;
   margin-top: 20px;
+  font-size: 0.8em;
+
 }
 
 .progress {
@@ -154,6 +157,7 @@ main {
   border-radius: 5px;
 }
 
+ /*Employees menue*/
 .employee {
   box-sizing: border-box;
   background: blue;
@@ -164,9 +168,12 @@ main {
 }
 
 .empl-text {
-  text-align: center;
-  width: 30%;
+  text-align: left;
+  width: 80%;
   line-height: 20px;
+  display: inline-block;
+  margin-left: 1%;
+
 }
 
 /*Buttons*/
@@ -203,6 +210,10 @@ main {
   text-align: center;
   line-height: 35px;
   color: white;
+}
+.fire-employee-button {
+  margin-right:1%;
+  float: right;
 }
 
 

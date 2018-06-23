@@ -265,6 +265,14 @@ class GameController {
     model.gameProgress.activeEmployees.push(employeeObject);
   }
 
+  //Function to fire an Employee
+  fireEmployee (elem){
+    let employeeObject = model.gameProgress.activeEmployees.find(obj => obj.domElem === elem.closest('div'));
+    model.deleteFromArray(model.gameProgress.activeEmployees, employeeObject);
+    gameApp.gameView.removeElem(employeeObject.domElem);
+    employeeObject = null;
+  }
+
   //Function for to add LoC to contract
   addLoc(amount) {
     const activeContract = model.pageObject.acceptedContractsPage.querySelector('.current-contract .assignment');
@@ -363,6 +371,7 @@ class GameController {
     let eventsObj = {
       'accept-contract-button' : gameApp.contractAccepted,
       'accept-application-button' : gameApp.employeeAccepted,
+      'fire-employee-button' : gameApp.fireEmployee
     }
 
     //Uses the class of the object as identifier for the event function which has to be called
@@ -443,7 +452,7 @@ class GameView {
 
     text.innerHTML = `${object.firstName} ${object.lastName}<br><br>
                           Job: ${object.job}`;
-    button.setAttribute('class', 'fas fa-check accept-application-button accept button')
+    button.setAttribute('class', 'fas fa-check accept-application-button accept button');
 
     container.append(text, picture, button);
 
@@ -454,11 +463,14 @@ class GameView {
   createActiveEmployeeDom(object) {
     const newActiveEmployee = document.createElement('div');
     const newEmployeeText = document.createElement('p');
+    const fireButton = document.createElement('i');
+    fireButton.setAttribute('class', 'fas fa-check fire-employee-button fire');
+    fireButton.textContent = `Fire!`;
     newActiveEmployee.classList.add('employee');
     newEmployeeText.classList.add('empl-text');
-    newEmployeeText.textContent = `${object.firstName} ${object.lastName} ${object.job} ${object.skills.speed}`;
+    newEmployeeText.innerHTML = `${object.firstName} ${object.lastName} <tab> ${object.job} <tab> Speed: ${object.skills.speed}`;
 
-    newActiveEmployee.append(newEmployeeText);
+    newActiveEmployee.append(newEmployeeText, fireButton);
 
     return newActiveEmployee;
   }
