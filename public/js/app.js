@@ -160,9 +160,13 @@ class GameController {
   //GameLoop for GameTime
   gameLoop() {
     const tickDuration = 1000;
-    const monthDuration = 300;
-    var days = 0;
+    const monthDuration = 31;
+    const yearDuration = 13;
+    var year = 1;
+    var month = 1;
+    var day = 1;
 
+    //Day interval
     setInterval(function() {
       var loc = 0;
       //Employee Loc Generation
@@ -173,8 +177,9 @@ class GameController {
       gameApp.addLoc(loc);
 
       //Month interval
-      if(days === monthDuration){
-        days = 0;
+      if(day === monthDuration){
+        day = 1;
+        month += 1;
         //Employee salary
         model.gameProgress.activeEmployees.forEach(element => {
           model.gameProgress.money -= element.skills.salary;
@@ -183,8 +188,15 @@ class GameController {
         });
       }
 
+      //Year interval
+      if(month === yearDuration){
+        month = 1;
+        year += 1;
+      }
 
-      days += 1;
+      gameView.updateDate(month, day, year);
+
+      day += 1;
     },tickDuration)
 
 
@@ -535,7 +547,16 @@ class GameView {
   //Update money
   updateMoney() {
     const money = gameApp.getMoney();
-    document.querySelector('.money').textContent = `${money}$`;
+    document.querySelector('.money').textContent = ` Money: ${money}$ `;
+  }
+
+  //Update date
+  updateDate(month, day, year) {
+    month = month.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+    day = day.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+    year = year.toLocaleString('en-US', {minimumIntegerDigits: 4, useGrouping:false});
+    const currentdate = `${month}.${day}.${year}`;
+    document.querySelector('.date').innerHTML = `<tab>Date: ${currentdate}`;
   }
 
   //Adjust progress bar
