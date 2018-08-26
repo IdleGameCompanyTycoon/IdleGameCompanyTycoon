@@ -3,16 +3,45 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  state =  {
+    selected: false,
+    online: false,
+    offline: false
+  }
+
+  setToOnline = () => {
+    this.setState({
+      selected: true,
+      online: true,
+      offline: false
+    })
+  }
+
+  setToOffline = () => {
+    this.setState({
+      selected: true,
+      online: false,
+      offline: true
+    })
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        {!this.state.selected &&
+          <div className="App-mode-selection">
+            <button className="App-mode-selection-button"
+                    onClick={this.setToOffline}>Offline</button>
+                  <button className="App-mode-selection-button"
+                          onClick={this.setToOnline}>Online</button>
+          </div>
+        }
+        {this.state.offline &&
+          <div className="offline"></div>
+        }
+        {this.state.online &&
+          <div className="online"></div>
+        }
       </div>
     );
   }
