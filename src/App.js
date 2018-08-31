@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Offline from './components/containers/Offline';
+import Online from './components/containers/Online';
 
 class App extends Component {
   state =  {
@@ -9,6 +11,7 @@ class App extends Component {
     offline: false
   }
 
+  // TODO: Save the current selection to the local storage
   setToOnline = () => {
     this.setState({
       selected: true,
@@ -32,15 +35,15 @@ class App extends Component {
           <div className="App-mode-selection">
             <button className="App-mode-selection-button"
                     onClick={this.setToOffline}>Offline</button>
-                  <button className="App-mode-selection-button"
-                          onClick={this.setToOnline}>Online</button>
+            <button className="App-mode-selection-button"
+                    onClick={this.setToOnline}>Online</button>
           </div>
         }
         {this.state.offline &&
-          <div className="offline"></div>
+          <Offline/>
         }
         {this.state.online &&
-          <div className="online"></div>
+          <Online/>
         }
       </div>
     );
