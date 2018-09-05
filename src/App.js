@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Offline from './components/containers/Offline';
 import Online from './components/containers/Online';
