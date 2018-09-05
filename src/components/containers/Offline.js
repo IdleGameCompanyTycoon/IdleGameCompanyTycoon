@@ -12,7 +12,7 @@ class Offline extends Component {
 
   render() {
     return(
-      <div className="offline"></div>
+      <div className="offline">WIP</div>
     )
   }
 }
