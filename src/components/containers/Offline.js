@@ -24,11 +24,7 @@ class Offline extends Component {
 
   render() {
     return(
-<<<<<<< Updated upstream
-      <div className="offline">WIP</div>
-=======
       <GameEngine save={this.state}/>
->>>>>>> Stashed changes
     )
   }
 }
