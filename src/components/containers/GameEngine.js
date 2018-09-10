@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import Main from './Main.js'
 
 class GameEngine extends Component {
   render() {
 
     // TODO: Add correct page component instead
     return (
-      <div></div>
+      <Main>
+      </Main>
     )
   }
 }

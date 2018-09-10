@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
+import GameEngine from './GameEngine.js';
 
 class Offline extends Component {
-  state = {
 
+  //  TODO: These are just example save data, implement backend and local saves
+  state = {
+    money: 100,
+    availableContracts: [],
+    activeContracts: [],
+    availableApplications: [],
+    employees: [],
+    date: {
+      year: 1970,
+      month: 1,
+      day: 1
+    }
   }
 
   // TODO: Check if Local saves exist, if not initalize default data from the server
@@ -12,7 +24,11 @@ class Offline extends Component {
 
   render() {
     return(
+<<<<<<< Updated upstream
       <div className="offline">WIP</div>
+=======
+      <GameEngine save={this.state}/>
+>>>>>>> Stashed changes
     )
   }
 }
