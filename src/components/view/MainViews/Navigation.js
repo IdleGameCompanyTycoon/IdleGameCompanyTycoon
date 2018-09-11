@@ -6,7 +6,9 @@ class Navigation extends Component {
     return (
       <nav>
         <Link to="/contracts">Contracts</Link>
+        <Link to="/availableContracts">Available Contracts</Link>
         <Link to="/employees">Employees</Link>
+        <Link to="/employeeApplications">Employee Applications</Link>
       </nav>
     )
   }
