@@ -3,6 +3,9 @@ import Main from '../view/Main.js'
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
 import Navigation from '../view/MainViews/Navigation.js';
+import { Router, Route} from 'react-router-dom';
+import ContractsPage from '../view/Pages/ContractsPage.js';
+import EmployeesPage from '../view/Pages/EmployeesPage.js';
 
 class GameEngine extends Component {
   render() {
@@ -14,6 +17,10 @@ class GameEngine extends Component {
                    date={this.props.save.date}/>
         <AnimationFrame/>
         <Navigation/>
+
+          <Route exact path="/contracts" component={ContractsPage}/>
+          <Route exact path="/employees" component={EmployeesPage}/>
+
       </Main>
     )
   }

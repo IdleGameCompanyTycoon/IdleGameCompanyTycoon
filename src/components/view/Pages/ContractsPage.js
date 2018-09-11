@@ -2,7 +2,7 @@ import React from 'react';
 
 const ContractsPage = (props) => {
   return (
-    <div className='App-page'></div>
+    <div className='App-page'>Contracts</div>
   )
 }
 
