@@ -5,7 +5,7 @@ const EmployeeApplicationsPage = (props) => {
   return (
     <div className='App-page'>
       {
-        this.props.availableApplications.map((application, i) =>
+        props.availableApplications.map((application, i) =>
         <EmployeeApplication key={i}
                              application={application}/>
         )
