@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import '../../assets/App-main-view.css';
 import Main from '../view/Main.js'
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
 import Navigation from '../view/MainViews/Navigation.js';
-import { Router, Route} from 'react-router-dom';
+import { Switch, Redirect, Route} from 'react-router-dom';
 import ContractsPage from '../view/Pages/ContractsPage.js';
 import EmployeesPage from '../view/Pages/EmployeesPage.js';
 import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
@@ -17,14 +18,22 @@ class GameEngine extends Component {
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}/>
         <AnimationFrame/>
+        <Switch>
+          <Route exact path="/contracts"
+                 render={routeProps => <ContractsPage {...routeProps}
+                                            contracts={this.props.save.contracts}/>}/>
+          <Route exact path="/availableContracts"
+                 render={routeProps => <AvailableContractsPage {...routeProps}
+                                            availableContracts={this.props.save.availableContracts}/>}/>
+          <Route exact path="/employees"
+                 render={routeProps => <EmployeesPage {...routeProps}
+                                            employees={this.props.save.employees} />}/>
+          <Route exact path="/employeeApplications"
+                 render={routeProps => <EmployeeApplicationsPage {...routeProps}
+                                            availableApplications={this.props.save.availableApplications} />}/>
+          <Redirect from="*" to="/contracts"/>
+        </Switch>
         <Navigation/>
-        <Route exact path="/contracts"
-                render={routeProps => <ContractsPage {...routeProps}/>}/>
-        <Route exact path="/availableContracts" component={AvailableContractsPage}/>
-        <Route exact path="/employees" component={EmployeesPage}/>
-        <Route exact path="/employeeApplications"
-                render={routeProps => <EmployeeApplicationsPage {...routeProps}
-                                          availableApplications={this.props.save.availableApplications} />}/>
       </Main>
     )
   }
