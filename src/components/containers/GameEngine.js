@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/App-main-view.css';
-import Main from '../view/Main.js'
+import * as mainAPI from './engineAPIs/mainAPI.js';
+import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
 import Navigation from '../view/MainViews/Navigation.js';
@@ -11,13 +12,24 @@ import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
 
 class GameEngine extends Component {
+  constructor() {
+    super();
+    this.actions = {
+      "userClick": mainAPI.updateMoney
+    }
+  }
+
+  triggerAction = (func, args) => {
+    this.actions[func](this.props.parent, args);
+  }
+
   render() {
     // TODO: Add correct page component instead
     return (
       <Main>
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}/>
-        <AnimationFrame/>
+        <AnimationFrame increaseFunc={this.triggerAction}/>
         <Switch>
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}

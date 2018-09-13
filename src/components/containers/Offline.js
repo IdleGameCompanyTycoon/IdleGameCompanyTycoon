@@ -25,7 +25,7 @@ class Offline extends Component {
   render() {
     return(
       <React.Fragment>
-        {this.state.money && <GameEngine save={this.state}/>}
+        {this.state.money && <GameEngine save={this.state} parent={this}/>}
       </React.Fragment>
     )
   }
