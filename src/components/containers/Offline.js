@@ -14,6 +14,12 @@ class Offline extends Component {
       year: 1970,
       month: 1,
       day: 1
+    },
+    teams: {
+      0: {
+        taskType: "",
+        selectedTaskId:
+      }
     }
   }
 
