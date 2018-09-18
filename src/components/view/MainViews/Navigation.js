@@ -16,24 +16,24 @@ class Navigation extends Component {
         <Link className="Button-style" to="/contracts">
           <img className="Button-style-icon"
                src={require('../../../icons/contracts.png')}>
-          </img>{window.innerWidth >= 1000 && <navtext>contracts</navtext>}
+          </img>{window.innerWidth >= 1000 && <span> Contracts</span>}
         </Link>
 
         <Link className="Button-style" to="/availableContracts">
           <img className="Button-style-icon"
                src={require('../../../icons/avcontracts.png')}>
-          </img>availableContracts
+          </img>{window.innerWidth >= 1000 && <span> Available Contracts</span>}
         </Link>
 
         <Link className="Button-style" to="/employees">
           <img className="Button-style-icon"
                src={require('../../../icons/employee.png')}>
-          </img>employees
+          </img>{window.innerWidth >= 1000 && <span> Employees</span>}
         </Link>
         <Link className="Button-style" to="/employeeApplications">
           <img className="Button-style-icon"
                src={require('../../../icons/application.png')}>
-          </img>employeeApplications
+          </img>{window.innerWidth >= 1000 && <span> Employee Applications</span>}
         </Link>
       </nav>
     )
