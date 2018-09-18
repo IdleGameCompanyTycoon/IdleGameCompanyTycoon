@@ -12,6 +12,10 @@ import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
 
 class GameEngine extends Component {
+  state = {
+      selectedTeam: 0
+  }
+
   constructor() {
     super();
     this.actions = {
@@ -29,7 +33,7 @@ class GameEngine extends Component {
       <Main>
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}/>
-        <AnimationFrame increaseFunc={this.triggerAction}/>
+        <AnimationFrame action={this.triggerAction}/>
         <Switch>
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
