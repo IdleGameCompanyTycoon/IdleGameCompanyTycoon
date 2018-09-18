@@ -15,7 +15,7 @@ export const updateDate = (obj, dataObj) => {
 
 // On an animation frame click this function updates the LoC of the currently
 // selected Contract
-export const locClick = (obj, dataObj) {
+export const locClick = (obj, dataObj) => {
   let taskId = obj.state.teams[dataObj.selectedTeam].selectedTaskId;
   if(taskId) {
 

@@ -1,0 +1,15 @@
+.Button-style {
+  margin: 1vh;
+  padding: 0.5vh;
+  border: none;
+  background-color: #008CBA;
+  color: white;
+  text-decoration: none;
+  align-items: center;
+  display: table;
+  border-radius: 0.5vh;
+}
+.Button-style-icon {
+  height: 2vh;
+  width: auto;
+}
