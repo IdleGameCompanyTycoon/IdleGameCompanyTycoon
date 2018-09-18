@@ -23,8 +23,8 @@ class GameEngine extends Component {
     }
   }
 
-  triggerAction = (func, args) => {
-    this.actions[func](this.props.parent, args);
+  triggerAction = (action, args) => {
+    this.actions[action](this.props.parent, args);
   }
 
   render() {
