@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../assets/App-main-view.css';
+import '../../assets/css/App-main-view.css';
 import * as mainAPI from './engineAPIs/mainAPI.js';
 import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
