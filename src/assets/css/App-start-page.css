@@ -1,0 +1,22 @@
+.App-starting-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App-mode-selection {
+  display: flex;
+  justify-content: center;
+  height: 20px;
+}
+
+
+.App-mode-selection-button:first-of-type {
+  margin-right: 50px;
+}
+
+.App-mode-selection-button {
+  width: 15vh;
+}

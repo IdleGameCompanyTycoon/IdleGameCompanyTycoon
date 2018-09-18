@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './assets/css/App-start-page.css'
 import Offline from './components/containers/Offline';
 import Online from './components/containers/Online';
 
@@ -30,11 +31,13 @@ class App extends Component {
     return (
       <div>
         {!this.state.selected &&
-          <div className="App-mode-selection">
-            <button className="App-mode-selection-button"
-                    onClick={this.setToOffline}>Offline</button>
-            <button className="App-mode-selection-button"
-                    onClick={this.setToOnline}>Online</button>
+          <div className="App-starting-page">
+            <div className="App-mode-selection">
+              <button className="App-mode-selection-button"
+                      onClick={this.setToOffline}>Offline</button>
+              <button className="App-mode-selection-button"
+                      onClick={this.setToOnline}>Online</button>
+            </div>
           </div>
         }
         {this.state.offline &&
