@@ -1,0 +1,35 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.App-info-panel {
+  width: 100vw;
+  height: 50px;
+  background: green;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.App-animation-frame {
+  width: 100vw;
+  height: 20vh;
+  background: black;
+}
+
+.App-page {
+  width: 100vw;
+  height: calc(75vh - 50px);
+  background: yellow;
+}
+
+nav {
+  width: 100vw;
+  height: 5vh;
+  background: red;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}

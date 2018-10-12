@@ -1,26 +1,19 @@
 {
-  "name": "idlegamecompanytycoon",
-  "version": "9.5.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IdleGameCompanyTycoon/IdleGameCompanyTycoon.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/IdleGameCompanyTycoon/IdleGameCompanyTycoon/issues"
-  },
-  "homepage": "https://github.com/IdleGameCompanyTycoon/IdleGameCompanyTycoon#readme",
+  "name": "idle-game-dev-tycoon",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "ejs": "^2.5.8",
-    "express": "^4.16.3",
-    "pg": "^7.4.1",
-    "psql": "0.0.1"
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "1.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-router-dom": "^4.3.1"
   }
 }
