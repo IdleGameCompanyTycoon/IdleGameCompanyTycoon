@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/css/App-main-view.css';
 import * as mainAPI from './engineAPIs/mainAPI.js';
+import * as dataFetchApi from './engineAPIs/dataFetchApi.js';
 import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
@@ -25,6 +26,10 @@ class GameEngine extends Component {
 
   triggerAction = (action, args) => {
     this.actions[action](this.props.parent, args);
+  }
+
+  componentDidMount() {
+    dataFetchApi.initApplicationGen(this.props.parent);
   }
 
   render() {

@@ -1,12 +1,14 @@
 import React from 'react';
 
-const EmployeeApplication =  (props) => {
+const EmployeeApplication = (props) => {
+  console.log(props)
+
   return (
-    <div>
+    <div className="App-">
       {/* TODO: Add Data*/}
+      <p>{`${props.application.firstName} ${props.application.givenName}`}</p>
       <p></p>
-      <p></p>
-      <img src="" alt=""/> {/* TODO: Add picture URL and alt tag*/}
+      <img src={props.application.imgUrl} alt="picture of employee"/>
       <i></i> {/* TODO: Add Button to accept*/}
     </div>
   )
