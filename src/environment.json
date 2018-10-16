@@ -1,3 +1,10 @@
 {
-  "backend":"localhost:5000"
+  "backend":"localhost:5000",
+  "settings": {
+    "applications": {
+      "minTime": 5,
+      "maxTime": 20,
+      "maxApplications": 10
+    }
+  }
 }
