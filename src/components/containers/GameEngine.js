@@ -37,7 +37,8 @@ class GameEngine extends Component {
     return (
       <Main>
         <InfoPanel money={this.props.save.money}
-                   date={this.props.save.date}/>
+                   date={this.props.save.date}
+                   goToHome={this.props.goToHome}/>
         <AnimationFrame action={this.triggerAction}/>
         <Switch>
           <Route exact path="/contracts"

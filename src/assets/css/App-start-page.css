@@ -18,5 +18,10 @@
 }
 
 .App-mode-selection-button {
-  width: 15vh;
+  width: 15vw;
+  height: 30px;
+  background-color: lightgrey;
+  border-color: black;
+  border-radius: 20px;
+
 }

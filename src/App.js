@@ -22,6 +22,14 @@ class App extends Component {
   }
 
   // TODO: Save the current selection to the local storage
+  setToHome =  () => {
+    this.setState({
+      selected: false,
+      online: false,
+      offline: false
+    }, this.saveToLocalStorage)
+  }
+
   setToOnline = () => {
     this.setState({
       selected: true,
@@ -58,10 +66,10 @@ class App extends Component {
           </div>
         }
         {this.state.offline &&
-          <Offline/>
+          <Offline goToHome={this.setToHome}/>
         }
         {this.state.online &&
-          <Online/>
+          <Online goToHome={this.setToHome}/>
         }
       </div>
     );
