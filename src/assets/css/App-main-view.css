@@ -3,13 +3,16 @@ p {
 }
 
 .App {
+  box-sizing: border-box;
   width: 100vw;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
 .App-info-panel {
+  box-sizing: border-box;
   width: 100vw;
   height: 50px;
   background: green;
@@ -40,13 +43,16 @@ p {
 
 .App-page {
   width: 100vw;
-  height: calc(75vh - 50px);
+  flex-grow: 1;
+  flex-basis: 20px;
   background: yellow;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 nav {
+  box-sizing: border-box;
   width: 100vw;
-  height: 5vh;
   background: red;
   display: flex;
   flex-wrap: nowrap;
