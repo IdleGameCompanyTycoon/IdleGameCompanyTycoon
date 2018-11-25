@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   // TODO: Save the current selection to the local storage
-  setToHome =  () => {
+  setToHome = () => {
     this.setState({
       selected: false,
       online: false,

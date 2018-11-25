@@ -49,9 +49,11 @@ class GameEngine extends Component {
                                             availableContracts={this.props.save.availableContracts}/>}/>
           <Route exact path="/employees"
                  render={routeProps => <EmployeesPage {...routeProps}
+                                            parent={this.props.parent}
                                             employees={this.props.save.employees} />}/>
           <Route exact path="/employeeApplications"
                  render={routeProps => <EmployeeApplicationsPage {...routeProps}
+                                            parent={this.props.parent}
                                             availableApplications={this.props.save.availableApplications} />}/>
           <Redirect from="*" to="/contracts"/>
         </Switch>

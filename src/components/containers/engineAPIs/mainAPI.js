@@ -21,3 +21,17 @@ export const locClick = (obj, dataObj) => {
 
   }
 }
+
+export const acceptApplications = (obj, dataObj) => {
+  let index = obj.state.availableApplications.indexOf(dataObj);
+  if (index > -1) {
+    obj.state.availableApplications.splice(index, 1);
+  }
+
+  let employeesArr = obj.state.employees;
+  employeesArr.push(dataObj);
+  obj.setState({
+    employees: employeesArr
+  })
+console.log(obj.state);
+}

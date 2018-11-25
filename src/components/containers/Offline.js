@@ -28,6 +28,11 @@ class Offline extends Component {
 
   }
 
+  acceptApplications = (obj) => {
+    console.log(obj);
+
+  }
+
   render() {
     return(
       <React.Fragment>

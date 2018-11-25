@@ -1,7 +1,9 @@
 import React from 'react';
+import {acceptApplications} from '../../containers/engineAPIs/mainAPI.js'
+
 
 const EmployeeApplication = (props) => {
-  console.log(props)
+//  console.log(props)
 
   return (
     <div className="App-">
@@ -10,7 +12,8 @@ const EmployeeApplication = (props) => {
       <p>Work speed: {props.application.loc} LoC</p>
       <p>Salary: {props.application.payment}€</p>
       <img src={props.application.imgUrl} alt="picture of employee"/>
-      <i></i> {/* TODO: Add Button to accept*/}
+      <button
+              onClick={() => acceptApplications(props.parent, props.application)}>Accept</button>
     </div>
   )
 }
