@@ -3,7 +3,6 @@ import {acceptApplications} from '../../containers/engineAPIs/mainAPI.js'
 
 
 const EmployeeApplication = (props) => {
-//  console.log(props)
 
   return (
     <div className="App-">

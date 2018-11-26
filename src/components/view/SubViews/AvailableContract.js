@@ -2,12 +2,12 @@ import React from 'react';
 
 const AvailableContract =  (props) => {
   return (
-    <div>
-    {// TODO: Add missing Data}
-      <p></p>
-      <p></p>
-      {// TODO: Add button to accept Contract}
-      <i></i>
+    <div className="App-">
+
+
+      <p>{`${props.contracts.name}`}</p>
+      <p>{`${props.contracts.loc_lower}`}</p>
+
     </div>
   )
 }

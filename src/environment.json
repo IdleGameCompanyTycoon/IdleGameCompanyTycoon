@@ -5,6 +5,11 @@
       "minTime": 5,
       "maxTime": 20,
       "maxApplications": 10
+    },
+    "contracts": {
+      "minTime": 5,
+      "maxTime": 20,
+      "maxContracts": 10
     }
   }
 }

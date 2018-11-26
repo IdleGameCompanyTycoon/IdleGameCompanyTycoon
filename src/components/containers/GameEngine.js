@@ -30,6 +30,7 @@ class GameEngine extends Component {
 
   componentDidMount() {
     dataFetchApi.initApplicationGen(this.props.parent);
+    dataFetchApi.initContractsGen(this.props.parent);
   }
 
   render() {
@@ -46,7 +47,8 @@ class GameEngine extends Component {
                                             contracts={this.props.save.contracts}/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}
-                                            availableContracts={this.props.save.availableContracts}/>}/>
+                                            availableContracts={this.props.save.availableContracts}
+                                            parent={this.props.parent}/>}/>
           <Route exact path="/employees"
                  render={routeProps => <EmployeesPage {...routeProps}
                                             parent={this.props.parent}

@@ -15,7 +15,6 @@ export const initApplicationGen = (obj, dataObj) => {
             obj.setState({
               availableApplications: availableApplicationsArr
             })
-            console.log('success');
             initApplicationGen(obj);
           })
           .catch(err => {
@@ -24,6 +23,36 @@ export const initApplicationGen = (obj, dataObj) => {
           })
     } else {
       initApplicationGen(obj);
+    }
+  }, randomTimer)
+}
+
+// Initiate the fetching of new applications
+export const initContractsGen = (obj, dataObj) => {
+  const settings =  environment.settings.contracts
+  let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
+
+  setTimeout(() => {
+    let availableContractsArr = obj.state.availableContracts;
+    if(availableContractsArr.length < settings.maxContracts) {
+      fetch(`http://${environment.backend}/getData?operation=getContract`)
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            availableContractsArr.push(res);
+            obj.setState({
+              availableContracts: availableContractsArr
+            })
+            console.log('success');
+            console.log(obj);
+            initContractsGen(obj);
+          })
+          .catch(err => {
+            console.log(err);
+            initContractsGen(obj);
+          })
+    } else {
+      initContractsGen(obj);
     }
   }, randomTimer)
 }
