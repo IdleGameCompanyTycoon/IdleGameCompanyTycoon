@@ -6,9 +6,9 @@ const AvailableContractsPage = (props) => {
   return (
     <div className='App-page'>
       {
-        props.parent.state.availableContracts.map((contracts, i) =>
+        props.parent.state.availableContracts.map((contract, i) =>
         <Contracts  key={i}
-                    contracts={contracts}
+                    contract={contract}
                     parent={props.parent}/>
        )
       }

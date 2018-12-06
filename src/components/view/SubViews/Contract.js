@@ -4,13 +4,10 @@ const Contract = (props) => {
   // Add Progress Bar via Child Notation
 
   return (
-    <div>
-
-    //  <p>{${props.application.name}}</p>
-      <p>"test"</p>
-    //  <p>{`${props.application.loc_lower}`}</p>
-
-      //<i></i>
+    <div className="App-">
+      <p>{props.contract.name}</p>
+      <p>LoC to do: {props.contract.loc}</p>
+      <p>{`${props.contract.description}`}</p>
     </div>
   )
 }

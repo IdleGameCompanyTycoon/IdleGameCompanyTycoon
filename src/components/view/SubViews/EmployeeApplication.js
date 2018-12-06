@@ -12,7 +12,8 @@ const EmployeeApplication = (props) => {
       <p>Salary: {props.application.payment}€</p>
       <img src={props.application.imgUrl} alt="picture of employee"/>
       <button
-              onClick={() => acceptApplications(props.parent, props.application)}>Accept</button>
+              onClick={() => acceptApplications(props.parent, props.application)
+              }>Accept</button>
     </div>
   )
 }

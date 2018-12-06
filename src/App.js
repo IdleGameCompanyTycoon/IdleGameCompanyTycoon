@@ -47,7 +47,6 @@ class App extends Component {
   }
 
   saveToLocalStorage = () => {
-    console.log('test')
     let selection = JSON.stringify(this.state);
     localStorage.setItem('selection', selection);
   }

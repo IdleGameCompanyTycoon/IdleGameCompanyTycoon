@@ -44,7 +44,8 @@ class GameEngine extends Component {
         <Switch>
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
-                                            contracts={this.props.save.contracts}/>}/>
+                                            contracts={this.props.save.activeContracts}
+                                            parent={this.props.parent}/>}/>/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}
                                             availableContracts={this.props.save.availableContracts}
