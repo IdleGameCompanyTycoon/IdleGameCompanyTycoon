@@ -22,35 +22,45 @@ export const locClick = (obj, dataObj) => {
   }
 }
 
-export const acceptApplications = (obj, dataObj) => {
-  //remove apllication from availbleApplications Array
-  let index = obj.state.availableApplications.indexOf(dataObj);
-  if (index > -1) {
-    obj.state.availableApplications.splice(index, 1);
-  }
+export const acceptApplications = (parent, application) => {
+  declineApplication(parent, application);
   //add the employee to the Array employees
-  let employeesArr = obj.state.employees;
-  employeesArr.push(dataObj);
-  obj.setState({
+  let employeesArr = parent.state.employees.slice(0);
+  employeesArr.push(application);
+  parent.setState({
     employees: employeesArr
   })
 }
 
+export const declineApplication =  (parent, application) => {
+  let availableApplicationsArr =  parent.state.availableApplications.slice(0);
+  let index = availableApplicationsArr.indexOf(application);
+  if(index > -1) availableApplicationsArr.splice(index, 1);
+
+  parent.setState({
+    availableApplications: availableApplicationsArr
+  })
+}
+
 export const acceptContract =  (parent, contract) => {
-  try{
-    //remove contract from availableContracy array
-    let index = parent.state.availableContracts.indexOf(contract);
-    if (index < 0) throw "index is less than 0";
-    parent.state.availableContracts.splice(index, 1);
+  //remove contract from availableContracy array
+  declineContract(parent, contract);
 
-    //add contract to activeContracts array
-    let contractsArr = parent.state.activeContracts;
-    contractsArr.push(contract);
-    parent.setState({
-      activeContracts: contractsArr
-    })
+  //add contract to activeContracts array
+  let contractsArr = parent.state.activeContracts.slice(0);
+  contractsArr.push(contract);
+  parent.setState({
+    activeContracts: contractsArr
+  })
+}
 
-  } catch (e){
-    console.log(e);
-  }
+export const declineContract = (parent, contract) => {
+  let availableContractsArr = parent.state.availableContracts.slice(0);
+  let index = availableContractsArr.indexOf(contract);
+
+  if(index > -1) availableContractsArr.splice(index, 1);
+
+  parent.setState({
+    availableContracts: availableContractsArr
+  })
 }

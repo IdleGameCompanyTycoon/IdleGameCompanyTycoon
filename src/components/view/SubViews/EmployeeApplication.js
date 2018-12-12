@@ -1,5 +1,5 @@
 import React from 'react';
-import {acceptApplications} from '../../containers/engineAPIs/mainAPI.js'
+import {acceptApplications, declineApplication} from '../../containers/engineAPIs/mainAPI.js'
 
 
 const EmployeeApplication = (props) => {
@@ -12,8 +12,13 @@ const EmployeeApplication = (props) => {
       <p>Salary: {props.application.payment}€</p>
       <img src={props.application.imgUrl} alt="picture of employee"/>
       <button
-              onClick={() => acceptApplications(props.parent, props.application)
-              }>Accept</button>
+        onClick={() => acceptApplications(props.parent, props.application)
+        }>Accept</button>
+
+      <button
+        onClick={() => declineApplication(props.parent, props.application)
+        }>Decline</button>
+
     </div>
   )
 }
