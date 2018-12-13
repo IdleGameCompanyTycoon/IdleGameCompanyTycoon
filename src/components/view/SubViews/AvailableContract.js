@@ -1,5 +1,4 @@
 import React from 'react';
-import {acceptContract, declineContract} from '../../containers/engineAPIs/mainAPI.js';
 
 const AvailableContract =  (props) => {
   return (
@@ -9,14 +8,13 @@ const AvailableContract =  (props) => {
       <p>{`${props.contract.description}`}</p>
 
       <button
-        onClick={() => acceptContract(props.parent, props.contract)
+        onClick={() => props.action("acceptContract", props.contract)
         }>Accept</button>
 
       <button
-      onClick={() => declineContract(props.parent, props.contract)
+      onClick={() => props.action("declineContract", props.contract)
       }>Decline</button>
     </div>
   )
 }
-
 export default AvailableContract;

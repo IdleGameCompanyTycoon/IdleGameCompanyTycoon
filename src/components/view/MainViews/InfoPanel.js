@@ -1,7 +1,6 @@
 import React from 'react';
 
 const InfoPanel = (props) => {
-  console.log(props)
   return (
     <div className='App-info-panel'>
         <div className="App-info-panel-data">

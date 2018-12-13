@@ -20,12 +20,16 @@ class GameEngine extends Component {
   constructor() {
     super();
     this.actions = {
-      "userClick": mainAPI.updateMoney
+      "userClick": mainAPI.updateLoc,
+      "acceptContract": mainAPI.acceptContract,
+      "declineContract": mainAPI.declineContract,
+      "acceptApplication": mainAPI.acceptApplications,
+      "declineApplication": mainAPI.declineApplication
     }
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.parent, args);
+    this.actions[action](this.props.parent, this, args);
   }
 
   componentDidMount() {
@@ -45,19 +49,20 @@ class GameEngine extends Component {
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
                                             contracts={this.props.save.activeContracts}
-                                            parent={this.props.parent}/>}/>/>}/>
+                                            parent={this.props.parent}
+                                            action={this.triggerAction}/>}/>/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}
                                             availableContracts={this.props.save.availableContracts}
-                                            parent={this.props.parent}/>}/>
+                                            action={this.triggerAction}/>}/>
           <Route exact path="/employees"
                  render={routeProps => <EmployeesPage {...routeProps}
                                             parent={this.props.parent}
                                             employees={this.props.save.employees} />}/>
           <Route exact path="/employeeApplications"
                  render={routeProps => <EmployeeApplicationsPage {...routeProps}
-                                            parent={this.props.parent}
-                                            availableApplications={this.props.save.availableApplications} />}/>
+                                            availableApplications={this.props.save.availableApplications}
+                                            action={this.triggerAction}/>}/>
           <Redirect from="*" to="/contracts"/>
         </Switch>
         <Navigation/>

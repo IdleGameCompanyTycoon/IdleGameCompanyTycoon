@@ -1,3 +1,5 @@
+import * as calcAPI from './calcAPI.js';
+
 // Update the money, accepts an integer as dataObj
 export const updateMoney = (obj, dataObj) => {
   let newMoney = obj.state.money + dataObj;
@@ -22,9 +24,24 @@ export const locClick = (obj, dataObj) => {
   }
 }
 
-export const acceptApplications = (parent, application) => {
-  declineApplication(parent, application);
-  //add the employee to the Array employees
+export const updateLoc =  (parent, engine, dataObj) => {
+  let contract =  parent.state.activeContracts[0];
+
+  contract.progress += dataObj;
+
+  if(contract.progress >= 100){
+    calcAPI.closeContract(parent, parent.state.activeContracts[0]);
+  }else {
+    calcAPI.updateContract(parent, parent.state.activeContracts[0], contract);
+    console.log("RUN");
+  }
+}
+
+export const acceptApplications = (parent, engine, application) => {
+  declineApplication(parent, engine, application);
+
+  calcAPI.addTeamEmployee(engine, application);
+
   let employeesArr = parent.state.employees.slice(0);
   employeesArr.push(application);
   parent.setState({
@@ -32,7 +49,7 @@ export const acceptApplications = (parent, application) => {
   })
 }
 
-export const declineApplication =  (parent, application) => {
+export const declineApplication =  (parent, engine, application) => {
   let availableApplicationsArr =  parent.state.availableApplications.slice(0);
   let index = availableApplicationsArr.indexOf(application);
   if(index > -1) availableApplicationsArr.splice(index, 1);
@@ -42,19 +59,21 @@ export const declineApplication =  (parent, application) => {
   })
 }
 
-export const acceptContract =  (parent, contract) => {
+export const acceptContract =  (parent, engine, contract) => {
+  let team = engine.selectedTeam;
+  if(!calcAPI.checkContract(parent, engine, contract)) {
+    calcAPI.notAvailable();
+    return;
+  }
   //remove contract from availableContracy array
-  declineContract(parent, contract);
+  declineContract(parent, engine, contract);
 
   //add contract to activeContracts array
-  let contractsArr = parent.state.activeContracts.slice(0);
-  contractsArr.push(contract);
-  parent.setState({
-    activeContracts: contractsArr
-  })
+  calcAPI.addContract(parent, contract);
+  calcAPI.addTeamContract(parent, engine, contract);
 }
 
-export const declineContract = (parent, contract) => {
+export const declineContract = (parent, engine, contract) => {
   let availableContractsArr = parent.state.availableContracts.slice(0);
   let index = availableContractsArr.indexOf(contract);
 

@@ -7,8 +7,7 @@ const ContractsPage = (props) => {
       {
         props.contracts.map((contract, i) =>
           <Contracts  key={i}
-                      contract={contract}
-                      parent={props.parent}/>
+                      contract={contract}/>
        )
       }
     </div>
