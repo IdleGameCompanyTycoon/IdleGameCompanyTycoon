@@ -52,5 +52,9 @@ export const getContractForTeam = (activeContracts, team) => {
   });
 
   return teamContract;
+}
 
+export const updateProgress = (contract, loc) => {
+  contract.written += loc;
+  contract.progress = contract.written / contract.loc * 100;
 }

@@ -11,7 +11,7 @@ const Contract = (props) => {
 
       <ProgressBar  text="test"
                     contract={props.contract}/>
-      <p>{props.contract.progress} %</p>
+      <p>{Math.floor(props.contract.progress)} %</p>
       <p>{`${props.contract.description}`}</p>
     </div>
   )

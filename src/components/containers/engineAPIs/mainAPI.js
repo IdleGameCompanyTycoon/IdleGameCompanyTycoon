@@ -24,12 +24,12 @@ export const locClick = (obj, dataObj) => {
   }
 }
 
-export const updateLoc =  (parent, dataObj, engine) => {
+export const updateLoc =  (parent, loc, engine) => {
   if(!parent.state.teams[engine.state.selectedTeam].activeContract) return;
   let activeContractsArr = parent.state.activeContracts.slice(0);
 
   let contract = calcAPI.getContractForTeam(activeContractsArr, engine.state.selectedTeam);
-  contract.progress += dataObj;
+  calcAPI.updateProgress(contract, loc);
   if(contract.progress >= 100){
     calcAPI.closeContract(parent, contract);
   }else {
@@ -70,7 +70,8 @@ export const acceptContract =  (parent, contract, engine) => {
   //remove contract from availableContracy array
   declineContract(parent, contract, engine);
 
-  contract.progress = 10;
+  contract.progress = 0;
+  contract.written =  0;
   //add contract to activeContracts array
   calcAPI.addContract(parent, contract);
   calcAPI.addTeamContract(parent, contract, engine);
