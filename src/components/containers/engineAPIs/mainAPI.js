@@ -24,21 +24,23 @@ export const locClick = (obj, dataObj) => {
   }
 }
 
-export const updateLoc =  (parent, engine, dataObj) => {
-  let contract =  parent.state.activeContracts[0];
+export const updateLoc =  (parent, dataObj, engine) => {
+  if(!parent.state.teams[engine.state.selectedTeam].activeContract) return;
+  let activeContractsArr = parent.state.activeContracts.slice(0);
 
+  let contract = calcAPI.getContractForTeam(activeContractsArr, engine.state.selectedTeam);
   contract.progress += dataObj;
-
   if(contract.progress >= 100){
-    calcAPI.closeContract(parent, parent.state.activeContracts[0]);
+    calcAPI.closeContract(parent, contract);
   }else {
-    calcAPI.updateContract(parent, parent.state.activeContracts[0], contract);
-    console.log("RUN");
+    parent.setState({
+      activeContracts: activeContractsArr
+    })
   }
 }
 
-export const acceptApplications = (parent, engine, application) => {
-  declineApplication(parent, engine, application);
+export const acceptApplications = (parent, application, engine) => {
+  declineApplication(parent, application, engine);
 
   calcAPI.addTeamEmployee(engine, application);
 
@@ -49,7 +51,7 @@ export const acceptApplications = (parent, engine, application) => {
   })
 }
 
-export const declineApplication =  (parent, engine, application) => {
+export const declineApplication =  (parent, application, engine) => {
   let availableApplicationsArr =  parent.state.availableApplications.slice(0);
   let index = availableApplicationsArr.indexOf(application);
   if(index > -1) availableApplicationsArr.splice(index, 1);
@@ -59,21 +61,22 @@ export const declineApplication =  (parent, engine, application) => {
   })
 }
 
-export const acceptContract =  (parent, engine, contract) => {
+export const acceptContract =  (parent, contract, engine) => {
   let team = engine.selectedTeam;
   if(!calcAPI.checkContract(parent, engine, contract)) {
     calcAPI.notAvailable();
     return;
   }
   //remove contract from availableContracy array
-  declineContract(parent, engine, contract);
+  declineContract(parent, contract, engine);
 
+  contract.progress = 10;
   //add contract to activeContracts array
   calcAPI.addContract(parent, contract);
-  calcAPI.addTeamContract(parent, engine, contract);
+  calcAPI.addTeamContract(parent, contract, engine);
 }
 
-export const declineContract = (parent, engine, contract) => {
+export const declineContract = (parent, contract, engine) => {
   let availableContractsArr = parent.state.availableContracts.slice(0);
   let index = availableContractsArr.indexOf(contract);
 

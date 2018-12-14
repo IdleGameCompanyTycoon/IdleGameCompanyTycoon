@@ -29,7 +29,7 @@ class GameEngine extends Component {
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.parent, this, args);
+    this.actions[action](this.props.parent, args, this);
   }
 
   componentDidMount() {
