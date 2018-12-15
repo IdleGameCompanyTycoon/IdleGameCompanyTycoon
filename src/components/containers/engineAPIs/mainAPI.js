@@ -9,10 +9,28 @@ export const updateMoney = (obj, dataObj) => {
 }
 
 // Update the date obj, accepts an dateObj as dataObj
-export const updateDate = (obj, dataObj) => {
-  obj.setState({
-    date: dataObj
+export const updateDate = (parent, days) => {
+  let tmpDate = parent.state.date;
+  tmpDate.day += days;
+  if(tmpDate.day >= 31){
+    tmpDate.day -= 31;
+    tmpDate.month += 1;
+
+    calcAPI.employeePayment(parent);
+  } else if( tmpDate.month >= 12) {
+    tmpDate.month -= 1;
+    tmpDate.year += 1;
+
+  }
+  parent.setState({
+    date: tmpDate
   })
+}
+
+export const updateEmploeeys = (parent, args, engine) => {
+  parent.state.employees.forEach((employee) =>{
+    updateLoc(parent, employee.loc, engine);
+  });
 }
 
 // On an animation frame click this function updates the LoC of the currently

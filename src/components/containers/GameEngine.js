@@ -35,6 +35,14 @@ class GameEngine extends Component {
   componentDidMount() {
     dataFetchApi.initApplicationGen(this.props.parent);
     dataFetchApi.initContractsGen(this.props.parent);
+    this.gameInterval();
+  }
+
+  gameInterval(){
+    setInterval(() => {
+      mainAPI.updateEmploeeys(this.props.parent, 1, this);
+      mainAPI.updateDate(this.props.parent, 1);
+    }, 1000);
   }
 
   render() {

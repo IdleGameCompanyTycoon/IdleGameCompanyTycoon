@@ -39,13 +39,10 @@ export const initContractsGen = (obj, dataObj) => {
       fetch(`http://${environment.backend}/getData?operation=getContract`)
           .then(res => res.json())
           .then(res => {
-            console.log(res);
             availableContractsArr.push(res);
             obj.setState({
               availableContracts: availableContractsArr
             })
-            console.log('success');
-            console.log(obj);
             initContractsGen(obj);
           })
           .catch(err => {

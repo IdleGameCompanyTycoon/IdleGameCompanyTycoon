@@ -54,6 +54,12 @@ export const getContractForTeam = (activeContracts, team) => {
   return teamContract;
 }
 
+export const employeePayment = (parent) => {
+  parent.state.employees.forEach((employee) => {
+    mainAPI.updateMoney(parent, -employee.payment);
+  });
+}
+
 export const updateProgress = (contract, loc) => {
   contract.written += loc;
   contract.progress = contract.written / contract.loc * 100;
