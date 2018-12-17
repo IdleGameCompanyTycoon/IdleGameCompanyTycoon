@@ -3,9 +3,9 @@ import React from 'react';
 const EmployeeApplication = (props) => {
 
   return (
-    <div className="App-">
+    <div className="App-page-list-object">
       {/* TODO: Add Data*/}
-      <p>{`${props.application.givenName} ${props.application.lastName}`}</p>
+      {`${props.application.givenName} ${props.application.lastName}`}
       <p>Work speed: {props.application.loc} LoC</p>
       <p>Salary: {props.application.payment}€</p>
       <img src={props.application.imgUrl} alt="picture of employee"/>

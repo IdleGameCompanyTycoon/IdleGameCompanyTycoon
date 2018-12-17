@@ -2,7 +2,8 @@ import React from 'react';
 
 const AvailableContract =  (props) => {
   return (
-    <div className="App-">
+    <div className="App-page-list-object">
+
       <p>{props.contract.name}</p>
       <p>LoC to do: {props.contract.loc}</p>
       <p>{`${props.contract.description}`}</p>
@@ -14,6 +15,7 @@ const AvailableContract =  (props) => {
       <button
       onClick={() => props.action("declineContract", props.contract)
       }>Decline</button>
+      
     </div>
   )
 }
