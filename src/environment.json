@@ -1,6 +1,9 @@
 {
   "backend":"localhost:5000",
   "settings": {
+    "general": {
+      "timeForDay": 5
+    },
     "applications": {
       "minTime": 5,
       "maxTime": 20,

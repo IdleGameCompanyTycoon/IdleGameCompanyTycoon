@@ -9,28 +9,38 @@ export const updateMoney = (obj, dataObj) => {
 }
 
 // Update the date obj, accepts an dateObj as dataObj
-export const updateDate = (parent, days) => {
-  let tmpDate = parent.state.date;
+export const updateDate = (parent, days = 1) => {
+  let tmpDate = Object.assign({}, parent.state.date);
   tmpDate.day += days;
   if(tmpDate.day >= 31){
-    tmpDate.day -= 31;
+    tmpDate.day -= 30;
     tmpDate.month += 1;
 
     calcAPI.employeePayment(parent);
   } else if( tmpDate.month >= 12) {
-    tmpDate.month -= 1;
+    tmpDate.month -= 11 ;
     tmpDate.year += 1;
-
   }
   parent.setState({
     date: tmpDate
   })
 }
 
-export const updateEmploeeys = (parent, args, engine) => {
-  parent.state.employees.forEach((employee) =>{
-    updateLoc(parent, employee.loc, engine);
-  });
+//Pro team !!!
+//loc zusammenrechnen
+export const updateEmploeeys = (parent, args) => {
+  let loc = {};
+  console.log(parent.state.employees);
+  for(let employee of parent.state.employees){
+  if(!loc[employee.team]){
+      loc[employee.team] = 0;
+  }
+  loc[employee.team] += employee.loc;
+}
+
+  for(let team in loc){
+    updateLoc(parent, loc[team], team);
+  }
 }
 
 // On an animation frame click this function updates the LoC of the currently
@@ -42,11 +52,12 @@ export const locClick = (obj, dataObj) => {
   }
 }
 
-export const updateLoc =  (parent, loc, engine) => {
-  if(!parent.state.teams[engine.state.selectedTeam].activeContract) return;
-  let activeContractsArr = parent.state.activeContracts.slice(0);
+//statt engine team
+export const updateLoc =  (parent, loc, team) => {
+  if(!parent.state.teams[team].activeContract) return;
+  let activeContractsArr = parent.state.activeContracts;
 
-  let contract = calcAPI.getContractForTeam(activeContractsArr, engine.state.selectedTeam);
+  let contract = calcAPI.getContractForTeam(activeContractsArr, team);
   calcAPI.updateProgress(contract, loc);
   if(contract.progress >= 100){
     calcAPI.closeContract(parent, contract);
@@ -57,20 +68,20 @@ export const updateLoc =  (parent, loc, engine) => {
   }
 }
 
-export const acceptApplications = (parent, application, engine) => {
-  declineApplication(parent, application, engine);
+export const acceptApplications = (parent, application, team) => {
+  declineApplication(parent, application, team);
 
-  calcAPI.addTeamEmployee(engine, application);
+  calcAPI.addTeamEmployee(team, application);
 
-  let employeesArr = parent.state.employees.slice(0);
+  let employeesArr = parent.state.employees;
   employeesArr.push(application);
   parent.setState({
     employees: employeesArr
   })
 }
 
-export const declineApplication =  (parent, application, engine) => {
-  let availableApplicationsArr =  parent.state.availableApplications.slice(0);
+export const declineApplication =  (parent, application, team) => {
+  let availableApplicationsArr =  parent.state.availableApplications;
   let index = availableApplicationsArr.indexOf(application);
   if(index > -1) availableApplicationsArr.splice(index, 1);
 
@@ -79,24 +90,23 @@ export const declineApplication =  (parent, application, engine) => {
   })
 }
 
-export const acceptContract =  (parent, contract, engine) => {
-  let team = engine.selectedTeam;
-  if(!calcAPI.checkContract(parent, engine, contract)) {
+export const acceptContract =  (parent, contract, team) => {
+  if(!calcAPI.checkContract(parent, team, contract)) {
     calcAPI.notAvailable();
     return;
   }
   //remove contract from availableContracy array
-  declineContract(parent, contract, engine);
+  declineContract(parent, contract, team);
 
   contract.progress = 0;
   contract.written =  0;
   //add contract to activeContracts array
   calcAPI.addContract(parent, contract);
-  calcAPI.addTeamContract(parent, contract, engine);
+  calcAPI.addTeamContract(parent, contract, team);
 }
 
-export const declineContract = (parent, contract, engine) => {
-  let availableContractsArr = parent.state.availableContracts.slice(0);
+export const declineContract = (parent, contract, team) => {
+  let availableContractsArr = parent.state.availableContracts;
   let index = availableContractsArr.indexOf(contract);
 
   if(index > -1) availableContractsArr.splice(index, 1);

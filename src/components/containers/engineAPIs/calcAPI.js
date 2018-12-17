@@ -1,7 +1,7 @@
 import * as mainAPI from './mainAPI.js';
 
 export const addContract = (parent, contract) => {
-  let contractsArr = parent.state.activeContracts.slice(0);
+  let contractsArr = parent.state.activeContracts;
   contractsArr.push(contract);
   parent.setState({
     activeContracts: contractsArr
@@ -10,7 +10,7 @@ export const addContract = (parent, contract) => {
 
 export const closeContract =  (parent, contract) => {
   mainAPI.updateMoney(parent, contract.revenue);
-  let activeContractsArr = parent.state.activeContracts.slice(0);
+  let activeContractsArr = parent.state.activeContracts;
   let index =  activeContractsArr.indexOf(contract);
   activeContractsArr.splice(index, 1);
 
@@ -27,18 +27,18 @@ export const updateContract = (parent, oldContract, newContract) => {
   addContract(parent, newContract);
 }
 
-export const addTeamContract = (parent, contract,  engine) => {
-  parent.state.teams[engine.state.selectedTeam].activeContract = true;
-  contract.team = engine.state.selectedTeam;
+export const addTeamContract = (parent, contract,  team) => {
+  parent.state.teams[team].activeContract = true;
+  contract.team = team;
 }
 
-export const addTeamEmployee = (engine, dataObj) =>{
-  dataObj.team = engine.state.selectedTeam;
+export const addTeamEmployee = (team, dataObj) =>{
+  dataObj.team = team;
 
 }
 
-export const checkContract = (parent, engine, contract) => {
- return !parent.state.teams[engine.state.selectedTeam].activeContract;
+export const checkContract = (parent, team, contract) => {
+ return !parent.state.teams[team].activeContract;
 }
 
 export const notAvailable = () => {
@@ -55,9 +55,11 @@ export const getContractForTeam = (activeContracts, team) => {
 }
 
 export const employeePayment = (parent) => {
-  parent.state.employees.forEach((employee) => {
-    mainAPI.updateMoney(parent, -employee.payment);
-  });
+  let payment = 0;
+  for(let employee of parent.state.employees){
+    payment += employee.payment;
+  }
+  mainAPI.updateMoney(parent, -payment);
 }
 
 export const updateProgress = (contract, loc) => {

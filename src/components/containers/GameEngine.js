@@ -11,6 +11,7 @@ import ContractsPage from '../view/Pages/ContractsPage.js';
 import EmployeesPage from '../view/Pages/EmployeesPage.js';
 import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
+import environment from '../../environment.json';
 
 class GameEngine extends Component {
   state = {
@@ -29,7 +30,7 @@ class GameEngine extends Component {
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.parent, args, this);
+    this.actions[action](this.props.parent, args, this.state.selectedTeam);
   }
 
   componentDidMount() {
@@ -39,14 +40,16 @@ class GameEngine extends Component {
   }
 
   gameInterval(){
+    const timeForDay =  environment.settings.general.timeForDay * 1000;
+
     setInterval(() => {
-      mainAPI.updateEmploeeys(this.props.parent, 1, this);
+      //alles in updateDate funktion tuen
+      mainAPI.updateEmploeeys(this.props.parent, 1, this.state.selectedTeam);
       mainAPI.updateDate(this.props.parent, 1);
-    }, 1000);
+    }, timeForDay);
   }
 
   render() {
-    // TODO: Add correct page component instead
     return (
       <Main>
         <InfoPanel money={this.props.save.money}
@@ -57,7 +60,6 @@ class GameEngine extends Component {
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
                                             contracts={this.props.save.activeContracts}
-                                            parent={this.props.parent}
                                             action={this.triggerAction}/>}/>/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}
