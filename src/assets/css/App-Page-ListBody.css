@@ -9,18 +9,18 @@
 }
 
 .App-page-list-object {
-  background-color: grey;
+  background-color: gray;
   margin-bottom:5px;
   margin-top:5px;
   border-radius: 15px;
   padding:5px;
-  border-width: medium;
-  border-style: outset;
+  transition: 0.5s;
+
 }
 .App-page-list-object:hover{
-  border: transparent;
-  border-width: medium;
-  border-style: outset;
+  transition: 0.5s;
+  transition-timing-function: ease-in;
+  background-color: silver;
 }
 
 
