@@ -1,10 +1,11 @@
 import React from 'react';
 import Contracts from '../SubViews/AvailableContract.js';
-import '../../../assets/css/App-Page-Employee-Applications.css';
+import '../../../assets/css/App-Page-ListBody.css';
 
 const AvailableContractsPage = (props) => {
   return (
     <div className='App-page'>
+      <div className="App-page-list">
       {
         props.availableContracts.map((contract, i) =>
         <Contracts  key={i}
@@ -13,7 +14,7 @@ const AvailableContractsPage = (props) => {
        )
       }
 
-
+      </div>
     </div>
   )
 }

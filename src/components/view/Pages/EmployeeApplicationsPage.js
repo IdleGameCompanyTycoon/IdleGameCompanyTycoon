@@ -1,11 +1,12 @@
 import React from 'react';
 import EmployeeApplication from '../SubViews/EmployeeApplication.js';
-import '../../../assets/css/App-Page-Employee-Applications.css';
+import '../../../assets/css/App-Page-ListBody.css';
 
 const EmployeeApplicationsPage = (props) => {
 
   return (
     <div className='App-page'>
+      <div className="App-page-list">
       {
         props.availableApplications.map((application, i) =>
         <EmployeeApplication key={i}
@@ -13,6 +14,7 @@ const EmployeeApplicationsPage = (props) => {
                              action={props.action}/>
         )
       }
+      </div>
     </div>
   )
 

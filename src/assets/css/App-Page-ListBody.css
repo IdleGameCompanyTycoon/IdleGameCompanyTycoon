@@ -1,0 +1,35 @@
+.App-page-list {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 15px;
+  height: 100%;
+  width: 25vw;
+  background-color: pink;
+  overflow: auto;
+}
+
+.App-page-list-object {
+  background-color: gray;
+  margin-bottom:5px;
+  margin-top:5px;
+  border-radius: 15px;
+  padding:5px;
+  transition: 0.5s;
+
+}
+.App-page-list-object:hover{
+  transition: 0.5s;
+  transition-timing-function: ease-in;
+  background-color: silver;
+}
+
+
+
+.App-page-body {
+  padding-left: 10px;
+  border-radius: 15px;
+  height: 100%;
+  width: 75vw;
+  background-color: pink;
+  overflow: auto;
+}

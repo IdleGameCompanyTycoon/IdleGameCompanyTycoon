@@ -3,6 +3,8 @@ p {
 }
 
 .App {
+  align-items: center;
+  background-color: grey;
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
@@ -12,9 +14,10 @@ p {
 }
 
 .App-info-panel {
+  border-radius: 15px;
   box-sizing: border-box;
-  width: 100vw;
-  height: 50px;
+  width: 99vw;
+  height: 8vh;
   background: green;
   display: flex;
   flex-wrap: wrap;
@@ -27,22 +30,24 @@ p {
 
   .App-info-panel-home-button{
    margin-left: auto;
-   margin-right: 5px;
-   margin-top: 5px;
-   height: 40px;
-   border-width: 5px;
+   margin-right: 1vh;
+   margin-top: 1vh;
+   height: 6vh;
+   border-width: 2px;
    border-radius: 12px;
   }
 
 .App-animation-frame {
-  width: 100vw;
+  border-radius: 15px;
+  width: 99vw;
   height: 20vh;
   background: black;
   color: white;
 }
 
 .App-page {
-  width: 100vw;
+  border-radius: 15px;
+  width: 99vw;
   flex-grow: 1;
   flex-basis: 20px;
   background: yellow;
@@ -51,8 +56,9 @@ p {
 }
 
 nav {
+  border-radius: 15px;
   box-sizing: border-box;
-  width: 100vw;
+  width: 99vw;
   background: red;
   display: flex;
   flex-wrap: nowrap;
