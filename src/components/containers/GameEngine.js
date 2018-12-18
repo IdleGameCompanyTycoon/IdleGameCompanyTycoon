@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../assets/css/App-main-view.css';
 import * as mainAPI from './engineAPIs/mainAPI.js';
 import * as dataFetchApi from './engineAPIs/dataFetchApi.js';
+import * as contractAPI from './engineAPIs/contractAPI.js';
+import * as employeeAPI from './engineAPIs/employeeAPI.js';
 import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
@@ -22,10 +24,10 @@ class GameEngine extends Component {
     super();
     this.actions = {
       "userClick": mainAPI.updateLoc,
-      "acceptContract": mainAPI.acceptContract,
-      "declineContract": mainAPI.declineContract,
-      "acceptApplication": mainAPI.acceptApplications,
-      "declineApplication": mainAPI.declineApplication
+      "acceptContract": contractAPI.acceptContract,
+      "declineContract": contractAPI.declineContract,
+      "acceptApplication": employeeAPI.acceptApplications,
+      "declineApplication": employeeAPI.declineApplication
     }
   }
 
@@ -44,7 +46,7 @@ class GameEngine extends Component {
 
     setInterval(() => {
       //alles in updateDate funktion tuen
-      mainAPI.updateEmploeeys(this.props.parent, 1, this.state.selectedTeam);
+      employeeAPI.updateEmploeeys(this.props.parent, 1, this.state.selectedTeam);
       mainAPI.updateDate(this.props.parent, 1);
     }, timeForDay);
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../assets/css/App-SubViews.css'
-import {updateContract} from '../../containers/engineAPIs/mainAPI.js';
+//import {updateContract} from '../../containers/engineAPIs/mainAPI.js';
 import ProgressBar from './ProgressBar.js'
 
 const Contract = (props) => {

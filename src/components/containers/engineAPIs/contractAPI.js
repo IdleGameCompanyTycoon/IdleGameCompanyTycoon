@@ -1,4 +1,5 @@
 import * as mainAPI from './mainAPI.js';
+import * as employeeAPI from './employeeAPI.js';
 
 export const addContract = (parent, contract) => {
   let contractsArr = parent.state.activeContracts;
@@ -23,7 +24,7 @@ export const closeContract =  (parent, contract) => {
 }
 
 export const updateContract = (parent, oldContract, newContract) => {
-  mainAPI.declineContract(parent, oldContract);
+  declineContract(parent, oldContract);
   addContract(parent, newContract);
 }
 
@@ -32,17 +33,8 @@ export const addTeamContract = (parent, contract,  team) => {
   contract.team = team;
 }
 
-export const addTeamEmployee = (team, dataObj) =>{
-  dataObj.team = team;
-
-}
-
 export const checkContract = (parent, team, contract) => {
  return !parent.state.teams[team].activeContract;
-}
-
-export const notAvailable = () => {
-  console.log("You cant accept an other Contract!");
 }
 
 export const getContractForTeam = (activeContracts, team) => {
@@ -54,15 +46,33 @@ export const getContractForTeam = (activeContracts, team) => {
   return teamContract;
 }
 
-export const employeePayment = (parent) => {
-  let payment = 0;
-  for(let employee of parent.state.employees){
-    payment += employee.payment;
-  }
-  mainAPI.updateMoney(parent, -payment);
-}
-
 export const updateProgress = (contract, loc) => {
   contract.written += loc;
   contract.progress = contract.written / contract.loc * 100;
+}
+
+export const declineContract = (parent, contract, team) => {
+  let availableContractsArr = parent.state.availableContracts;
+  let index = availableContractsArr.indexOf(contract);
+
+  if(index > -1) availableContractsArr.splice(index, 1);
+
+  parent.setState({
+    availableContracts: availableContractsArr
+  })
+}
+
+export const acceptContract =  (parent, contract, team) => {
+  if(!checkContract(parent, team, contract)) {
+    mainAPI.notAvailable();
+    return;
+  }
+  //remove contract from availableContracy array
+  declineContract(parent, contract, team);
+
+  contract.progress = 0;
+  contract.written =  0;
+  //add contract to activeContracts array
+  addContract(parent, contract);
+  addTeamContract(parent, contract, team);
 }
