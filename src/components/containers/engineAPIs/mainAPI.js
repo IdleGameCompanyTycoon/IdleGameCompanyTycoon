@@ -2,9 +2,9 @@ import * as contractAPI from './contractAPI.js';
 import * as employeeAPI from './employeeAPI';
 
 // Update the money, accepts an integer as dataObj
-export const updateMoney = (obj, dataObj) => {
-  let newMoney = obj.state.money + dataObj;
-  obj.setState({
+export const updateMoney = (parent, money) => {
+  let newMoney = parent.state.money + money;
+  parent.setState({
     money: newMoney
   })
 }

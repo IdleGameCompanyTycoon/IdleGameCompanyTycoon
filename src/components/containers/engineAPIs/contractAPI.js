@@ -13,7 +13,7 @@ export const addContract = (parent, team, contract) => {
 }
 
 export const closeContract =  (parent, contract) => {
-  mainAPI.updateMoney(parent, contract.revenue);
+
   let activeContractsArr = parent.state.activeContracts;
   let index =  activeContractsArr.indexOf(contract);
   activeContractsArr.splice(index, 1);
@@ -29,6 +29,11 @@ export const closeContract =  (parent, contract) => {
   parent.setState({
     activeContracts: activeContractsArr
   })
+}
+
+export const cancelContract = (parent, contract, team) => {
+  closeContract(parent, contract);
+  mainAPI.updateMoney(parent, Math.floor(-contract.revenue/2));
 }
 
 export const updateContract = (parent, oldContract, newContract) => {
@@ -61,6 +66,7 @@ export const updateProgress = (parent, contract, loc) => {
 
   if(contract.progress >= 100){
     closeContract(parent, contract);
+    mainAPI.updateMoney(parent, contract.revenue);
   }
 }
 
