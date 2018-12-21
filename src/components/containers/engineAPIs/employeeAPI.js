@@ -1,9 +1,7 @@
 import * as mainAPI from './mainAPI.js';
 import * as contractAPI from './contractAPI.js';
 
-//Pro team !!!
-//loc zusammenrechnen
-export const updateEmploeeys = (parent, args) => {
+export const letEmploeeysWork = (parent, args) => {
   let loc = {};
   for(let employee of parent.state.employees){
   if(!loc[employee.team]){

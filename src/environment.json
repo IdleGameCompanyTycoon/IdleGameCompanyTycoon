@@ -2,7 +2,8 @@
   "backend":"localhost:5000",
   "settings": {
     "general": {
-      "timeForDay": 5
+      "timeForDay": 5,
+      "locGenerationPerClick": 100
     },
     "applications": {
       "minTime": 5,
@@ -10,9 +11,10 @@
       "maxApplications": 10
     },
     "contracts": {
-      "minTime": 5,
-      "maxTime": 20,
-      "maxContracts": 10
+      "minTime": 1,
+      "maxTime": 5,
+      "maxAvailableContracts": 10,
+      "maxActiveContracts": 10
     }
   }
 }

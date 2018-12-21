@@ -32,7 +32,7 @@ export const initContractsGen = (obj, dataObj) => {
   let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
   setTimeout(() => {
     let availableContractsArr = obj.state.availableContracts;
-    if(availableContractsArr.length < settings.maxContracts) {
+    if(availableContractsArr.length < settings.maxAvailableContracts) {
       fetch(`http://${environment.backend}/getData?operation=getContract`)
           .then(res => res.json())
           .then(res => {

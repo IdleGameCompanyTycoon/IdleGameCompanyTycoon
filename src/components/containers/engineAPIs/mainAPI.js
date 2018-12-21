@@ -13,6 +13,9 @@ export const updateMoney = (obj, dataObj) => {
 export const updateDate = (parent, days = 1) => {
   let tmpDate = Object.assign({}, parent.state.date);
   tmpDate.day += days;
+
+  employeeAPI.letEmploeeysWork(parent);
+
   if(tmpDate.day >= 31){
     tmpDate.day -= 30;
     tmpDate.month += 1;
@@ -42,16 +45,11 @@ export const locClick = (obj, dataObj) => {
 export const updateLoc =  (parent, loc, team) => {
   if(!parent.state.teams[team].activeContract) return;
   let activeContractsArr = parent.state.activeContracts;
-
-  let contract = contractAPI.getContractForTeam(activeContractsArr, team);
-  contractAPI.updateProgress(contract, loc);
-  if(contract.progress >= 100){
-    contractAPI.closeContract(parent, contract);
-  }else {
-    parent.setState({
-      activeContracts: activeContractsArr
-    })
-  }
+  let contract = contractAPI.getActiveContractForTeam(activeContractsArr, team);
+  contractAPI.updateProgress(parent, contract, loc);
+  parent.setState({
+    activeContracts: activeContractsArr
+  });
 }
 
 

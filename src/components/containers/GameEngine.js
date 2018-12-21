@@ -45,9 +45,7 @@ class GameEngine extends Component {
     const timeForDay =  environment.settings.general.timeForDay * 1000;
 
     setInterval(() => {
-      //alles in updateDate funktion tuen
-      employeeAPI.updateEmploeeys(this.props.parent, 1, this.state.selectedTeam);
-      mainAPI.updateDate(this.props.parent, 1);
+        mainAPI.updateDate(this.props.parent);
     }, timeForDay);
   }
 
