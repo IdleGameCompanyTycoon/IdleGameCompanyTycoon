@@ -7,27 +7,3 @@
   height: 100%;
   background-color: green;
 }
-
-/*.App- {
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-}
-
-.Progress-bar {
-    position: relative;
-    width: 200px;
-    height: 30px;
-    background-color: grey;
-
-}
-
-.Progress-bar-progress {
-    position: absolute;
-    height: 100%;
-    background-color: green;
-}
-*/

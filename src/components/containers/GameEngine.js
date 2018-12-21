@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../../assets/css/App-main-view.css';
 import * as mainAPI from './engineAPIs/mainAPI.js';
 import * as dataFetchApi from './engineAPIs/dataFetchApi.js';
+import * as contractAPI from './engineAPIs/contractAPI.js';
+import * as employeeAPI from './engineAPIs/employeeAPI.js';
 import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
@@ -11,6 +13,7 @@ import ContractsPage from '../view/Pages/ContractsPage.js';
 import EmployeesPage from '../view/Pages/EmployeesPage.js';
 import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
+import environment from '../../environment.json';
 
 class GameEngine extends Component {
   state = {
@@ -21,15 +24,15 @@ class GameEngine extends Component {
     super();
     this.actions = {
       "userClick": mainAPI.updateLoc,
-      "acceptContract": mainAPI.acceptContract,
-      "declineContract": mainAPI.declineContract,
-      "acceptApplication": mainAPI.acceptApplications,
-      "declineApplication": mainAPI.declineApplication
+      "acceptContract": contractAPI.acceptContract,
+      "declineContract": contractAPI.declineContract,
+      "acceptApplication": employeeAPI.acceptApplications,
+      "declineApplication": employeeAPI.declineApplication
     }
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.parent, args, this);
+    this.actions[action](this.props.parent, args, this.state.selectedTeam);
   }
 
   componentDidMount() {
@@ -39,14 +42,14 @@ class GameEngine extends Component {
   }
 
   gameInterval(){
+    const timeForDay =  environment.settings.general.timeForDay * 1000;
+
     setInterval(() => {
-      mainAPI.updateEmploeeys(this.props.parent, 1, this);
-      mainAPI.updateDate(this.props.parent, 1);
-    }, 1000);
+        mainAPI.updateDate(this.props.parent);
+    }, timeForDay);
   }
 
   render() {
-    // TODO: Add correct page component instead
     return (
       <Main>
         <InfoPanel money={this.props.save.money}
@@ -57,7 +60,6 @@ class GameEngine extends Component {
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
                                             contracts={this.props.save.activeContracts}
-                                            parent={this.props.parent}
                                             action={this.triggerAction}/>}/>/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}

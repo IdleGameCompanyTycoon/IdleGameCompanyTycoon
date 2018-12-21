@@ -3,9 +3,7 @@ import environment from '../../../environment.json';
 // Initiate the fetching of new applications
 export const initApplicationGen = (obj, dataObj) => {
   const settings =  environment.settings.applications
-  //let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
-  let randomTimer = 1;
-
+  let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
   setTimeout(() => {
     let availableApplicationsArr = obj.state.availableApplications;
     if(availableApplicationsArr.length < settings.maxApplications) {
@@ -31,11 +29,10 @@ export const initApplicationGen = (obj, dataObj) => {
 // Initiate the fetching of new applications
 export const initContractsGen = (obj, dataObj) => {
   const settings =  environment.settings.contracts
-//  let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
- let randomTimer = 1000;
+  let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
   setTimeout(() => {
     let availableContractsArr = obj.state.availableContracts;
-    if(availableContractsArr.length < settings.maxContracts) {
+    if(availableContractsArr.length < settings.maxAvailableContracts) {
       fetch(`http://${environment.backend}/getData?operation=getContract`)
           .then(res => res.json())
           .then(res => {

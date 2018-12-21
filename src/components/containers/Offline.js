@@ -18,7 +18,9 @@ class Offline extends Component {
     teams: {
       0: {
         taskType: "",
-        selectedTaskId:""
+        selectedTaskId:"",
+        activeContract: false,
+        numberOfContracts: 0
       }
     }
   }
