@@ -14,7 +14,9 @@ const Contract = (props) => {
                   <p>Progress: {Math.floor(props.contract.progress)} %</p>
       <p>Revenue: {`${props.contract.revenue}`} $</p>
       <p>{`${props.contract.description}`}</p>
-
+      <button
+        onClick={() => props.action("cancelContract", props.contract)
+      }>Cancel</button>
     </div>
   )
 }

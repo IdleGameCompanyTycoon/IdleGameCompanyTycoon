@@ -26,6 +26,7 @@ class GameEngine extends Component {
       "userClick": mainAPI.updateLoc,
       "acceptContract": contractAPI.acceptContract,
       "declineContract": contractAPI.declineContract,
+      "cancelContract": contractAPI.cancelContract,
       "acceptApplication": employeeAPI.acceptApplications,
       "declineApplication": employeeAPI.declineApplication
     }
