@@ -33,7 +33,7 @@ export const closeContract =  (parent, contract) => {
 
 export const cancelContract = (parent, contract, team) => {
   closeContract(parent, contract);
-  mainAPI.updateMoney(parent, Math.floor(-contract.revenue/2));
+  mainAPI.updateMoney(parent, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel));
 }
 
 export const updateContract = (parent, oldContract, newContract) => {

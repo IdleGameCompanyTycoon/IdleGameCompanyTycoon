@@ -5,16 +5,20 @@
       "timeForDay": 5,
       "locGenerationPerClick": 100
     },
+    "employees": {
+
+    },
     "applications": {
       "minTime": 5,
       "maxTime": 20,
       "maxApplications": 10
     },
     "contracts": {
-      "minTime": 1,
-      "maxTime": 5,
+      "minTime": 5,
+      "maxTime": 20,
       "maxAvailableContracts": 10,
-      "maxActiveContracts": 10
+      "maxActiveContracts": 10,
+      "costForCancel": 0.4
     }
   }
 }

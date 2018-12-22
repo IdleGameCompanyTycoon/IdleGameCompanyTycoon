@@ -28,7 +28,8 @@ class GameEngine extends Component {
       "declineContract": contractAPI.declineContract,
       "cancelContract": contractAPI.cancelContract,
       "acceptApplication": employeeAPI.acceptApplications,
-      "declineApplication": employeeAPI.declineApplication
+      "declineApplication": employeeAPI.declineApplication,
+      "fireEmployee": employeeAPI.fireEmployee
     }
   }
 
@@ -68,8 +69,8 @@ class GameEngine extends Component {
                                             action={this.triggerAction}/>}/>
           <Route exact path="/employees"
                  render={routeProps => <EmployeesPage {...routeProps}
-                                            parent={this.props.parent}
-                                            employees={this.props.save.employees} />}/>
+                                            employees={this.props.save.employees}
+                                            action={this.triggerAction}/>}/>
           <Route exact path="/employeeApplications"
                  render={routeProps => <EmployeeApplicationsPage {...routeProps}
                                             availableApplications={this.props.save.availableApplications}

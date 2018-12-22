@@ -15,11 +15,6 @@ export const letEmploeeysWork = (parent, args) => {
   }
 }
 
-export const addTeamEmployee = (team, dataObj) =>{
-  dataObj.team = team;
-
-}
-
 export const employeePayment = (parent) => {
   let payment = 0;
   for(let employee of parent.state.employees){
@@ -30,9 +25,7 @@ export const employeePayment = (parent) => {
 
 export const acceptApplications = (parent, application, team) => {
   declineApplication(parent, application, team);
-
-  addTeamEmployee(team, application);
-
+  application.team =  team;
   let employeesArr = parent.state.employees;
   employeesArr.push(application);
   parent.setState({
@@ -48,4 +41,13 @@ export const declineApplication =  (parent, application, team) => {
   parent.setState({
     availableApplications: availableApplicationsArr
   })
+}
+
+export const fireEmployee = (parent, employee) => {
+  let employeesArr = parent.state.employees;
+  let index = employeesArr.indexOf(employee);
+
+  if(index > -1){
+    employeesArr.splice(index, 1);
+  }
 }

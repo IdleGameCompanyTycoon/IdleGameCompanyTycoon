@@ -5,9 +5,10 @@ const EmployeesPage = (props) => {
   return (
     <div className='App-page'>
       {
-        props.parent.state.employees.map((application, i) =>
+        props.employees.map((employee, i) =>
         <Employee key={i}
-                  application={application}/>
+                  employee={employee}
+                  action={props.action}/>
         )
 
       }
