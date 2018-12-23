@@ -42,7 +42,7 @@ export const updateContract = (parent, oldContract, newContract) => {
 }
 
 export const checkContract = (parent, team, contract) => {
- if(parent.state.teams[team].numberOfContracts > environment.settings.contracts.maxActiveContracts){
+ if(parent.state.teams[team].numberOfContracts >= environment.settings.contracts.maxActiveContracts){
    return false;
  }else{
    return true;
