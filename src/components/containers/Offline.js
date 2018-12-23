@@ -27,13 +27,27 @@ class Offline extends Component {
 
   // TODO: Check if Local saves exist, if not initalize default data from the server
   componentDidMount() {
+    let savedSelection = localStorage.getItem('Saves');
+    console.log(savedSelection + " GameEngine");
+    if(savedSelection) {
+      savedSelection = JSON.parse(savedSelection);
+      this.setState({
+        ...savedSelection
+      })
+    }
+  }
 
+  saveToLocalStorage = () => {
+    console.log(this.state);
+    let selection = JSON.stringify(this.state);
+    localStorage.setItem('Saves', selection);
   }
 
   render() {
     return(
       <React.Fragment>
-        {this.state.money && <GameEngine save={this.state} parent={this} goToHome={this.props.goToHome}/>}
+        {this.state.money && <GameEngine  save={this.state} parent={this} goToHome={this.props.goToHome}
+                                          saveLocal={this.saveToLocalStorage}/>}
       </React.Fragment>
     )
   }

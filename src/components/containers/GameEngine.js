@@ -48,6 +48,7 @@ class GameEngine extends Component {
 
     setInterval(() => {
         mainAPI.updateDate(this.props.parent);
+        this.props.saveLocal();
     }, timeForDay);
   }
 
