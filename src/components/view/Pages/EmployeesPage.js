@@ -9,8 +9,7 @@ const EmployeesPage = (props) => {
         <Employee key={i}
                   employee={employee}
                   action={props.action}/>
-        )
-
+            )
       }
 
     </div>

@@ -9,7 +9,7 @@ const InfoPanel = (props) => {
         </div>
 
         <button className="App-info-panel-home-button"
-                onClick={props.goToHome}>Home</button>
+                onClick={() => {props.goToHome()}}>Home</button>
     </div>
   )
 }
