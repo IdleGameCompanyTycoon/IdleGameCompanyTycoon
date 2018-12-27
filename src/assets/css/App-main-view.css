@@ -14,7 +14,8 @@ p {
 }
 
 .App-info-panel {
-  border-radius: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   box-sizing: border-box;
   width: 99vw;
   height: 8vh;
@@ -38,15 +39,14 @@ p {
   }
 
 .App-animation-frame {
-  border-radius: 15px;
   width: 99vw;
   height: 20vh;
   background: black;
   color: white;
+  overflow: hidden;
 }
 
 .App-page {
-  border-radius: 15px;
   width: 99vw;
   flex-grow: 1;
   flex-basis: 20px;
@@ -56,11 +56,18 @@ p {
 }
 
 nav {
-  border-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
   box-sizing: border-box;
   width: 99vw;
   background: red;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
+}
+hr {
+  width: 95%;
+  color:black;
+  margin-top: -1px;
+  margin-bottom: -1px;
 }

@@ -4,6 +4,7 @@ import Employee from '../SubViews/Employee.js';
 const EmployeesPage = (props) => {
   return (
     <div className='App-page'>
+      <div className="App-page-list">
       {
         props.employees.map((employee, i) =>
         <Employee key={i}
@@ -12,7 +13,7 @@ const EmployeesPage = (props) => {
         )
 
       }
-
+      </div>
     </div>
   )
 }

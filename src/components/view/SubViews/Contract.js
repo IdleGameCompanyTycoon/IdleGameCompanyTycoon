@@ -6,17 +6,23 @@ import ProgressBar from './ProgressBar.js'
 const Contract = (props) => {
 
   return (
-    <div className="App-">
+    <div>
+      <hr>
+      </hr>
+
+    <div className="App-page-list-object">
       <p>{props.contract.name}</p>
 
-      <ProgressBar  text="test"
+      <ProgressBar
                     contract={props.contract}/>
                   <p>Progress: {Math.floor(props.contract.progress)} %</p>
       <p>Revenue: {`${props.contract.revenue}`} $</p>
-      <p>{`${props.contract.description}`}</p>
       <button
         onClick={() => props.action("cancelContract", props.contract)
       }>Cancel</button>
+    </div>
+    <hr>
+    </hr>
     </div>
   )
 }

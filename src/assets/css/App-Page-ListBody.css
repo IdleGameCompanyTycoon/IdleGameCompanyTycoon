@@ -1,35 +1,33 @@
 .App-page-list {
-  padding-left: 10px;
-  padding-right: 10px;
-  border-radius: 15px;
-  height: 100%;
-  width: 25vw;
-  background-color: pink;
+  padding:10px 0;
+  height: 95%;
+  width: 20vw;
+  background-color: silver;
   overflow: auto;
-}
+  float: left;
 
+}
 .App-page-list-object {
-  background-color: gray;
-  margin-bottom:5px;
-  margin-top:5px;
-  border-radius: 15px;
-  padding:5px;
+  font-size: 10pt;
+  background-color: silver;
+  padding:10px 15px;
   transition: 0.5s;
 
 }
+
 .App-page-list-object:hover{
   transition: 0.5s;
   transition-timing-function: ease-in;
-  background-color: silver;
+  background-color: gray;
 }
 
-
-
 .App-page-body {
-  padding-left: 10px;
-  border-radius: 15px;
-  height: 100%;
+  visibility: hidden;
+  float:right;
+  color: none;
+  padding:10px 0;
+  height: 95%;
   width: 75vw;
-  background-color: pink;
+  background-color: silver;
   overflow: auto;
 }

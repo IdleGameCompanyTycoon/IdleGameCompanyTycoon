@@ -7,6 +7,7 @@ const EmployeeApplicationsPage = (props) => {
   return (
     <div className='App-page'>
       <div className="App-page-list">
+        
       {
         props.availableApplications.map((application, i) =>
         <EmployeeApplication key={i}
