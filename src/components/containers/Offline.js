@@ -38,7 +38,6 @@ class Offline extends Component {
   }
 
   saveToLocalStorage = () => {
-    console.log(this.state);
     let selection = JSON.stringify(this.state);
     localStorage.setItem('Saves', selection);
   }
