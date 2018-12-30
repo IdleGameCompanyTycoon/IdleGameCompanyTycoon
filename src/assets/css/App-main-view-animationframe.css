@@ -9,14 +9,11 @@
   display: inline-block;
   animation: floatText 15s infinite linear;
   padding-top: 20vh; /*Initial offset*/
+  line-height: 0.5em;
 }
 
 @keyframes floatText {
   to {
     transform: translateY(-100%);
   }
-}
-
-p {
-  line-height: 5pt;
 }

@@ -22,8 +22,9 @@ p {
   background: #5a7f79;
   display: flex;
   flex-wrap: wrap;
-  padding: 1vh 1vw;
+  padding: 0vh 1vw;
   border-radius: 2vh;
+
 }
 
 .App-animation-frame {

@@ -7,8 +7,7 @@ const Contract = (props) => {
 
   return (
     <div>
-      <hr>
-      </hr>
+      
     <div className="App-page-list-object">
       <p>{props.contract.name}</p>
       <ProgressBar

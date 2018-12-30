@@ -5,6 +5,9 @@
   background-color: #eae0cc;
   overflow: auto;
   float: left;
+  border: 2px solid #5a7f79;
+  border-radius: 0.5vh;
+  box-sizing: border-box;
 }
 
 .App-page-list-object {
@@ -24,10 +27,13 @@
   float:right;
   color: none;
   padding:10px 0;
-  height: 97%;
+  height: 96%;
   width: 79vw;
   background-color: #eae0cc;
   overflow: auto;
+  box-sizing: border-box;
+  border: 2px solid #5a7f79;
+  border-radius: 0.5vh;
 }
 .App-page-body-object {
   padding: 10px 15px;
