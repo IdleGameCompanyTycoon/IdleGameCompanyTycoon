@@ -17,7 +17,7 @@ const AvailableContractsPage = (props) => {
 
       </div>
       <div className="App-page-body">
-        
+        {/* TODO: Add Data*/}
       </div>
     </div>
   )

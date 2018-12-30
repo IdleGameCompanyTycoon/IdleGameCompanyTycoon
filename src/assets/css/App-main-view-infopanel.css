@@ -1,0 +1,27 @@
+.App-info-panel-homebutton{
+  margin-right: 0.5vw;
+  height: 4vh;
+  background-color: #2292a4;
+  color: white;
+  border-radius: 0.5vh;
+  padding: 1vh;
+  border: none;
+}
+
+.App-info-panel-money{
+  margin-left: 1vw;
+}
+
+.App-info-panel-date{
+  margin-left: auto;
+  margin-right: 1vw;
+  float: right;
+}
+
+.App-info-panel-locgen{
+  margin-left: 1vw;
+}
+
+.App-info-panel-expenses{
+  margin-left: 1vw;
+}

@@ -3,8 +3,9 @@ p {
 }
 
 .App {
+  font-size: 10pt;
   align-items: center;
-  background-color: grey;
+  background-color: #eae0cc;
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
@@ -14,34 +15,23 @@ p {
 }
 
 .App-info-panel {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  margin: 1vh 0;
   box-sizing: border-box;
   width: 99vw;
-  height: 8vh;
-  background: green;
+  height: 6vh;
+  background: #5a7f79;
   display: flex;
   flex-wrap: wrap;
+  padding: 1vh 1vw;
+  border-radius: 2vh;
 }
 
-  .App-info-panel-data{
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .App-info-panel-home-button{
-   margin-left: auto;
-   margin-right: 1vh;
-   margin-top: 1vh;
-   height: 6vh;
-   border-width: 2px;
-   border-radius: 12px;
-  }
-
 .App-animation-frame {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
   width: 99vw;
   height: 20vh;
-  background: black;
+  background: #2292a4;
   color: white;
   overflow: hidden;
 }
@@ -50,9 +40,9 @@ p {
   width: 99vw;
   flex-grow: 1;
   flex-basis: 20px;
-  background: yellow;
+  background: #eae0cc;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: hidden;
 }
 
 nav {
@@ -60,14 +50,14 @@ nav {
   border-bottom-left-radius: 15px;
   box-sizing: border-box;
   width: 99vw;
-  background: red;
+  background: #5a7f79;
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
 }
 hr {
   width: 95%;
-  color:black;
+  color:#5a7f79;
   margin-top: -1px;
   margin-bottom: -1px;
 }

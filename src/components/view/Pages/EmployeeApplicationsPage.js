@@ -7,7 +7,7 @@ const EmployeeApplicationsPage = (props) => {
   return (
     <div className='App-page'>
       <div className="App-page-list">
-        
+
       {
         props.availableApplications.map((application, i) =>
         <EmployeeApplication key={i}
@@ -15,6 +15,9 @@ const EmployeeApplicationsPage = (props) => {
                              action={props.action}/>
         )
       }
+      </div>
+      <div className="App-page-body">
+        {/* TODO: Add Data*/}
       </div>
     </div>
   )

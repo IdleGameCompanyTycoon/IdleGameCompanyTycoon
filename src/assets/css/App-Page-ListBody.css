@@ -1,15 +1,14 @@
 .App-page-list {
   padding:10px 0;
-  height: 95%;
+  height: 96%;
   width: 20vw;
-  background-color: silver;
+  background-color: #eae0cc;
   overflow: auto;
   float: left;
-
 }
+
 .App-page-list-object {
-  font-size: 10pt;
-  background-color: silver;
+  background-color: #eae0cc;
   padding:10px 15px;
   transition: 0.5s;
 
@@ -18,16 +17,18 @@
 .App-page-list-object:hover{
   transition: 0.5s;
   transition-timing-function: ease-in;
-  background-color: gray;
+  background-color: #5a7f79;
 }
 
 .App-page-body {
-  visibility: hidden;
   float:right;
   color: none;
   padding:10px 0;
-  height: 95%;
-  width: 75vw;
-  background-color: silver;
+  height: 97%;
+  width: 79vw;
+  background-color: #eae0cc;
   overflow: auto;
+}
+.App-page-body-object {
+  padding: 10px 15px;
 }

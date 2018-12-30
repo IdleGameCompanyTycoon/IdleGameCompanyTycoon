@@ -7,7 +7,6 @@ const EmployeeApplication = (props) => {
       <hr>
       </hr>
       <div className="App-page-list-object">
-
         <table>
           <tbody>
           <tr>
@@ -22,32 +21,21 @@ const EmployeeApplication = (props) => {
               <p>
                 Work speed: {props.application.loc} LoC
               </p>
-
               <p>Salary: {props.application.payment}€</p>
-
-
-
               <button
                 onClick={() => props.action("acceptApplication", props.application)
                 }>Accept</button>
-
-
-                <button
-                  onClick={() => props.action("declineApplication", props.application)
-                  }>Decline</button>
+              <button
+                onClick={() => props.action("declineApplication", props.application)
+                }>Decline</button>
             </td>
           </tr>
           </tbody>
         </table>
-
-
-          </div>
-
-          <hr>
-          </hr>
-
-        </div>
-
+      </div>
+      <hr>
+      </hr>
+    </div>
   )
 }
 
