@@ -6,6 +6,7 @@ const AvailableContractsPage = (props) => {
   return (
     <div className='App-page'>
       <div className="App-page-list">
+
       {
         props.availableContracts.map((contract, i) =>
         <Contracts  key={i}
@@ -14,6 +15,9 @@ const AvailableContractsPage = (props) => {
        )
       }
 
+      </div>
+      <div className="App-page-body">
+        {/* TODO: Add Data*/}
       </div>
     </div>
   )

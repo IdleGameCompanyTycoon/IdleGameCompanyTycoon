@@ -3,14 +3,15 @@
   margin: 1vh;
   padding: 0.5vh;
   border: none;
-  background-color: #008CBA;
+  background-color: #2292a4;
   color: white;
   text-decoration: none;
-  align-items: center;
-  display: table;
+  display: flex;
   border-radius: 0.5vh;
 }
 .Button-style-icon {
   height: 2vh;
   width: auto;
+  margin-right: 1vw;
+
 }

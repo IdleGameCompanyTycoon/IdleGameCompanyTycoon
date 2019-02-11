@@ -1,9 +1,11 @@
 import React from 'react';
 import Contracts from '../SubViews/Contract.js'
+import '../../../assets/css/App-Page-ListBody.css';
 
 const ContractsPage = (props) => {
   return (
     <div className='App-page'>
+      <div className="App-page-list">
       {
         props.contracts.map((contract, i) =>
           <Contracts  key={i}
@@ -11,6 +13,7 @@ const ContractsPage = (props) => {
                       action={props.action}/>
        )
       }
+      </div>
     </div>
   )
 }

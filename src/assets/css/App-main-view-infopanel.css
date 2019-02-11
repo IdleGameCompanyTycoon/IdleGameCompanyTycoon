@@ -1,0 +1,36 @@
+.App-info-panel-homebutton{
+  margin-right: 0.5vw;
+  margin-top:1vh;
+  height: 4vh;
+  background-color: #2292a4;
+  color: white;
+  border-radius: 0.5vh;
+  padding: 1vh;
+  border: none;
+}
+
+.App-info-panel-money{
+  margin-top:0;
+  margin-left: 1vw;
+  line-height: 6vh;
+}
+
+.App-info-panel-date{
+  margin-top:0;
+  margin-left: auto;
+  margin-right: 1vw;
+  float: right;
+  line-height: 6vh;
+}
+
+.App-info-panel-locgen{
+  margin-top:0;
+  margin-left: 1vw;
+  line-height: 6vh;
+}
+
+.App-info-panel-expenses{
+  margin-top:0;
+  margin-left: 1vw;
+  line-height: 6vh;
+}
