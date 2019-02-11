@@ -7,11 +7,12 @@ const Contract = (props) => {
 
   return (
     <div>
-      
+
     <div className="App-page-list-object">
       <p>{props.contract.name}</p>
       <ProgressBar
-                    contract={props.contract}/>
+                    contract={props.contract}
+                    text={Math.floor(props.contract.progress)}/>
                   <p>Progress: {Math.floor(props.contract.progress)} % of {props.contract.loc}</p>
       <p>Revenue: {`${props.contract.revenue}`} $</p>
       <button

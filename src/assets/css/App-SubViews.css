@@ -1,9 +1,18 @@
 .Progress-bar {
   height: 25px;
   background-color: red;
+  display:flex;
+  flex-direction: column;
 }
 
 .Progress-bar-progress{
   height: 100%;
   background-color: green;
+  float: left;
+}
+
+.Progress-bar-text{
+  padding: 0.5vh;
+  color: white;
+  float:right;
 }

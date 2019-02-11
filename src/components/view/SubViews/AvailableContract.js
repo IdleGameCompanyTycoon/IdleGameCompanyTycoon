@@ -11,7 +11,9 @@ const AvailableContract =  (props) => {
         <p>
           {props.contract.name}
         </p>
-
+        <p>
+          This is a {props.contract.contractType} Contract
+        </p>
         <p>
           Needed Lines of Code: {props.contract.loc}
         </p>
