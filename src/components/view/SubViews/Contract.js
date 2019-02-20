@@ -4,7 +4,6 @@ import '../../../assets/css/App-SubViews.css'
 import ProgressBar from './ProgressBar.js'
 
 const Contract = (props) => {
-
   return (
     <div>
 
@@ -18,9 +17,17 @@ const Contract = (props) => {
         <p>
           This is a {props.contract.contractType} Contract
         </p>
+        <p>Time left: {props.contract.time}</p>
+        <p>Pinned: {`${props.contract.pinned}`}</p>
       <button
         onClick={() => props.action("cancelContract", props.contract)
       }>Cancel</button>
+
+      <button
+        onClick={() => props.action("setContractActive", props.contract)
+      }>set Active</button>
+
+
     </div>
     <hr>
     </hr>

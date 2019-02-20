@@ -23,6 +23,7 @@ class GameEngine extends Component {
   constructor() {
     super();
     this.actions = {
+      "setContractActive": contractAPI.setContractManualActive,
       "userClick": mainAPI.updateLoc,
       "acceptContract": contractAPI.acceptContract,
       "declineContract": contractAPI.declineContract,
@@ -63,6 +64,7 @@ class GameEngine extends Component {
           <Route exact path="/contracts"
                  render={routeProps => <ContractsPage {...routeProps}
                                             contracts={this.props.save.activeContracts}
+                                            volumeContracts={this.props.save.volumeContracts}
                                             action={this.triggerAction}/>}/>/>}/>
           <Route exact path="/availableContracts"
                  render={routeProps => <AvailableContractsPage {...routeProps}

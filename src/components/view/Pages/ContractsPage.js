@@ -11,7 +11,16 @@ const ContractsPage = (props) => {
           <Contracts  key={i}
                       contract={contract}
                       action={props.action}/>
-       )
+        )
+      }
+      </div>
+      <div className="App-page-list">
+      {
+        props.volumeContracts.map((contract, i) =>
+          <Contracts  key={i}
+                      contract={contract}
+                      action={props.action}/>
+        )
       }
       </div>
     </div>

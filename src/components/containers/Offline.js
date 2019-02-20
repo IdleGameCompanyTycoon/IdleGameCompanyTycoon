@@ -6,8 +6,10 @@ class Offline extends Component {
   //  TODO: These are just example save data, implement backend and local saves
   state = {
     money: 100,
+    reputation: 1, //Dummy value
     availableContracts: [],
     activeContracts: [],
+    volumeContracts: [],
     availableApplications: [],
     employees: [],
     date: {

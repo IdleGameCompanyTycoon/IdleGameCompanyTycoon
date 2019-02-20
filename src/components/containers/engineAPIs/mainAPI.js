@@ -15,14 +15,15 @@ export const updateDate = (parent, days = 1) => {
   tmpDate.day += days;
 
   employeeAPI.letEmploeeysWork(parent);
+  contractAPI.timeContracts(parent);
 
   if(tmpDate.day >= 31){
+    contractAPI.resetVolumeContract(parent);
     tmpDate.day -= 30;
     tmpDate.month += 1;
-
     employeeAPI.employeePayment(parent);
   } else if( tmpDate.month >= 12) {
-    tmpDate.month -= 11 ;
+    tmpDate.month -= 11;
     tmpDate.year += 1;
   }
   parent.setState({
@@ -45,18 +46,17 @@ export const locClick = (obj, dataObj) => {
 export const updateLoc =  (parent, loc, team) => {
   if(!parent.state.teams[team].activeContract) return;
   let activeContractsArr = parent.state.activeContracts;
-  let contract = contractAPI.getActiveContractForTeam(activeContractsArr, team);
-  contractAPI.updateProgress(parent, contract, loc);
+  do{
+    if(parent.state.teams[team].activeContract){
+      loc = contractAPI.updateProgress(parent,contractAPI.getActiveContractForTeam(activeContractsArr, team), loc);
+    }else{
+      break;
+    }
+  }while (loc > 0);
   parent.setState({
     activeContracts: activeContractsArr
   });
 }
-
-
-
-
-
-
 
 
 
