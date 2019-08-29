@@ -8,7 +8,7 @@ export const updateMoney = (setParentState, money, selectedTeam, getParentState)
 }
 
 // Update the date obj, accepts an dateObj as dataObj
-export const updateDate = (parent, days = 1) => {
+export const updateDate = (setParentState, days = 1, getParentState) => {
   let tmpDate = Object.assign({}, getParentState('date'));
   tmpDate.day += days;
 

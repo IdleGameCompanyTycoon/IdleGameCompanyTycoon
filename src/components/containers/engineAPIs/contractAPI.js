@@ -56,12 +56,12 @@ export const resetVolumeContract = (setParentState, getParentState) => {
   if(revenue !== 0){
       mainAPI.updateMoney(setParentState, revenue, undefined, getParentState);
   }
-  parent.setState({});
+  setParentState({});
 }
 
 export const updateContract = (setParentState, oldContract, newContract, getParentState) => {
-  declineContract(setParentState, oldContract, team, getParentState);
-  addContract(setParentState, newContract, team, getParentState);
+  declineContract(setParentState, oldContract, null, getParentState);
+  addContract(setParentState, newContract, null, getParentState);
 }
 
 export const getActiveContractForTeam = (activeContracts, team) => {
@@ -92,7 +92,7 @@ export const updateProgress = (setParentState, contract, loc, getParentState) =>
     }else{
       mainAPI.updateMoney(setParentState, contract.revenue, undefined, getParentState);
     }
-    closeContract(setParentState, contract, getParentState<);
+    closeContract(setParentState, contract, getParentState);
   }
   return remain;
 }
@@ -122,7 +122,7 @@ export const acceptContract =  (setParentState, contract, team, getParentState) 
       break;
     case "volume": contract.time = 1;
         contract.terminated = false;
-        contract.dateOfBegin = parent.state.date.day;
+        contract.dateOfBegin = getParentState('date').day;
   }
 
   //add contract to activeContracts array
@@ -131,13 +131,13 @@ export const acceptContract =  (setParentState, contract, team, getParentState) 
 }
 
 export const timeContracts = (setParentState, getParentState) => {
-  parent.state.activeContracts.forEach((contract) => {
+  getParentState('activeContracts').forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
-      closeContract(parent, contract);
+      closeContract(setParentState, contract, getParentState);
       mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
     }
   });
-  parent.state.volumeContracts.forEach((contract) => {
+  getParentState('volumeContracts').forEach((contract) => {
     if(contract.terminated === true && --contract.time < 1){
       closeContract(setParentState, contract, getParentState);
       mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
