@@ -35,12 +35,12 @@ class GameEngine extends Component {
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.parent, args, this.state.selectedTeam);
+    this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
   }
 
   componentDidMount() {
-    dataFetchApi.initApplicationGen(this.props.parent);
-    dataFetchApi.initContractsGen(this.props.parent);
+    dataFetchApi.initApplicationGen(this.props.setParentState, this.props.getParentState);
+    dataFetchApi.initContractsGen(this.props.setParentState, this.props.getParentState);
     this.gameInterval();
   }
 

@@ -2,46 +2,44 @@ import * as mainAPI from './mainAPI.js';
 import * as employeeAPI from './employeeAPI.js';
 import environment from '../../../environment.json';
 
-export const addContract = (parent, team, contract) => {
-  let volumeArray = parent.state.volumeContracts;
-  let contractsArr = parent.state.activeContracts;
+export const addContract = (setParentState, contract, team, getParentState) => {
+  let volumeArray = getParentState('volumeContracts');
+  let contractsArr = getParentState('activeContracts');
   contractsArr.push(contract);
   contract.team = team;
-  parent.setState({
+  setParentState(null, {
     activeContracts: contractsArr,
     volumeContracts: volumeArray
   })
 
 }
 
-export const closeContract =  (parent, contract) => {
+export const closeContract =  (setParentState, contract, getParentState) => {
   if(contract.type === "volume" && contract.terminated !== true) return;
-  let activeContractsArr = parent.state.activeContracts;
+  let activeContractsArr = getParentState('activeContracts');
   let index =  activeContractsArr.indexOf(contract);
   activeContractsArr.splice(index, 1);
-  setContractActive(parent);
-  parent.setState({
-    activeContracts: activeContractsArr
-  })
+  setContractActive(setParentState, undefined, undefined, getParentState);
+  setParentState('activeContracts', activeContractsArr);
 }
 
-export const cancelContract = (parent, contract, team) => {
+export const cancelContract = (setParentState, contract, team, getParentState) => {
   contract.terminated = true;
   if(contract.contractType !== "volume"){
-    closeContract(parent, contract);
-    mainAPI.updateMoney(parent, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel));
+    closeContract(setParentState, contract, getParentState);
+    mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
   }else{
-    contract.time =  31 - parent.state.date.day;
+    contract.time =  31 - getParentState('date').day;
   }
 }
 
-export const resetVolumeContract = (parent) => {
+export const resetVolumeContract = (setParentState, getParentState) => {
   let revenue = 0;
-  parent.state.volumeContracts.forEach((contract) => {
-    parent.state.activeContracts.push(contract);
+  getParentState('volumeContracts').forEach((contract) => {
+    getParentState('activeContracts').push(contract);
   });
 
-  parent.state.activeContracts.forEach((contract) => {
+  getParentState('activeContracts').forEach((contract) => {
     if(contract.contractType !== "volume") return;
     if(contract.progress < 100){
       revenue -= Math.floor(contract.revenue*environment.settings.contracts.costForCancel / contract.dateOfBegin);
@@ -53,17 +51,17 @@ export const resetVolumeContract = (parent) => {
     contract.progress = 0;
     contract.active = false;
   });
-  parent.state.volumeContracts = [];
-  setContractActive(parent);
+  setParentState('volumeContracts', []);
+  setContractActive(setParentState, undefined, undefined, getParentState);
   if(revenue !== 0){
-      mainAPI.updateMoney(parent, revenue);
+      mainAPI.updateMoney(setParentState, revenue, undefined, getParentState);
   }
   parent.setState({});
 }
 
-export const updateContract = (parent, oldContract, newContract) => {
-  declineContract(parent, oldContract);
-  addContract(parent, newContract);
+export const updateContract = (setParentState, oldContract, newContract, getParentState) => {
+  declineContract(setParentState, oldContract, team, getParentState);
+  addContract(setParentState, newContract, team, getParentState);
 }
 
 export const getActiveContractForTeam = (activeContracts, team) => {
@@ -77,7 +75,7 @@ export const getActiveContractForTeam = (activeContracts, team) => {
   return teamContract;
 }
 
-export const updateProgress = (parent, contract, loc) => {
+export const updateProgress = (setParentState, contract, loc, getParentState) => {
   contract.written += loc;
   contract.progress = contract.written / contract.loc * 100;
   let remain;
@@ -90,32 +88,30 @@ export const updateProgress = (parent, contract, loc) => {
   if(contract.progress >= 100){
     if(contract.contractType === "volume"){
       contract.pinned = false;
-      parent.state.volumeContracts.push(contract);
+      getParentState('volumeContracts').push(contract);
     }else{
-      mainAPI.updateMoney(parent, contract.revenue);
+      mainAPI.updateMoney(setParentState, contract.revenue, undefined, getParentState);
     }
-    closeContract(parent, contract);
+    closeContract(setParentState, contract, getParentState<);
   }
   return remain;
 }
 
-export const declineContract = (parent, contract, team) => {
-  let availableContractsArr = parent.state.availableContracts;
+export const declineContract = (setParentState, contract, team, getParentState) => {
+  let availableContractsArr = getParentState('availableContracts');
   let index = availableContractsArr.indexOf(contract);
 
   if(index > -1) availableContractsArr.splice(index, 1);
 
-  parent.setState({
-    availableContracts: availableContractsArr
-  })
+  setParentState('availableContracts', availableContractsArr);
 }
 
-export const acceptContract =  (parent, contract, team) => {
-  if(!calcNumberOfContracts(parent, team)) {
+export const acceptContract =  (setParentState, contract, team, getParentState) => {
+  if(!calcNumberOfContracts(getParentState, team)) {
     mainAPI.notAvailable();
     return;
   }
-  declineContract(parent, contract, team);
+  declineContract(setParentState, contract, team, getParentState);
   contract.progress = 0;
   contract.written =  0;
 
@@ -130,41 +126,41 @@ export const acceptContract =  (parent, contract, team) => {
   }
 
   //add contract to activeContracts array
-  addContract(parent, team, contract);
-  setContractActive(parent);
+  addContract(setParentState, team, contract, getParentState);
+  setContractActive(setParentState, undefined, undefined, getParentState);
 }
 
-export const timeContracts = (parent) => {
+export const timeContracts = (setParentState, getParentState) => {
   parent.state.activeContracts.forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
       closeContract(parent, contract);
-      mainAPI.updateMoney(parent, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel));
+      mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
     }
   });
   parent.state.volumeContracts.forEach((contract) => {
     if(contract.terminated === true && --contract.time < 1){
-      closeContract(parent, contract);
-      mainAPI.updateMoney(parent, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel));
+      closeContract(setParentState, contract, getParentState);
+      mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
     }
   })
-  parent.setState({});
+  setParentState({});
 }
 
-export const calcNumberOfContracts = (parent, team) => {
+export const calcNumberOfContracts = (getParentState, team) => {
   let maxActive = environment.settings.contracts.maxActiveContracts;
   let number = 0;
-  parent.state.activeContracts.forEach((contract) => {
+  getParentState('activeContracts').forEach((contract) => {
       if(contract.team === team){
         number++;
       }
   });
 
-  parent.state.volumeContracts.forEach((contract) => {
+  getParentState('volumeContracts').forEach((contract) => {
       if(contract.team === team){
         number++;
       }
   });
-  parent.state.teams[team].numberOfContracts = number;
+  getParentState('teams')[team].numberOfContracts = number;
     if(number >= maxActive){
       return false;
     }else{
@@ -174,30 +170,30 @@ export const calcNumberOfContracts = (parent, team) => {
 
 }
 
-export const setContractManualActive = (parent, contract, team) => {
+export const setContractManualActive = (setParentState, contract, team, getParentState) => {
   contract.pinned = true;
-  if(parent.state.activeContracts[0] === contract) {
-    parent.setState({});
+  if(getParentState('activeContracts')[0] === contract) {
+    setParentState({});
     return;
   }
-  setContractActive(parent, contract, team);
+  setContractActive(setParentState, contract, team, getParentState);
 }
 
-export const setContractActive = (parent, contract, team = 0) => {
-  let activeContractsArr = parent.state.activeContracts;
+export const setContractActive = (setParentState, contract, team = 0, getParentState) => {
+  let activeContractsArr = getParentState('activeContracts');
   if(activeContractsArr.length <= 0){
-    parent.state.teams[team].activeContract = false;
+    getParentState('teams')[team].activeContract = false;
     return;
   }
   if(contract === undefined){
     activeContractsArr.forEach((tmpContract) => {
       if(tmpContract.contractType !== "basic"){
-        setContractActive(parent, tmpContract, team);
+        setContractActive(setParentState, tmpContract, team, getParentState);
         return;
       }
     });
     activeContractsArr[0].active = true;
-    parent.state.teams[team].activeContract = true;
+    getParentState('teams')[team].activeContract = true;
     return;
   }
 
@@ -216,7 +212,5 @@ export const setContractActive = (parent, contract, team = 0) => {
   activeContractsArr.splice(index, 1);
   activeContractsArr.unshift(contract);
   activeContractsArr[0].active = true;
-  parent.setState({
-    activeContracts: activeContractsArr
-  })
+  setParentState('activeContracts', activeContractsArr);
 }

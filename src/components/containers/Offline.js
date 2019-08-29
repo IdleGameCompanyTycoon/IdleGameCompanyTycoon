@@ -44,10 +44,27 @@ class Offline extends Component {
     localStorage.setItem('Saves', selection);
   }
 
+  setParentState = (key, val) => {
+    if(typeof val === 'object' &&  !Array.isArray(val)) {
+      this.setState(val);
+    } else {
+      this.setState({
+        [key]: val
+      });
+    }
+  }
+
+  getParentState = (key) => {
+    return this.state[key];
+  }
+
   render() {
     return(
       <React.Fragment>
-        {this.state.money && <GameEngine  save={this.state} parent={this} goToHome={this.props.goToHome}
+        {this.state.money && <GameEngine  save={this.state}
+                                          getParentState={this.getParentState}
+                                          setParentState={this.setParentState}
+                                          goToHome={this.props.goToHome}
                                           saveLocal={this.saveToLocalStorage}/>}
       </React.Fragment>
     )

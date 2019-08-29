@@ -1,53 +1,49 @@
 import environment from '../../../environment.json';
 
 // Initiate the fetching of new applications
-export const initApplicationGen = (obj, dataObj) => {
+export const initApplicationGen = (setParentState, getParentState) => {
   const settings =  environment.settings.applications
   let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
   setTimeout(() => {
-    let availableApplicationsArr = obj.state.availableApplications;
+    let availableApplicationsArr = getParentState('availableApplications');
     if(availableApplicationsArr.length < settings.maxApplications) {
       fetch(`http://${environment.backend}/getData?operation=getApplication`)
           .then(res => res.json())
           .then(res => {
             availableApplicationsArr.push(res);
-            obj.setState({
-              availableApplications: availableApplicationsArr
-            })
-            initApplicationGen(obj);
+            setParentState('availableApplications', availableApplicationsArr);
+            initApplicationGen(setParentState, getParentState);
           })
           .catch(err => {
             console.log(err);
-            initApplicationGen(obj);
+            initApplicationGen(setParentState, getParentState);
           })
     } else {
-      initApplicationGen(obj);
+      initApplicationGen(setParentState, getParentState);
     }
   }, randomTimer)
 }
 
 // Initiate the fetching of new applications
-export const initContractsGen = (obj, dataObj) => {
+export const initContractsGen = (setParentState, getParentState) => {
   const settings =  environment.settings.contracts
   let randomTimer = Math.floor(Math.random() * (settings.maxTime - settings.minTime + 1) + settings.minTime) * 1000;
   setTimeout(() => {
-    let availableContractsArr = obj.state.availableContracts;
+    let availableContractsArr = getParentState('availableContracts');
     if(availableContractsArr.length < settings.maxAvailableContracts) {
       fetch(`http://${environment.backend}/getData?operation=getContract`)
           .then(res => res.json())
           .then(res => {
             availableContractsArr.push(res);
-            obj.setState({
-              availableContracts: availableContractsArr
-            })
-            initContractsGen(obj);
+            setParentState('availableContracts', availableContractsArr)
+            initContractsGen(setParentState, getParentState);
           })
           .catch(err => {
             console.log(err);
-            initContractsGen(obj);
+            initContractsGen(setParentState, getParentState);
           })
     } else {
-      initContractsGen(obj);
+      initContractsGen(setParentState, getParentState);
     }
   }, randomTimer)
 }

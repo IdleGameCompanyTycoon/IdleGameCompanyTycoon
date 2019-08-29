@@ -8,9 +8,9 @@ export const initEmployee = (employee, team) => {
   employee.working = true;
 }
 
-export const letEmploeeysWork = (parent, args) => {
+export const letEmploeeysWork = (setParentState, args, getParentState) => {
   let loc = {};
-  for(let employee of parent.state.employees){
+  for(let employee of getParentState('employees')){
     if(!employee.working){
       continue;
     }
@@ -22,58 +22,52 @@ export const letEmploeeysWork = (parent, args) => {
   }
 
   for(let team in loc){
-    mainAPI.updateLoc(parent, loc[team], team);
+    mainAPI.updateLoc(setParentState, loc[team], team, getParentState);
   }
 }
 
-export const employeePayment = (parent) => {
+export const employeePayment = (setParentState, getParentState) => {
   let payment = 0;
   let employeePayment = 0;
-  for(let employee of parent.state.employees){
+  for(let employee of getParentState('employees')){
     payment += Math.floor(employee.payment * employee.workingDays / 30);
     if(employee.working === false){
-      deleteEmployee(parent, employee);
+      deleteEmployee(setParentState, employee, getParentState);
     }
     employee.workingDays = 0;
 
   }
-  mainAPI.updateMoney(parent, -payment);
+  mainAPI.updateMoney(setParentState, -payment, null, getParentState);
 }
 
-export const acceptApplications = (parent, application, team) => {
-  declineApplication(parent, application, team);
+export const acceptApplications = (setParentState, application, team, getParentState) => {
+  declineApplication(setParentState, application, team, getParentState);
   initEmployee(application, team);
 
-  let employeesArr = parent.state.employees;
+  let employeesArr = getParentState('employees');
   employeesArr.push(application);
-  parent.setState({
-    employees: employeesArr
-  })
+  setParentState('employees', employeesArr);
 }
 
-export const declineApplication =  (parent, application, team) => {
-  let availableApplicationsArr =  parent.state.availableApplications;
+export const declineApplication = (setParentState, application, team, getParentState) => {
+  let availableApplicationsArr = getParentState('availableApplications');
   let index = availableApplicationsArr.indexOf(application);
   if(index > -1) availableApplicationsArr.splice(index, 1);
 
-  parent.setState({
-    availableApplications: availableApplicationsArr
-  })
+  setParentState('availableApplications', availableApplicationsArr);
 }
 
-export const fireEmployee = (parents, employee, team) => {
+export const fireEmployee = (setParentState, employee, team) => {
   employee.working = false;
 }
 
-export const deleteEmployee = (parent, employee) => {
-  let employeesArr = parent.state.employees;
+export const deleteEmployee = (setParentState, employee, getParentState) => {
+  let employeesArr = getParentState('employees');
   let index = employeesArr.indexOf(employee);
 
   if(index > -1){
     employeesArr.splice(index, 1);
   }
 
-  parent.setState({
-    employees: employeesArr
-  });
+  setParentState('employees', employeesArr);
 }
