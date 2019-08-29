@@ -48,7 +48,7 @@ class GameEngine extends Component {
     const timeForDay =  environment.settings.general.timeForDay * 1000;
 
     setInterval(() => {
-        mainAPI.updateDate(this.props.parent);
+        mainAPI.updateDate(this.props.setParentState, undefined, this.props.getParentState);
         this.props.saveLocal();
     }, timeForDay);
   }

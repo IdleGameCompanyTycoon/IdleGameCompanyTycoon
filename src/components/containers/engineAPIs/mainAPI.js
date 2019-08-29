@@ -13,10 +13,10 @@ export const updateDate = (setParentState, days = 1, getParentState) => {
   tmpDate.day += days;
 
   employeeAPI.letEmploeeysWork(setParentState, null, getParentState);
-  contractAPI.timeContracts(setParentState, null, getParentState);
+  contractAPI.timeContracts(setParentState, getParentState);
 
   if(tmpDate.day >= 31){
-    contractAPI.resetVolumeContract(setParentState, null, getParentState);
+    contractAPI.resetVolumeContract(setParentState, getParentState);
     tmpDate.day -= 30;
     tmpDate.month += 1;
     employeeAPI.employeePayment(setParentState, getParentState);
