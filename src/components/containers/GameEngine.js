@@ -58,7 +58,10 @@ class GameEngine extends Component {
       <Main>
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}
-                   goToHome={this.props.goToHome}/>
+                   goToHome={this.props.goToHome}
+                   locPerMonth={this.props.save.locPerMonth}
+                   expenses={this.expensesPerMonth}
+                   />
         <AnimationFrame action={this.triggerAction}/>
         <Switch>
           <Route exact path="/contracts"

@@ -5,8 +5,8 @@ const InfoPanel = (props) => {
   return (
     <div className='App-info-panel'>
           <p className="App-info-panel-money">Money: {props.money}</p>
-          <p className="App-info-panel-locgen">LoC per Month: XXXXX{/*TODO: TO BE ADDED*/}</p>
-          <p className="App-info-panel-expenses">Expenses: XXXXX{/*TODO: TO BE ADDED*/}</p>
+          <p className="App-info-panel-locgen">LoC per Month: {props.locPerMonth}</p>
+          <p className="App-info-panel-expenses">Expenses: {props.expenses}</p>
           <p className="App-info-panel-date">Date: {props.date.month}.{props.date.day}.{props.date.year}</p>
         <button className="App-info-panel-homebutton"
                 onClick={props.goToHome}>Home</button>
