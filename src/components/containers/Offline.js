@@ -24,7 +24,9 @@ class Offline extends Component {
         activeContract: false,
         numberOfContracts: 0
       }
-    }
+    },
+    locPerMonth: 0,
+    expensesPerMonth: 0
   }
 
   // TODO: Check if Local saves exist, if not initalize default data from the server

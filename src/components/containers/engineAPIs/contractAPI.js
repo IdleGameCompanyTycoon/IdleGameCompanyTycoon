@@ -1,4 +1,4 @@
-import * as mainAPI from './mainAPI.js';
+import { updateMoney, notAvailable } from './mainAPI.js';
 import * as employeeAPI from './employeeAPI.js';
 import environment from '../../../environment.json';
 
@@ -27,7 +27,7 @@ export const cancelContract = (setParentState, contract, team, getParentState) =
   contract.terminated = true;
   if(contract.contractType !== "volume"){
     closeContract(setParentState, contract, getParentState);
-    mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+    updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
   }else{
     contract.time =  31 - getParentState('date').day;
   }
@@ -54,7 +54,7 @@ export const resetVolumeContract = (setParentState, getParentState) => {
   setParentState('volumeContracts', []);
   setContractActive(setParentState, undefined, undefined, getParentState);
   if(revenue !== 0){
-      mainAPI.updateMoney(setParentState, revenue, undefined, getParentState);
+      updateMoney(setParentState, revenue, undefined, getParentState);
   }
   setParentState({});
 }
@@ -90,7 +90,7 @@ export const updateProgress = (setParentState, contract, loc, getParentState) =>
       contract.pinned = false;
       getParentState('volumeContracts').push(contract);
     }else{
-      mainAPI.updateMoney(setParentState, contract.revenue, undefined, getParentState);
+      updateMoney(setParentState, contract.revenue, undefined, getParentState);
     }
     closeContract(setParentState, contract, getParentState);
   }
@@ -108,7 +108,7 @@ export const declineContract = (setParentState, contract, team, getParentState) 
 
 export const acceptContract =  (setParentState, contract, team, getParentState) => {
   if(!calcNumberOfContracts(getParentState, team)) {
-    mainAPI.notAvailable();
+    notAvailable();
     return;
   }
   declineContract(setParentState, contract, team, getParentState);
@@ -134,13 +134,13 @@ export const timeContracts = (setParentState, getParentState) => {
   getParentState('activeContracts').forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
       closeContract(setParentState, contract, getParentState);
-      mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+      updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
     }
   });
   getParentState('volumeContracts').forEach((contract) => {
     if(contract.terminated === true && --contract.time < 1){
       closeContract(setParentState, contract, getParentState);
-      mainAPI.updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+      updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
     }
   })
   setParentState({});
