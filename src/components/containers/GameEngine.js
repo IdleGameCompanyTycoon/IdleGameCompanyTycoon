@@ -60,7 +60,7 @@ class GameEngine extends Component {
                    date={this.props.save.date}
                    goToHome={this.props.goToHome}
                    locPerMonth={this.props.save.locPerMonth}
-                   expenses={this.expensesPerMonth}
+                   expenses={this.props.save.expensesPerMonth}
                    />
         <AnimationFrame action={this.triggerAction}/>
         <Switch>
