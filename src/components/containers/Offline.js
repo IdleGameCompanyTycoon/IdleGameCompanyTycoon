@@ -46,8 +46,8 @@ class Offline extends Component {
     localStorage.setItem('Saves', selection);
   }
 
-  setParentState = (key, val) => {
-    if(typeof val === 'object' &&  !Array.isArray(val)) {
+  setParentState = (key, val, objectSave) => {
+    if(!objectSave && typeof val === 'object' &&  !Array.isArray(val)) {
       this.setState(val);
     } else {
       this.setState({

@@ -24,7 +24,8 @@ export const updateDate = (setParentState, days = 1, getParentState) => {
     tmpDate.month -= 11;
     tmpDate.year += 1;
   }
-  setParentState('date', tmpDate)
+
+  setParentState('date', tmpDate, true)
 }
 
 // Updates the current monthly expanses. Can take a optional parameter which contains the updated amount
@@ -45,17 +46,17 @@ export const updateMonthlyExpenses = (setParentState, valueToUpdate, getParentSt
 
 // Updates the current monthly expanses. Can take a optional parameter which contains the updated amount
 export const updateMonthlyLoc = (setParentState, valueToUpdate, getParentState) => {
-  let newExpenses = 0;
-  
+  let newLoc = 0;
+  console.log(newLoc);
   if (valueToUpdate) {
-    newExpenses = getParentState('expensesPerMonth') + valueToUpdate;
+    newLoc = getParentState('locPerMonth') + valueToUpdate;
   } else {
     getParentState('employees').forEach(employee => {
-      newExpenses += Number(employee.payment);
+      newLoc += Number(employee.loc);
     })
   }
 
-  setParentState('expensesPerMonth', newExpenses);
+  setParentState('locPerMonth', newLoc);
 }
 
 // On an animation frame click this function updates the LoC of the currently
