@@ -126,7 +126,7 @@ export const acceptContract =  (setParentState, contract, team, getParentState) 
   }
 
   //add contract to activeContracts array
-  addContract(setParentState, team, contract, getParentState);
+  addContract(setParentState, contract, team, getParentState);
   setContractActive(setParentState, undefined, undefined, getParentState);
 }
 
