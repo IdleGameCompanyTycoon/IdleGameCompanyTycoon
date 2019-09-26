@@ -17,8 +17,7 @@
       "minTime": 5,
       "maxTime": 20,
       "maxAvailableContracts": 10,
-      "maxActiveContracts": 10,
-      "costForCancel": 0.4
+      "maxActiveContracts": 10
     }
   }
 }

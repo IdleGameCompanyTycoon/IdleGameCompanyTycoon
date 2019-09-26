@@ -35,6 +35,7 @@ export const initContractsGen = (setParentState, getParentState) => {
           .then(res => res.json())
           .then(res => {
             availableContractsArr.push(res);
+            console.log(res)
             setParentState('availableContracts', availableContractsArr)
             initContractsGen(setParentState, getParentState);
           })
