@@ -29,6 +29,7 @@ export const cancelContract = (setParentState, contract, team, getParentState) =
   }else{
     contract.time =  31 - getParentState('date').day;
   }
+  setParentState({});
 }
 
 export const resetVolumeContract = (setParentState, getParentState) => {
@@ -105,8 +106,6 @@ export const declineContract = (setParentState, contract, team, getParentState) 
 }
 
 export const acceptContract =  (setParentState, contract, team, getParentState) => {
-
-  console.log(contract)
 
   if(contract.contractType === "volume" && !calcNumberOfContracts(getParentState, team)) {
     notAvailable();
