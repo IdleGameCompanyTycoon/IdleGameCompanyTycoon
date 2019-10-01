@@ -83,8 +83,25 @@ export const updateLoc = (setParentState, loc, team, getParentState) => {
   setParentState('activeContracts', activeContractsArr);
 }
 
+export const getter = (setParentState, args, team, getParentState) => {
+  switch(args){
+    case "monthlyCost": return "testcost";
+    case "monthlyVolumeRevenue": return "testRevenue";
+    default: return getParentState(args);
 
+  }
+
+}
 
 export const notAvailable = () => {
   console.log("You cant accept an other Contract!");
+}
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+//helper funktions
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const monthlyCost = (getParentState) => {
+  
 }

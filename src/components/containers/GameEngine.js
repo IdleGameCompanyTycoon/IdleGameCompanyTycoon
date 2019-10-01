@@ -5,6 +5,7 @@ import * as dataFetchApi from './engineAPIs/dataFetchApi.js';
 import * as contractAPI from './engineAPIs/contractAPI.js';
 import * as employeeAPI from './engineAPIs/employeeAPI.js';
 import Main from '../view/Main.js';
+import Noti from '../view/MainViews/Notification.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
 import Navigation from '../view/MainViews/Navigation.js';
@@ -30,14 +31,23 @@ class GameEngine extends Component {
       "cancelContract": contractAPI.cancelContract,
       "acceptApplication": employeeAPI.acceptApplications,
       "declineApplication": employeeAPI.declineApplication,
-      "fireEmployee": employeeAPI.fireEmployee
+      "fireEmployee": employeeAPI.fireEmployee,
+      "getter": mainAPI.getter
     }
   }
 
   triggerAction = (action, args) => {
-    this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
+    return this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
   }
 
+  setNotification = (args) => {
+    if(this.props.getParentState('notif')){
+      this.props.setParentState('notif'); 
+    }else{
+      this.props.setParentState('notif', args);
+    }
+    
+  }
   componentDidMount() {
     dataFetchApi.initApplicationGen(this.props.setParentState, this.props.getParentState);
     dataFetchApi.initContractsGen(this.props.setParentState, this.props.getParentState);
@@ -56,9 +66,13 @@ class GameEngine extends Component {
   render() {
     return (
       <Main>
+        <Noti notif={this.props.save.notif}
+              action={this.triggerAction}
+              setParentState={this.props.setParentState}/>
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}
                    goToHome={this.props.goToHome}
+                   noti={this.setNotification}
                    locPerMonth={this.props.save.locPerMonth}
                    expenses={this.props.save.expensesPerMonth}
                    />
