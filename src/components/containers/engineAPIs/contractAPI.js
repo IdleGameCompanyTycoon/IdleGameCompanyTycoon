@@ -3,13 +3,11 @@ import * as employeeAPI from './employeeAPI.js';
 import environment from '../../../environment.json';
 
 export const addContract = (setParentState, contract, team, getParentState) => {
-  let volumeArray = getParentState('volumeContracts');
   let contractsArr = getParentState('activeContracts');
   contractsArr.push(contract);
   contract.team = team;
   setParentState(null, {
-    activeContracts: contractsArr,
-    volumeContracts: volumeArray
+    activeContracts: contractsArr
   })
 
 }
@@ -32,6 +30,7 @@ export const cancelContract = (setParentState, contract, team, getParentState) =
   }else{
     contract.time =  31 - getParentState('date').day;
   }
+  setParentState({});
 }
 
 export const resetVolumeContract = (setParentState, getParentState) => {
@@ -108,10 +107,12 @@ export const declineContract = (setParentState, contract, team, getParentState) 
 }
 
 export const acceptContract =  (setParentState, contract, team, getParentState) => {
-  if(!calcNumberOfContracts(getParentState, team)) {
+
+  if(contract.contractType === "volume" && !calcNumberOfContracts(getParentState, team)) {
     notAvailable();
     return;
   }
+
   declineContract(setParentState, contract, team, getParentState);
   contract.progress = 0;
   contract.written =  0;
@@ -153,7 +154,7 @@ export const calcNumberOfContracts = (getParentState, team) => {
   let maxActive = environment.settings.contracts.maxActiveContracts;
   let number = 0;
   getParentState('activeContracts').forEach((contract) => {
-      if(contract.team === team){
+      if(contract.team === team && contract.contractType === "volume"){
         number++;
       }
   });

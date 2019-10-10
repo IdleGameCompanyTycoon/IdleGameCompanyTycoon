@@ -11,13 +11,14 @@
     "applications": {
       "minTime": 5,
       "maxTime": 20,
-      "maxApplications": 10
+      "maxApplications": 5
     },
     "contracts": {
       "minTime": 5,
       "maxTime": 20,
-      "maxAvailableContracts": 10,
-      "maxActiveContracts": 10
+      "maxAvailableContracts": 5,
+      "maxActiveContracts": 10,
+      "costForCancel": 0.4
     }
   }
 }
