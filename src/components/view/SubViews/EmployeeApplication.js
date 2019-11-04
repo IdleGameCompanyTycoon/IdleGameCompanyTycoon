@@ -1,4 +1,5 @@
 import React from 'react';
+import SkillView from './SkillView';
 
 const EmployeeApplication = (props) => {
 
@@ -16,12 +17,12 @@ const EmployeeApplication = (props) => {
               alt="picture of employee"/>
             </td>
             <td>
-              {/* TODO: Add Data*/}
               {`${props.application.givenName} ${props.application.lastName}`}
               <p>
                 Work speed: {props.application.loc} LoC
               </p>
               <p>Salary: {props.application.payment}€</p>
+              <SkillView skills={props.application.skills} />
               <button
                 onClick={() => props.action("acceptApplication", props.application)
                 }>Accept</button>
