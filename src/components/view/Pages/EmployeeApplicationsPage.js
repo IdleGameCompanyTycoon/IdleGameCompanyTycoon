@@ -1,6 +1,7 @@
 import React from 'react';
 import EmployeeApplication from '../SubViews/EmployeeApplication.js';
 import '../../../assets/css/App-Page-ListBody.css';
+import '../../../assets/css/App-Pages.css';
 
 const EmployeeApplicationsPage = (props) => {
 

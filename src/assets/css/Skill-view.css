@@ -1,0 +1,46 @@
+.Skill-view {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.Skill-view .hidden {
+    display: none;
+}
+
+.Skill-view-skill {
+    width: 100%;
+    height: 45px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px dotted black;
+}
+
+.Skill-view-skill p {
+    margin: 5px;
+    width: 100%;
+}
+
+.Skill-view-bar-outer {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 4px;
+    padding: 0;
+    margin-top: 5px; 
+    background-color: white;
+    border: 1px solid black;
+    box-sizing: content-box;
+}
+
+.Skill-view-bar-inner {
+    position: absolute;
+    float: left;
+    top: 0;
+    border: none;
+    background: green;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}

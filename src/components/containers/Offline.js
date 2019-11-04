@@ -32,7 +32,6 @@ class Offline extends Component {
   // TODO: Check if Local saves exist, if not initalize default data from the server
   componentDidMount() {
     let savedSelection = localStorage.getItem('Saves');
-    console.log(savedSelection + " GameEngine");
     if(savedSelection) {
       savedSelection = JSON.parse(savedSelection);
       this.setState({
