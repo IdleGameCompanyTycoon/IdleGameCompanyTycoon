@@ -32,12 +32,12 @@ class SkillView extends Component {
 
                         return(
                             <div key={key + i} className="Skill-view-skill">
-                                <p>
+                                <div className="Skill-view-skill-container">
                                     <span>{labelArr.join(' ')}</span> 
                                     <div className="Skill-view-bar-outer">
                                         <div className="Skill-view-bar-inner" style={{width: (skill*100+'%')}}></div>
                                     </div>
-                                </p>
+                                </div>
                                 {skillObject && <SkillView skills={skillRaw} shouldHide={this.state.hideDetail}/>}
                             </div>
                         )

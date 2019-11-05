@@ -25,7 +25,7 @@ class Offline extends Component {
         numberOfContracts: 0
       }
     },
-    locPerMonth: 0,
+    locPerDay: 0,
     expensesPerMonth: 0
   }
 
