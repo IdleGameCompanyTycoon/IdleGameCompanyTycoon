@@ -59,7 +59,7 @@ class GameEngine extends Component {
         <InfoPanel money={this.props.save.money}
                    date={this.props.save.date}
                    goToHome={this.props.goToHome}
-                   locPerMonth={this.props.save.locPerMonth}
+                   locPerDay={this.props.save.locPerDay}
                    expenses={this.props.save.expensesPerMonth}
                    />
         <AnimationFrame action={this.triggerAction}/>

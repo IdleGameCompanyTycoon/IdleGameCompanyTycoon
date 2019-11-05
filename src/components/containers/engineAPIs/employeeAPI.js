@@ -1,4 +1,4 @@
-import { updateMoney, updateLoc, updateMonthlyExpenses, updateMonthlyLoc } from './mainAPI.js';
+import { updateMoney, updateLoc, updateMonthlyExpenses, updateDailyLoc } from './mainAPI.js';
 import * as contractAPI from './contractAPI.js';
 import environment from '../../../environment.json';
 
@@ -52,7 +52,7 @@ export const acceptApplications = (setParentState, application, team, getParentS
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
-  updateMonthlyLoc(setParentState, null, getParentState);
+  updateDailyLoc(setParentState, null, getParentState);
 
   setParentState('employees', employeesArr);
 }
@@ -82,7 +82,7 @@ export const deleteEmployee = (setParentState, employee, getParentState) => {
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
-  updateMonthlyLoc(setParentState, null, getParentState);
+  updateDailyLoc(setParentState, null, getParentState);
 
   setParentState('employees', employeesArr);
 }
