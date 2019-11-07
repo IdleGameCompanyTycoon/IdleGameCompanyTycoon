@@ -34,3 +34,10 @@
   margin-left: 1vw;
   line-height: 6vh;
 }
+
+.App-info-panel-message{
+  margin-top:0;
+  margin-left: 1vw;
+  line-height: 6vh;
+  color: red;
+}

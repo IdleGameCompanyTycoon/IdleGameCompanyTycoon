@@ -30,7 +30,8 @@ class GameEngine extends Component {
       "cancelContract": contractAPI.cancelContract,
       "acceptApplication": employeeAPI.acceptApplications,
       "declineApplication": employeeAPI.declineApplication,
-      "fireEmployee": employeeAPI.fireEmployee
+      "fireEmployee": employeeAPI.fireEmployee,
+      "keepTrainee": employeeAPI.keepTrainee
     }
   }
 
@@ -48,7 +49,10 @@ class GameEngine extends Component {
     const timeForDay =  environment.settings.general.timeForDay * 1000;
 
     setInterval(() => {
-        mainAPI.updateDate(this.props.setParentState, undefined, this.props.getParentState);
+        const monthChange = mainAPI.updateDate(this.props.setParentState, undefined, this.props.getParentState);
+        if (monthChange) {
+          mainAPI.onMonthChange(this.props.getParentState, this.props.setParentState);
+        }
         this.props.saveLocal();
     }, timeForDay);
   }
@@ -61,6 +65,7 @@ class GameEngine extends Component {
                    goToHome={this.props.goToHome}
                    locPerDay={this.props.save.locPerDay}
                    expenses={this.props.save.expensesPerMonth}
+                   leavingTrainees={this.props.save.traineesLeaving}
                    />
         <AnimationFrame action={this.triggerAction}/>
         <Switch>

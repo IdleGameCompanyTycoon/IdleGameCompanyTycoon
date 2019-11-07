@@ -18,6 +18,7 @@ const EmployeeApplication = (props) => {
             </td>
             <td>
               {`${props.application.givenName} ${props.application.lastName}`}
+              <p>{props.application.employeeType.charAt(0).toUpperCase() + props.application.employeeType.slice(1)}</p>
               <p>
                 Work speed: {props.application.loc} LoC
               </p>

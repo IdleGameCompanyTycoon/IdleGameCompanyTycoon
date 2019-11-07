@@ -12,6 +12,7 @@ class Offline extends Component {
     volumeContracts: [],
     availableApplications: [],
     employees: [],
+    employeesByType: {},
     date: {
       year: 1970,
       month: 1,

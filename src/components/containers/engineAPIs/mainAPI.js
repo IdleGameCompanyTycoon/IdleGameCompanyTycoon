@@ -8,8 +8,10 @@ export const updateMoney = (setParentState, money, selectedTeam, getParentState)
 }
 
 // Update the date obj, accepts an dateObj as dataObj
+// ** Returns ** If a month change happens on this interval
 export const updateDate = (setParentState, days = 1, getParentState) => {
   let tmpDate = Object.assign({}, getParentState('date'));
+  let newMonth = false;
   tmpDate.day += days;
 
   employeeAPI.letEmploeeysWork(setParentState, null, getParentState);
@@ -20,12 +22,14 @@ export const updateDate = (setParentState, days = 1, getParentState) => {
     tmpDate.day -= 30;
     tmpDate.month += 1;
     employeeAPI.employeePayment(setParentState, getParentState);
+    newMonth = true;
   } else if( tmpDate.month >= 12) {
     tmpDate.month -= 11;
     tmpDate.year += 1;
   }
 
-  setParentState('date', tmpDate, true)
+  setParentState('date', tmpDate, true);
+  return newMonth;
 }
 
 // Updates the current monthly expanses. Can take a optional parameter which contains the updated amount
@@ -81,6 +85,33 @@ export const updateLoc = (setParentState, loc, team, getParentState) => {
     }
   }while (loc > 0);
   setParentState('activeContracts', activeContractsArr);
+}
+
+
+/*
+**
+** Function which runs when a month change happens
+**
+*/
+export const onMonthChange = (getParentState, setParentState, args) => {
+  const employeesByType = getParentState('employeesByType');
+
+  // Update trainee time
+  let traineesLeaving = 0;
+  for(let team in employeesByType.trainee) {
+    employeesByType.trainee[team].forEach(employee => {
+      if (!employee.traineeTime) {
+        employee.traineeTime = 1;
+      } else if (employee.traineeTime >= 6) {
+        employee.working = false;
+        traineesLeaving++;
+      } else {
+        employee.traineeTime++;
+      }
+    })
+  }
+
+  setParentState('traineesLeaving', traineesLeaving);
 }
 
 
