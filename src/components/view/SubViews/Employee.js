@@ -22,6 +22,11 @@ const Employee = (props) => {
               <button
                 onClick={() => props.action("fireEmployee", props.employee)
                 }>Fire</button>
+              { props.employee.traineeTime === 6 && !props.employee.working &&
+                <button
+                  onClick={() => props.action("keepTrainee", props.employee)
+                  }>Keep</button>
+              }
               </td>
             </tr>
             </tbody>

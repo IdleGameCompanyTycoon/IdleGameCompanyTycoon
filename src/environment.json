@@ -2,7 +2,7 @@
   "backend":"localhost:5000",
   "settings": {
     "general": {
-      "timeForDay": 5,
+      "timeForDay": 0.1,
       "locGenerationPerClick": 100
     },
     "employees": {
