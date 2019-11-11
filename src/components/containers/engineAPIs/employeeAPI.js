@@ -114,7 +114,7 @@ export const keepTrainee = (setParentState, employee, team, getParentState) => {
   delete employee.traineeTime;
   employee.working = true;
   removeEmployeeFromTypeObj(getParentState('employeesByType'), employee);
-  employee.employeeType = 'basic';
+  employee.employeeType = 'developer';
   const newEmployeesByType = addEmployeeByTypeToObj(getParentState('employeesByType'), employee);
 
   setParentState('employeesByType', newEmployeesByType);
