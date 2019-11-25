@@ -1,6 +1,7 @@
 import { updateMoney, updateLoc, updateMonthlyExpenses, updateDailyLoc } from './mainAPI.js';
 import * as contractAPI from './contractAPI.js';
 import environment from '../../../environment.json';
+import { midOfMinMax, calcNewSkill } from '../helpers/calcValues';
 
 export const initEmployee = (employee, team) => {
   employee.team =  team;
@@ -116,6 +117,11 @@ export const keepTrainee = (setParentState, employee, team, getParentState) => {
   removeEmployeeFromTypeObj(getParentState('employeesByType'), employee);
   employee.employeeType = 'developer';
   const newEmployeesByType = addEmployeeByTypeToObj(getParentState('employeesByType'), employee);
+  const modifiers = environment.traineeModifier;
+
+  employee.skills = calcNewSkill(midOfMinMax(modifiers.skills.min, modifiers.skills.max), employee.skills);
+  employee.loc += midOfMinMax(modifiers.loc.min, modifiers.loc.max) * employee.loc;
+  employee.payment += midOfMinMax(modifiers.payment.min, modifiers.payment.max) * employee.payment;
 
   setParentState('employeesByType', newEmployeesByType);
 }
