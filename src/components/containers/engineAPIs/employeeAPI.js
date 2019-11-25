@@ -55,7 +55,8 @@ export const acceptApplications = (setParentState, application, team, getParentS
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
   updateDailyLoc(setParentState, null, getParentState);
-
+  updateMoney(setParentState, environment.employees.hardwareCosts, null, getParentState);
+  
   setParentState(null, { employees: employeesArr, employeesByType: addEmployeeByTypeToObj(employeesTypeObj, application)});
 }
 

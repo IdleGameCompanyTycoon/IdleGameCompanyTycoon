@@ -6,7 +6,7 @@
       "locGenerationPerClick": 100
     },
     "employees": {
-
+      "hardwareCosts": 3000
     },
     "applications": {
       "minTime": 5,
