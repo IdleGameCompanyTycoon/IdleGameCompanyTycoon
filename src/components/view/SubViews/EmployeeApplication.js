@@ -2,7 +2,6 @@ import React from 'react';
 import SkillView from './SkillView';
 
 const EmployeeApplication = (props) => {
-
   return (
     <div>
       <hr>

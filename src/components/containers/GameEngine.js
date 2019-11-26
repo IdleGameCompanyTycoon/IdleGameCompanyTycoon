@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/css/App-main-view.css';
-import * as mainAPI from './engineAPIs/mainAPI.js';
-import * as dataFetchApi from './engineAPIs/dataFetchApi.js';
-import * as contractAPI from './engineAPIs/contractAPI.js';
-import * as employeeAPI from './engineAPIs/employeeAPI.js';
+import { updateDate, onMonthChange } from './engineAPIs/mainAPI.js';
+import { initApplicationGen, initContractsGen } from './engineAPIs/dataFetchApi.js';
 import Main from '../view/Main.js';
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
@@ -14,34 +12,16 @@ import EmployeesPage from '../view/Pages/EmployeesPage.js';
 import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
 import environment from '../../environment.json';
+import { ActionProvider, ActionWrapper } from './engineAPIs/ActionContext';
 
 class GameEngine extends Component {
   state = {
       selectedTeam: 0
   }
 
-  constructor() {
-    super();
-    this.actions = {
-      "setContractActive": contractAPI.setContractManualActive,
-      "userClick": mainAPI.updateLoc,
-      "acceptContract": contractAPI.acceptContract,
-      "declineContract": contractAPI.declineContract,
-      "cancelContract": contractAPI.cancelContract,
-      "acceptApplication": employeeAPI.acceptApplications,
-      "declineApplication": employeeAPI.declineApplication,
-      "fireEmployee": employeeAPI.fireEmployee,
-      "keepTrainee": employeeAPI.keepTrainee
-    }
-  }
-
-  triggerAction = (action, args) => {
-    this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
-  }
-
   componentDidMount() {
-    dataFetchApi.initApplicationGen(this.props.setParentState, this.props.getParentState);
-    dataFetchApi.initContractsGen(this.props.setParentState, this.props.getParentState);
+    initApplicationGen(this.props.setParentState, this.props.getParentState);
+    initContractsGen(this.props.setParentState, this.props.getParentState);
     this.gameInterval();
   }
 
@@ -49,9 +29,9 @@ class GameEngine extends Component {
     const timeForDay =  environment.settings.general.timeForDay * 1000;
 
     setInterval(() => {
-        const monthChange = mainAPI.updateDate(this.props.setParentState, undefined, this.props.getParentState);
+        const monthChange = updateDate(this.props.setParentState, undefined, this.props.getParentState);
         if (monthChange) {
-          mainAPI.onMonthChange(this.props.getParentState, this.props.setParentState);
+          onMonthChange(this.props.getParentState, this.props.setParentState);
         }
         this.props.saveLocal();
     }, timeForDay);
@@ -59,37 +39,35 @@ class GameEngine extends Component {
 
   render() {
     return (
-      <Main>
-        <InfoPanel money={this.props.save.money}
-                   date={this.props.save.date}
-                   goToHome={this.props.goToHome}
-                   locPerDay={this.props.save.locPerDay}
-                   expenses={this.props.save.expensesPerMonth}
-                   leavingTrainees={this.props.save.traineesLeaving}
-                   />
-        <AnimationFrame action={this.triggerAction}/>
-        <Switch>
-          <Route exact path="/contracts"
-                 render={routeProps => <ContractsPage {...routeProps}
-                                            contracts={this.props.save.activeContracts}
-                                            volumeContracts={this.props.save.volumeContracts}
-                                            action={this.triggerAction}/>}/>/>}/>
-          <Route exact path="/availableContracts"
-                 render={routeProps => <AvailableContractsPage {...routeProps}
-                                            availableContracts={this.props.save.availableContracts}
-                                            action={this.triggerAction}/>}/>
-          <Route exact path="/employees"
-                 render={routeProps => <EmployeesPage {...routeProps}
-                                            employees={this.props.save.employees}
-                                            action={this.triggerAction}/>}/>
-          <Route exact path="/employeeApplications"
-                 render={routeProps => <EmployeeApplicationsPage {...routeProps}
-                                            availableApplications={this.props.save.availableApplications}
-                                            action={this.triggerAction}/>}/>
-          <Redirect from="*" to="/contracts"/>
-        </Switch>
-        <Navigation/>
-      </Main>
+      <ActionProvider setParentState={this.props.setParentState} getParentState={this.props.getParentState} selectedTeam={this.state.selectedTeam}>
+        <Main>
+          <InfoPanel money={this.props.save.money}
+                    date={this.props.save.date}
+                    goToHome={this.props.goToHome}
+                    locPerDay={this.props.save.locPerDay}
+                    expenses={this.props.save.expensesPerMonth}
+                    leavingTrainees={this.props.save.traineesLeaving}
+                    />
+          <AnimationFrame/>
+          <Switch>
+            <Route exact path="/contracts"
+                  render={routeProps => <ActionWrapper><ContractsPage {...routeProps}
+                                              contracts={this.props.save.activeContracts}
+                                              volumeContracts={this.props.save.volumeContracts}/></ActionWrapper>}/>}/>
+            <Route exact path="/availableContracts"
+                  render={routeProps => <ActionWrapper><AvailableContractsPage {...routeProps}
+                                              availableContracts={this.props.save.availableContracts}/></ActionWrapper>}/>
+            <Route exact path="/employees"
+                  render={routeProps => <ActionWrapper><EmployeesPage {...routeProps}
+                                              employees={this.props.save.employees}/></ActionWrapper>}/>
+            <Route exact path="/employeeApplications"
+                  render={routeProps => <ActionWrapper><EmployeeApplicationsPage {...routeProps}
+                                              availableApplications={this.props.save.availableApplications}/></ActionWrapper>}/>
+            <Redirect from="*" to="/contracts"/>
+          </Switch>
+          <Navigation/>
+        </Main>
+      </ActionProvider>
     )
   }
 }

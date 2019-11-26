@@ -55,8 +55,8 @@ export const acceptApplications = (setParentState, application, team, getParentS
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
   updateDailyLoc(setParentState, null, getParentState);
-  updateMoney(setParentState, environment.employees.hardwareCosts, null, getParentState);
-  
+  updateMoney(setParentState, environment.settings.employees.hardwareCosts, null, getParentState);
+
   setParentState(null, { employees: employeesArr, employeesByType: addEmployeeByTypeToObj(employeesTypeObj, application)});
 }
 
@@ -118,7 +118,7 @@ export const keepTrainee = (setParentState, employee, team, getParentState) => {
   removeEmployeeFromTypeObj(getParentState('employeesByType'), employee);
   employee.employeeType = 'developer';
   const newEmployeesByType = addEmployeeByTypeToObj(getParentState('employeesByType'), employee);
-  const modifiers = environment.traineeModifier;
+  const modifiers = environment.settings.traineeModifier;
 
   employee.skills = calcNewSkill(midOfMinMax(modifiers.skills.min, modifiers.skills.max), employee.skills);
   employee.loc += midOfMinMax(modifiers.loc.min, modifiers.loc.max) * employee.loc;

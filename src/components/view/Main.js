@@ -1,10 +1,16 @@
 import React from 'react';
+import { ActionContext } from '../containers/engineAPIs/ActionContext';
 
 const Main = (props) => {
   return (
-    <div className="App">
-      {props.children}
-    </div>
+    <ActionContext>
+      { actionContext => (
+        <div className="App">
+          {props.children.map((child, i) => React.cloneElement(child, {action: actionContext.triggerAction, key: i}))}
+        </div>
+        )
+      }
+    </ActionContext>
   )
 }
 
