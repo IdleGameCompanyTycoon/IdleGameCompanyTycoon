@@ -11,16 +11,12 @@ const EmployeeApplication = (props) => {
           <tbody>
           <tr>
             <td style={{width:7 + "vw"}}>
-              <img
-              src={props.application.imgUrl}
-              alt="picture of employee"/>
+              <img src={props.application.imgUrl} alt="picture of employee"/>
             </td>
             <td>
               {`${props.application.givenName} ${props.application.lastName}`}
               <p>{props.application.employeeType.charAt(0).toUpperCase() + props.application.employeeType.slice(1)}</p>
-              <p>
-                Work speed: {props.application.loc} LoC
-              </p>
+              <p>Work speed: {props.application.loc} LoC</p>
               <p>Salary: {props.application.payment}€</p>
               <SkillView skills={props.application.skills} />
               <button
