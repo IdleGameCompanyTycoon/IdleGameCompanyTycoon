@@ -8,7 +8,6 @@ const Noti = (props) => {
       <div className="App-noti">
         <div className="App-close"
           onClick={() => props.setParentState("notif") }> x </div>
-        {props.action("getter","monthlyCost")}
       </div>
     )
   }

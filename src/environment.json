@@ -1,5 +1,5 @@
 {
-  "backend":"localhost:5000",
+  "backend":"igct-backend.rgrimm.org:37100",
   "settings": {
     "general": {
       "timeForDay": 5,

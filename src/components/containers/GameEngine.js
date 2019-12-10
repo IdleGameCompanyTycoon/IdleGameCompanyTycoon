@@ -32,12 +32,11 @@ class GameEngine extends Component {
       "acceptApplication": employeeAPI.acceptApplications,
       "declineApplication": employeeAPI.declineApplication,
       "fireEmployee": employeeAPI.fireEmployee,
-      "getter": mainAPI.getter
     }
   }
 
   triggerAction = (action, args) => {
-    return this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
+    this.actions[action](this.props.setParentState, args, this.state.selectedTeam, this.props.getParentState);
   }
 
   setNotification = (args) => {
