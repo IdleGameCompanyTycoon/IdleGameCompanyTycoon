@@ -3,13 +3,11 @@ import * as employeeAPI from './employeeAPI.js';
 import environment from '../../../environment.json';
 
 export const addContract = (setParentState, contract, team, getParentState) => {
-  let volumeArray = getParentState('volumeContracts');
   let contractsArr = getParentState('activeContracts');
   contractsArr.push(contract);
   contract.team = team;
   setParentState(null, {
-    activeContracts: contractsArr,
-    volumeContracts: volumeArray
+    activeContracts: contractsArr
   })
 
 }
@@ -23,14 +21,16 @@ export const closeContract =  (setParentState, contract, getParentState) => {
   setParentState('activeContracts', activeContractsArr);
 }
 
+//if Contract is cancel manually from user
 export const cancelContract = (setParentState, contract, team, getParentState) => {
   contract.terminated = true;
   if(contract.contractType !== "volume"){
     closeContract(setParentState, contract, getParentState);
-    updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+    updateMoney(setParentState, contract.penalty, undefined, getParentState);
   }else{
     contract.time =  31 - getParentState('date').day;
   }
+  setParentState({});
 }
 
 export const resetVolumeContract = (setParentState, getParentState) => {
@@ -42,9 +42,9 @@ export const resetVolumeContract = (setParentState, getParentState) => {
   getParentState('activeContracts').forEach((contract) => {
     if(contract.contractType !== "volume") return;
     if(contract.progress < 100){
-      revenue -= Math.floor(contract.revenue*environment.settings.contracts.costForCancel / contract.dateOfBegin);
+      revenue -= Math.floor(contract.penalty * contract.dateOfBegin / 30);
     }else{
-      revenue += Math.floor(contract.revenue / contract.dateOfBegin);
+      revenue += Math.floor(contract.revenue * contract.dateOfBegin / 30);
     }
     contract.dateOfBegin = 1;
     contract.written = 0;
@@ -107,10 +107,12 @@ export const declineContract = (setParentState, contract, team, getParentState) 
 }
 
 export const acceptContract =  (setParentState, contract, team, getParentState) => {
-  if(!calcNumberOfContracts(getParentState, team)) {
+
+  if(contract.contractType === "volume" && !calcNumberOfContracts(getParentState, team)) {
     notAvailable();
     return;
   }
+
   declineContract(setParentState, contract, team, getParentState);
   contract.progress = 0;
   contract.written =  0;
@@ -123,6 +125,8 @@ export const acceptContract =  (setParentState, contract, team, getParentState) 
     case "volume": contract.time = 1;
         contract.terminated = false;
         contract.dateOfBegin = getParentState('date').day;
+        let freeLoc = Math.floor(contract.loc * (contract.dateOfBegin / 30))
+        updateProgress(setParentState, contract, freeLoc, getParentState);
   }
 
   //add contract to activeContracts array
@@ -134,13 +138,13 @@ export const timeContracts = (setParentState, getParentState) => {
   getParentState('activeContracts').forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
       closeContract(setParentState, contract, getParentState);
-      updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+      updateMoney(setParentState, contract.penalty, undefined, getParentState);
     }
   });
   getParentState('volumeContracts').forEach((contract) => {
     if(contract.terminated === true && --contract.time < 1){
       closeContract(setParentState, contract, getParentState);
-      updateMoney(setParentState, Math.floor(-contract.revenue*environment.settings.contracts.costForCancel), undefined, getParentState);
+      updateMoney(setParentState, contract.penalty, undefined, getParentState);
     }
   })
   setParentState({});
@@ -150,7 +154,7 @@ export const calcNumberOfContracts = (getParentState, team) => {
   let maxActive = environment.settings.contracts.maxActiveContracts;
   let number = 0;
   getParentState('activeContracts').forEach((contract) => {
-      if(contract.team === team){
+      if(contract.team === team && contract.contractType === "volume"){
         number++;
       }
   });

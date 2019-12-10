@@ -12,6 +12,7 @@ class Offline extends Component {
     volumeContracts: [],
     availableApplications: [],
     employees: [],
+    employeesByType: {},
     date: {
       year: 1970,
       month: 1,
@@ -25,14 +26,13 @@ class Offline extends Component {
         numberOfContracts: 0
       }
     },
-    locPerMonth: 0,
+    locPerDay: 0,
     expensesPerMonth: 0
   }
 
   // TODO: Check if Local saves exist, if not initalize default data from the server
   componentDidMount() {
     let savedSelection = localStorage.getItem('Saves');
-    console.log(savedSelection + " GameEngine");
     if(savedSelection) {
       savedSelection = JSON.parse(savedSelection);
       this.setState({

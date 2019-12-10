@@ -1,6 +1,7 @@
-import { updateMoney, updateLoc, updateMonthlyExpenses, updateMonthlyLoc } from './mainAPI.js';
+import { updateMoney, updateLoc, updateMonthlyExpenses, updateDailyLoc } from './mainAPI.js';
 import * as contractAPI from './contractAPI.js';
 import environment from '../../../environment.json';
+import { midOfMinMax, calcNewSkill } from '../helpers/calcValues';
 
 export const initEmployee = (employee, team) => {
   employee.team =  team;
@@ -28,7 +29,6 @@ export const letEmploeeysWork = (setParentState, args, getParentState) => {
 
 export const employeePayment = (setParentState, getParentState) => {
   let payment = 0;
-  let employeePayment = 0;
   for(let employee of getParentState('employees')){
     payment += Math.floor(employee.payment * employee.workingDays / 30);
     if(employee.working === false){
@@ -47,14 +47,17 @@ export const acceptApplications = (setParentState, application, team, getParentS
   const employeesArr = getParentState('employees');
   employeesArr.push(application);
 
+  const employeesTypeObj = getParentState('employeesByType');
+
   // We have to update our monthly loc and expenses when hiring a new employee
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
-  updateMonthlyLoc(setParentState, null, getParentState);
+  updateDailyLoc(setParentState, null, getParentState);
+  updateMoney(setParentState, environment.settings.employees.hardwareCosts, null, getParentState);
 
-  setParentState('employees', employeesArr);
+  setParentState(null, { employees: employeesArr, employeesByType: addEmployeeByTypeToObj(employeesTypeObj, application)});
 }
 
 export const declineApplication = (setParentState, application, team, getParentState) => {
@@ -71,18 +74,55 @@ export const fireEmployee = (setParentState, employee, team) => {
 
 export const deleteEmployee = (setParentState, employee, getParentState) => {
   const employeesArr = getParentState('employees');
+  const employeesTypeObj = getParentState('employeesByType')
   const index = employeesArr.indexOf(employee);
-
+  
   if(index > -1){
     employeesArr.splice(index, 1);
   }
-
+  
   // We have to update our monthly loc and expenses when firing a employee
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
   updateMonthlyExpenses(setParentState, null, getParentState);
-  updateMonthlyLoc(setParentState, null, getParentState);
+  updateDailyLoc(setParentState, null, getParentState);
+  
+  setParentState(null, { employees: employeesArr, employeesByType: removeEmployeeFromTypeObj(employeesTypeObj, employee)});
+}
 
-  setParentState('employees', employeesArr);
+const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
+  if (!employeesTypeObj[application.employeeType]) {
+    employeesTypeObj[application.employeeType] = {};
+  }
+
+  if (!employeesTypeObj[application.employeeType][application.team]) {
+    employeesTypeObj[application.employeeType][application.team] = []
+  }
+
+  employeesTypeObj[application.employeeType][application.team].push(application);
+  return employeesTypeObj;
+}
+
+const removeEmployeeFromTypeObj = (employeesTypeObj, employee) => {
+  const employeesTypeArr = employeesTypeObj[employee.employeeType][employee.team]
+  const index = employeesTypeArr.indexOf(employee);
+  employeesTypeArr.splice(index, 1);
+
+  return employeesTypeObj;
+}
+
+export const keepTrainee = (setParentState, employee, team, getParentState) => {
+  delete employee.traineeTime;
+  employee.working = true;
+  removeEmployeeFromTypeObj(getParentState('employeesByType'), employee);
+  employee.employeeType = 'developer';
+  const newEmployeesByType = addEmployeeByTypeToObj(getParentState('employeesByType'), employee);
+  const modifiers = environment.settings.traineeModifier;
+
+  employee.skills = calcNewSkill(midOfMinMax(modifiers.skills.min, modifiers.skills.max), employee.skills);
+  employee.loc += midOfMinMax(modifiers.loc.min, modifiers.loc.max) * employee.loc;
+  employee.payment += midOfMinMax(modifiers.payment.min, modifiers.payment.max) * employee.payment;
+
+  setParentState('employeesByType', newEmployeesByType);
 }

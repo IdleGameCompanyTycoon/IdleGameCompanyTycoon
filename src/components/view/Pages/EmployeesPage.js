@@ -1,5 +1,6 @@
 import React from 'react';
 import Employee from '../SubViews/Employee.js';
+import '../../../assets/css/App-Pages.css';
 
 const EmployeesPage = (props) => {
   return (
