@@ -14,7 +14,7 @@ const Employee = (props) => {
           <tr>
           <td>             
               <img className="App-page-list-object-picture"
-               src={`http://${environment.backend}/images/${props.employee.picture}`} alt={'picture of employee'}/>
+               src={`https://${environment.backend}/images/${props.employee.picture}`} alt={'picture of employee'}/>
             </td>
             <td>
               <p>{`${props.employee.givenName} ${props.employee.lastName}`}</p>
