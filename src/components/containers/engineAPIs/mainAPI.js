@@ -51,7 +51,6 @@ export const updateMonthlyExpenses = (setParentState, valueToUpdate, getParentSt
 // Updates the current monthly expanses. Can take a optional parameter which contains the updated amount
 export const updateDailyLoc = (setParentState, valueToUpdate, getParentState) => {
   let newLoc = 0;
-  console.log(newLoc);
   if (valueToUpdate) {
     newLoc = getParentState('locPerDay') + valueToUpdate;
   } else {

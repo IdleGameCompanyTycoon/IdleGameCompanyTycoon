@@ -42,9 +42,9 @@ export const resetVolumeContract = (setParentState, getParentState) => {
   getParentState('activeContracts').forEach((contract) => {
     if(contract.contractType !== "volume") return;
     if(contract.progress < 100){
-      revenue -= Math.floor(contract.penalty * contract.dateOfBegin / 30);
+      revenue -= Math.floor((contract.penalty / 30) * (31 - contract.dateOfBegin));
     }else{
-      revenue += Math.floor(contract.revenue * contract.dateOfBegin / 30);
+      revenue += Math.floor((contract.revenue / 30) * (31 - contract.dateOfBegin));
     }
     contract.dateOfBegin = 1;
     contract.written = 0;
