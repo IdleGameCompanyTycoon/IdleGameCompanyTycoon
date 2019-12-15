@@ -28,6 +28,7 @@ export const letEmploeeysWork = (stateGetter, dispatcher) => {
 
   for(let team in loc){
     const updateResponse = updateLoc(stateGetter, dispatcher, loc[team], team, activeContractsArray, volumeContracts)
+    console.log(loc)
     if (updateResponse) [activeContractsArray, volumeContracts] = updateResponse;
   }
 
@@ -102,7 +103,6 @@ export const deleteEmployee = (stateGetter, dispatcher, employee, newEmployeesAr
 }
 
 const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
-  console.log(application)
   if (!employeesTypeObj[application.employeetype]) {
     employeesTypeObj[application.employeetype] = {};
   }

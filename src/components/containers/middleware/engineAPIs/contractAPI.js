@@ -52,7 +52,7 @@ export const resetVolumeContract = (stateGetter, dispatcher, activeContractsArra
     contract.active = false;
   });
 
-  const activeContractObject = setContractActive(stateGetter, dispatcher, activeContractsArray);
+  const activeContractObject = setContractActive(stateGetter, undefined, activeContractsArray);
   if(revenue !== 0){
       dispatcher({ name: UPDATE_MONEY, value: revenue })
   }
@@ -69,7 +69,7 @@ export const updateContract = (stateGetter, oldContract, newContract) => {
 export const getActiveContractForTeam = (activeContracts, team) => {
   let teamContract;
   activeContracts.forEach((contract) => {
-    if(contract && (contract.team === team) && contract.active){
+    if(contract && (contract.team === Number(team)) && contract.active){
       teamContract = contract;
     }
   });
@@ -100,6 +100,8 @@ export const updateProgress = (stateGetter, dispatcher, contract, loc, activeCon
     }
     activeContractsArr = closeContract(stateGetter, dispatcher, contract);
   }
+
+  if (!remain) remain = 0;
   return [remain, volumeContracts, activeContractsArr];
 }
 

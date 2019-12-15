@@ -16,6 +16,7 @@ export const updateDate = (days = 1, stateGetter, dispatcher) => {
   tmpDate.day += days;
 
   let employeeWork = letEmploeeysWork(stateGetter, dispatcher);
+
   employeeWork = timeContracts(stateGetter, dispatcher, employeeWork.activeContracts, employeeWork.volumeContracts);
   
   if(tmpDate.day >= 31){
