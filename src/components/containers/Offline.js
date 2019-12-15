@@ -46,13 +46,10 @@ class Offline extends Component {
     localStorage.setItem('Saves', selection);
   }
 
-  setParentState = (key, val, objectSave) => {
-    if(!objectSave && typeof val === 'object' &&  !Array.isArray(val)) {
-      this.setState(val);
-    } else {
-      this.setState({
-        [key]: val
-      });
+  setParentState = (changedObject, callback) => {
+    console.log(changedObject)
+    if(changedObject) {
+      this.setState(Object.assign({}, this.state, changedObject), callback);
     }
   }
 

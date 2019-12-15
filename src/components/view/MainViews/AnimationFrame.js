@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import environment from '../../../environment.json';
 import '../../../assets/css/App-main-view-animationframe.css';
+import { ON_USER_CLICK } from '../../containers/middleware/actions/mainActions.js';
 
 class AnimationFrame extends Component  {
   render() {
     return (
       <div className='App-animation-frame'
-           onClick={() => this.props.action("userClick", environment.settings.general.locGenerationPerClick)}>
+           onClick={() => this.props.action({ name: ON_USER_CLICK, value: environment.settings.general.locGenerationPerClick})}>
            <div className='box'>
               <p>{"import * as contractAPI from './contractAPI.js';"}</p>
               <p>{"import * as employeeAPI from './employeeAPI';"}</p>

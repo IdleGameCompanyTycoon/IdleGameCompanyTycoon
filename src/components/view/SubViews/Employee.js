@@ -1,6 +1,8 @@
 import React from 'react';
 import SkillView from './SkillView';
 import environment from '../../../environment.json';
+import { FIRE_EMPLOYEE, KEEP_TRAINEE } from '../../containers/middleware/actions/employeeActions';
+
 
 const Employee = (props) => {
   return (
@@ -22,11 +24,11 @@ const Employee = (props) => {
               <p>Salary: {props.employee.payment}€</p>
               <SkillView skills={props.employee.skills} />
               <button
-                onClick={() => props.action("fireEmployee", props.employee)
+                onClick={() => props.action({ name: FIRE_EMPLOYEE, value: props.employee })
                 }>Fire</button>
               { props.employee.traineeTime === 6 && !props.employee.working &&
                 <button
-                  onClick={() => props.action("keepTrainee", props.employee)
+                  onClick={() => props.action({ name: KEEP_TRAINEE, value: props.employee})
                   }>Keep</button>
               }
               </td>
