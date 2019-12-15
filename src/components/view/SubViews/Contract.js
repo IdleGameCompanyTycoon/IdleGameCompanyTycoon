@@ -2,6 +2,7 @@ import React from 'react';
 import '../../../assets/css/App-SubViews.css'
 //import {updateContract} from '../../containers/engineAPIs/mainAPI.js';
 import ProgressBar from './ProgressBar.js'
+import { CANCEL_CONTRACT, SET_CONTRACT_MANUAL_ACTIVE } from '../../containers/middleware/actions/contractActions';
 
 const Contract = (props) => {
   return (
@@ -20,11 +21,11 @@ const Contract = (props) => {
         <p>Time left: {props.contract.time}</p>
         <p>Pinned: {`${props.contract.pinned}`}</p>
       <button
-        onClick={() => props.action("cancelContract", props.contract)
+        onClick={() => props.action({ name: CANCEL_CONTRACT, value: props.contract })
       }>Cancel</button>
 
       <button
-        onClick={() => props.action("setContractActive", props.contract)
+        onClick={() => props.action({ name: SET_CONTRACT_MANUAL_ACTIVE, value: props.contract})
       }>set Active</button>
 
 

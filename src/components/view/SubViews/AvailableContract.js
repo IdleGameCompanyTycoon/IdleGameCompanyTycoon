@@ -1,4 +1,6 @@
 import React from 'react';
+import { ACCEPT_CONTRACT, DECLINE_CONTRACT } from '../../containers/middleware/actions/contractActions';
+
 
 const AvailableContract =  (props) => {
   return (
@@ -23,12 +25,12 @@ const AvailableContract =  (props) => {
         </p>
 
         <button
-          onClick={() => props.action("acceptContract", props.contract)
+          onClick={() => props.action({ name: ACCEPT_CONTRACT, value: props.contract })
           }>Accept</button>
 
 
           <button
-            onClick={() => props.action("declineContract", props.contract)
+            onClick={() => props.action({ name: DECLINE_CONTRACT, value: props.contract })
             }>Decline</button>
 
 

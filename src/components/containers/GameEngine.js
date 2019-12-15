@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../../assets/css/App-main-view.css';
-import { updateDate, onMonthChange } from './engineAPIs/mainAPI.js';
-import { initApplicationGen, initContractsGen } from './engineAPIs/dataFetchApi.js';
+import { initApplicationGen, initContractsGen } from './middleware/engineAPIs/dataFetchApi.js';
 import Main from '../view/Main.js';
 import Noti from '../view/MainViews/Notification.js'; // FIXME: USE FULL FUNCTION NAMES GOD DAMN IT! ^^
 import InfoPanel from '../view/MainViews/InfoPanel.js';
@@ -13,7 +12,9 @@ import EmployeesPage from '../view/Pages/EmployeesPage.js';
 import AvailableContractsPage from '../view/Pages/AvailableContractsPage.js';
 import EmployeeApplicationsPage from '../view/Pages/EmployeeApplicationsPage.js';
 import environment from '../../environment.json';
-import { ActionProvider, ActionWrapper } from './engineAPIs/ActionContext';
+import { ActionProvider, ActionWrapper } from './middleware/engineAPIs/ActionContext';
+import { applyMiddleware } from './middleware/middleware';
+import { UPDATE_DATE } from './middleware/actions/mainActions'; 
 
 class GameEngine extends Component {
   state = {
@@ -21,8 +22,10 @@ class GameEngine extends Component {
   }
 
   componentDidMount() {
-    initApplicationGen(this.props.setParentState, this.props.getParentState);
-    initContractsGen(this.props.setParentState, this.props.getParentState);
+    this.dispatcher = applyMiddleware(this.props.getParentState, this.props.setParentState);
+    
+    initApplicationGen(this.props.getParentState, this.dispatcher);
+    initContractsGen(this.props.getParentState, this.dispatcher);
     this.gameInterval();
   }
 
@@ -30,25 +33,23 @@ class GameEngine extends Component {
     const timeForDay =  environment.settings.general.timeForDay * 1000;
 
     setInterval(() => {
-        const monthChange = updateDate(this.props.setParentState, undefined, this.props.getParentState);
-        if (monthChange) {
-          onMonthChange(this.props.getParentState, this.props.setParentState);
-        }
+        this.dispatcher({ name: UPDATE_DATE });
         this.props.saveLocal();
     }, timeForDay);
   }
   
   setNotification = (args) => {
-    if(this.props.getParentState('notif')){
-      this.props.setParentState('notif'); 
-    }else{
-      this.props.setParentState('notif', args);
-    }
+    // Broken, handle via middleware
+    // if(this.props.getParentState('notif')){
+    //   this.props.setParentState('notif'); 
+    // }else{
+    //   this.props.setParentState('notif', args);
+    // }
     
   }
   render() {
     return (
-      <ActionProvider setParentState={this.props.setParentState} getParentState={this.props.getParentState} selectedTeam={this.state.selectedTeam}>
+      <ActionProvider dispatcher={this.dispatcher} selectedTeam={this.state.selectedTeam}>
         <Main>
         <Noti notif={this.props.save.notif}
               action={this.triggerAction}

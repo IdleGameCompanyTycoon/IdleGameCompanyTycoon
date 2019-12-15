@@ -1,8 +1,11 @@
 import React from 'react';
 import SkillView from './SkillView';
 import environment from '../../../environment.json';
+import { ACCEPT_APPLICATIONS, DECLINE_APPLICATION } from '../../containers/middleware/actions/employeeActions';
+
 
 const EmployeeApplication = (props) => {
+  
   return (
     <div>
       <hr>
@@ -22,10 +25,10 @@ const EmployeeApplication = (props) => {
               <p>Salary: {props.application.payment}€</p>
               <SkillView skills={props.application.skills} />
               <button
-                onClick={() => props.action("acceptApplication", props.application)
+                onClick={() => props.action({ name: ACCEPT_APPLICATIONS, value: props.application })
                 }>Accept</button>
               <button
-                onClick={() => props.action("declineApplication", props.application)
+                onClick={() => props.action({ name: DECLINE_APPLICATION, value: props.application })
                 }>Decline</button>
             </td>
           </tr>
