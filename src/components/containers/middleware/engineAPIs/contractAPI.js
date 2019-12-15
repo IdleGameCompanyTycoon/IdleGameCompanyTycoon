@@ -99,7 +99,6 @@ export const updateProgress = (stateGetter, dispatcher, contract, loc, activeCon
       dispatcher({ name: UPDATE_MONEY, value: contract.revenue });
     }
     activeContractsArr = closeContract(stateGetter, dispatcher, contract);
-    console.log(activeContractsArr)
   }
   return [remain, volumeContracts, activeContractsArr];
 }
@@ -137,13 +136,13 @@ export const acceptContract =  (stateGetter, dispatcher, contract, team = 0) => 
         contract.terminated = false;
         contract.dateOfBegin = stateGetter('date').day;
         let freeLoc = Math.floor(contract.loc * (contract.dateOfBegin / 30));
-        [remain, volumeContracts, activeContractsArr] = updateProgress(stateGetter, dispatcher, contract, freeLoc, availableContracts);
+        [remain, volumeContracts, activeContractsArr] = updateProgress(stateGetter, dispatcher, contract, freeLoc);
   }
 
   //add contract to activeContracts array
   activeContractsArr = addContract(contract, team, stateGetter, activeContractsArr).activeContracts;
   const activeContractResponse = setContractActive(stateGetter, undefined, activeContractsArr);
-  
+
   return Object.assign({ activeContracts: activeContractsArr, volumeContracts: volumeContracts, availableContracts: availableContracts }, activeContractResponse);
 }
 
