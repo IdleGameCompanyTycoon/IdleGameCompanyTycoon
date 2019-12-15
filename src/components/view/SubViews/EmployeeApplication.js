@@ -13,7 +13,7 @@ const EmployeeApplication = (props) => {
           <tr>
             <td>             
               <img className="App-page-list-object-picture"
-               src={`http://${environment.backend}/images/${props.application.picture}`} alt={'picture of employee'}/>
+               src={`https://${environment.backend}/images/${props.application.picture}`} alt={'picture of employee'}/>
             </td>
             <td>
               {`${props.application.givenName} ${props.application.lastName}`}

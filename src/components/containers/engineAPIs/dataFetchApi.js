@@ -7,7 +7,7 @@ export const initApplicationGen = (setParentState, getParentState) => {
   setTimeout(() => {
     let availableApplicationsArr = getParentState('availableApplications');
     if(availableApplicationsArr.length < settings.maxApplications) {
-      fetch(`http://${environment.backend}/getData?operation=getApplication`)
+      fetch(`https://${environment.backend}/getData?operation=getApplication`)
           .then(res => res.json())
           .then(res => {
             availableApplicationsArr.push(res);
@@ -31,7 +31,7 @@ export const initContractsGen = (setParentState, getParentState) => {
   setTimeout(() => {
     let availableContractsArr = getParentState('availableContracts');
     if(availableContractsArr.length < settings.maxAvailableContracts) {
-      fetch(`http://${environment.backend}/getData?operation=getContract`)
+      fetch(`https://${environment.backend}/getData?operation=getContract`)
           .then(res => res.json())
           .then(res => {
             availableContractsArr.push(res);
