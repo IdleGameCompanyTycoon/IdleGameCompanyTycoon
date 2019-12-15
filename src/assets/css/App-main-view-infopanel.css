@@ -10,6 +10,10 @@
   cursor: pointer;
 }
 
+.App-info-panel-info{
+  display: none;
+}
+
 .App-info-panel-money{
   margin-top:0;
   margin-left: 1vw;
