@@ -19,7 +19,7 @@ const AvailableContract =  (props) => {
         </p>
 
         <p>
-          Revenue: {`${props.contract.revenue}`}
+          Revenue: {`${props.contract.revenue}€`}
         </p>
 
         <button
