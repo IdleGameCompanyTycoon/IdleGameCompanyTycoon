@@ -47,7 +47,6 @@ class Offline extends Component {
   }
 
   setParentState = (changedObject, callback) => {
-    console.log(changedObject)
     if(changedObject) {
       this.setState(Object.assign({}, this.state, changedObject), callback);
     }

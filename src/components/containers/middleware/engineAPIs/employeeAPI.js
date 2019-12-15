@@ -102,15 +102,16 @@ export const deleteEmployee = (stateGetter, dispatcher, employee, newEmployeesAr
 }
 
 const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
-  if (!employeesTypeObj[application.employeeType]) {
-    employeesTypeObj[application.employeeType] = {};
+  console.log(application)
+  if (!employeesTypeObj[application.employeetype]) {
+    employeesTypeObj[application.employeetype] = {};
   }
 
-  if (!employeesTypeObj[application.employeeType][application.team]) {
-    employeesTypeObj[application.employeeType][application.team] = []
+  if (!employeesTypeObj[application.employeetype][application.team]) {
+    employeesTypeObj[application.employeetype][application.team] = []
   }
 
-  employeesTypeObj[application.employeeType][application.team].push(application);
+  employeesTypeObj[application.employeetype][application.team].push(application);
   return employeesTypeObj;
 }
 

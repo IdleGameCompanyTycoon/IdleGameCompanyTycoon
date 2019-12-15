@@ -14,7 +14,10 @@ export const mainReducer = next => stateGetter => dispatcher => (action, previou
             break;
         case ON_USER_CLICK:
             const locResponse = updateLoc(stateGetter, dispatcher, action.value);
-            previousObject = Object.assign({}, previousObject);
+            const responseObj = {};
+            if (locResponse[0]) responseObj.activeContracts = locResponse[0];
+            if (locResponse[1]) responseObj.volumeContracts = locResponse[1];
+            previousObject = Object.assign({}, previousObject, responseObj);
             break;
         default:
             break;

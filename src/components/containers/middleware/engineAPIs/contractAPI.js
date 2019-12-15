@@ -61,8 +61,8 @@ export const resetVolumeContract = (stateGetter, dispatcher, activeContractsArra
 }
 
 export const updateContract = (stateGetter, oldContract, newContract) => {
-  let activeContracts = declineContract(stateGetter, oldContract);
-  activeContracts = addContract(newContract, 0, stateGetter, activeContracts);
+  let activeContracts = declineContract(stateGetter, oldContract).activeContracts;
+  activeContracts = addContract(newContract, 0, stateGetter, activeContracts).activeContracts;
   return activeContracts;
 }
 
@@ -99,6 +99,7 @@ export const updateProgress = (stateGetter, dispatcher, contract, loc, activeCon
       dispatcher({ name: UPDATE_MONEY, value: contract.revenue });
     }
     activeContractsArr = closeContract(stateGetter, dispatcher, contract);
+    console.log(activeContractsArr)
   }
   return [remain, volumeContracts, activeContractsArr];
 }
@@ -143,7 +144,7 @@ export const acceptContract =  (stateGetter, dispatcher, contract, team = 0) => 
   activeContractsArr = addContract(contract, team, stateGetter, activeContractsArr).activeContracts;
   const activeContractResponse = setContractActive(stateGetter, undefined, activeContractsArr);
   
-  return Object.assign({ activeContracts: activeContractsArr, volumeContracts: volumeContracts }, activeContractResponse);
+  return Object.assign({ activeContracts: activeContractsArr, volumeContracts: volumeContracts, availableContracts: availableContracts }, activeContractResponse);
 }
 
 export const timeContracts = (stateGetter, dispatcher, activeContractsArr = stateGetter('activeContracts'), volumeContracts = stateGetter('volumeContracts')) => {
@@ -159,7 +160,7 @@ export const timeContracts = (stateGetter, dispatcher, activeContractsArr = stat
       dispatcher({ name: UPDATE_MONEY, value: contract.penalty });
     }
   })
-  return { activeContracts: activeContractsArr,  volumeContracts: volumeContracts};
+  return { activeContracts: activeContractsArr,  volumeContracts: volumeContracts };
 }
 
 export const calcNumberOfContracts = (getParentState, team) => {
