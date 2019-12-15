@@ -3,6 +3,7 @@ import '../../assets/css/App-main-view.css';
 import { updateDate, onMonthChange } from './engineAPIs/mainAPI.js';
 import { initApplicationGen, initContractsGen } from './engineAPIs/dataFetchApi.js';
 import Main from '../view/Main.js';
+import Noti from '../view/MainViews/Notification.js'; // FIXME: USE FULL FUNCTION NAMES GOD DAMN IT! ^^
 import InfoPanel from '../view/MainViews/InfoPanel.js';
 import AnimationFrame from '../view/MainViews/AnimationFrame.js';
 import Navigation from '../view/MainViews/Navigation.js';
@@ -36,11 +37,22 @@ class GameEngine extends Component {
         this.props.saveLocal();
     }, timeForDay);
   }
-
+  
+  setNotification = (args) => {
+    if(this.props.getParentState('notif')){
+      this.props.setParentState('notif'); 
+    }else{
+      this.props.setParentState('notif', args);
+    }
+    
+  }
   render() {
     return (
       <ActionProvider setParentState={this.props.setParentState} getParentState={this.props.getParentState} selectedTeam={this.state.selectedTeam}>
         <Main>
+        <Noti notif={this.props.save.notif}
+              action={this.triggerAction}
+              setParentState={this.props.setParentState}/>
           <InfoPanel money={this.props.save.money}
                     date={this.props.save.date}
                     goToHome={this.props.goToHome}
