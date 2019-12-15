@@ -12,8 +12,8 @@ const Contract = (props) => {
       <ProgressBar
                     contract={props.contract}
                     text={Math.floor(props.contract.progress)}/>
-                  <p>Progress: {Math.floor(props.contract.progress)} % of {props.contract.loc}</p>
-      <p>Revenue: {`${props.contract.revenue}`} $</p>
+                  <p>Progress: {Math.floor(props.contract.written)} of {props.contract.loc}</p>
+      <p>Revenue: {`${props.contract.revenue}`}€</p>
         <p>
           This is a {props.contract.contractType} Contract
         </p>
