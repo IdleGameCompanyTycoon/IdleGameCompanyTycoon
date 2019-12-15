@@ -1,6 +1,7 @@
 import React from 'react';
 import SkillView from './SkillView';
 import environment from '../../../environment.json';
+import '../../../assets/css/App-Pages.css';
 
 const EmployeeApplication = (props) => {
   return (
@@ -11,10 +12,9 @@ const EmployeeApplication = (props) => {
         <table>
           <tbody>
           <tr>
-            <td style={{width:7 + "vw"}}>
-              {console.log("http://" + environment.backend + "/images/" + props.application.picture)}
-              
-              <img src={`http://${environment.backend}/images/${props.application.picture}`} alt={'picture of ${environment.backend} employee'}/>
+            <td>             
+              <img className="App-page-list-object-picture"
+               src={`http://${environment.backend}/images/${props.application.picture}`} alt={'picture of ${environment.backend} employee'}/>
             </td>
             <td>
               {`${props.application.givenName} ${props.application.lastName}`}
