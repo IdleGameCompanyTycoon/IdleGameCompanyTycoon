@@ -149,13 +149,13 @@ export const acceptContract =  (stateGetter, dispatcher, contract, team = 0) => 
 }
 
 export const timeContracts = (stateGetter, dispatcher, activeContractsArr = stateGetter('activeContracts'), volumeContracts = stateGetter('volumeContracts')) => {
-  stateGetter('activeContracts').forEach((contract) => {
+  activeContractsArr.forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
       activeContractsArr = closeContract(stateGetter, dispatcher, contract, activeContractsArr);
       dispatcher({ name: UPDATE_MONEY, value: contract.penalty });
     }
   });
-  stateGetter('volumeContracts').forEach((contract) => {
+  volumeContracts.forEach((contract) => {
     if(contract.terminated === true && --contract.time < 1){
       activeContractsArr = closeContract(stateGetter, dispatcher, contract, activeContractsArr);
       dispatcher({ name: UPDATE_MONEY, value: contract.penalty });
