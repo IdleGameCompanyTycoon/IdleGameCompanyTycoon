@@ -17,10 +17,10 @@ export const updateDate = (days = 1, stateGetter, dispatcher) => {
 
   let employeeWork = letEmploeeysWork(stateGetter, dispatcher);
 
-  employeeWork = timeContracts(stateGetter, dispatcher, employeeWork.activeContracts, employeeWork.volumeContracts);
+  employeeWork = timeContracts(stateGetter, dispatcher, employeeWork.activeContractsArray, employeeWork.volumeContracts);
   
   if(tmpDate.day >= 31){
-    const volumeContracts = resetVolumeContract(stateGetter, dispatcher, employeeWork.activeContracts, employeeWork.volumeContracts);
+    const volumeContracts = resetVolumeContract(stateGetter, dispatcher, employeeWork.activeContractsArray, employeeWork.volumeContracts);
     tmpDate.day -= 30;
     tmpDate.month += 1;
     const employees = employeePayment(stateGetter, dispatcher);
@@ -80,8 +80,10 @@ export const locClick = (stateGetter, selectedTeam) => {
 //statt engine team
 export const updateLoc = (stateGetter, dispatcher, loc, team = 0, activeContractsArr, volumeContracts) => {
   if(!stateGetter('teams')[team].activeContract) return;
+
   activeContractsArr = activeContractsArr || stateGetter('activeContracts');
   volumeContracts = volumeContracts || stateGetter('volumeContracts')
+
   do {
     let contract = getActiveContractForTeam(activeContractsArr, team) 
 
