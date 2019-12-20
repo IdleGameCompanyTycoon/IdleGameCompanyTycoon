@@ -10,7 +10,7 @@ const EmployeeTypeApplicationOptions = (props) => {
 
     // For freelancer types
     if (props.application.employeetype === 'freelancer') {
-        console.log(props.application)
+
         if (!props.application.contractTime && props.optionsSet) {
             props.setOptions(false);
         }
