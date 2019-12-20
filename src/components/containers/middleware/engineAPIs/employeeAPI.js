@@ -10,7 +10,7 @@ export const initEmployee = (employee, team) => {
   employee.working = true;
 }
 
-export const letEmploeeysWork = (stateGetter, dispatcher) => {
+export const letEmployeesWork = (stateGetter, dispatcher) => {
   const loc = {};
   for(let employee of stateGetter('employees')){
     if(!employee.working){
@@ -78,8 +78,9 @@ export const declineApplication = (stateGetter, application, team) => {
   return { availableApplications: availableApplicationsArr };
 }
 
-export const fireEmployee = (employee) => {
+export const fireEmployee = (stateGetter, employee, team) => {
   employee.working = false;
+  return employee;
 }
 
 export const deleteEmployee = (stateGetter, dispatcher, employee, newEmployeesArray) => {
@@ -115,7 +116,7 @@ const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
 }
 
 const removeEmployeeFromTypeObj = (employeesTypeObj, employee) => {
-  const employeesTypeArr = employeesTypeObj[employee.employeeType][employee.team]
+  const employeesTypeArr = employeesTypeObj[employee.employeetype][employee.team]
   const index = employeesTypeArr.indexOf(employee);
   employeesTypeArr.splice(index, 1);
 
