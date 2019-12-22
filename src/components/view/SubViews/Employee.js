@@ -20,6 +20,8 @@ const Employee = (props) => {
             </td>
             <td>
               <p>{`${props.employee.givenName} ${props.employee.lastName}`}</p>
+              <p>Type: {`${props.employee.employeetype}`}</p>
+              {props.employee.employeetype === "freelancer" && <p>{props.employee.contractTime}</p>  }
               <p>Work speed: {props.employee.loc} LoC</p>
               <p>Salary: {props.employee.payment}€</p>
               <SkillView skills={props.employee.skills} />
