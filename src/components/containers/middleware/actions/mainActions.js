@@ -13,3 +13,5 @@ export const UPDATE_LOC = 'updateLoc';
 export const ON_MONTH_CHANGE = 'onMonthChange';
 
 export const ON_USER_CLICK = 'userClick';
+
+export const UPDATE_EMPLOYEES_STATS = 'updateEmployeesStats';

@@ -2,7 +2,7 @@ import { updateMoney, updateLoc, updateMonthlyExpenses, updateDailyLoc } from '.
 import * as contractAPI from './contractAPI.js';
 import environment from '../../../../environment.json';
 import { midOfMinMax, calcNewSkill } from '../../helpers/calcValues';
-import { UPDATE_MONEY } from '../actions/mainActions';
+import { UPDATE_MONEY, UPDATE_EMPLOYEES_STATS } from '../actions/mainActions';
 
 export const initEmployee = (employee, team) => {
   employee.team =  team;
@@ -10,7 +10,7 @@ export const initEmployee = (employee, team) => {
   employee.working = true;
 }
 
-export const letEmploeeysWork = (stateGetter, dispatcher) => {
+export const letEmployeesWork = (stateGetter, dispatcher) => {
   const loc = {};
   for(let employee of stateGetter('employees')){
     if(!employee.working){
@@ -36,18 +36,20 @@ export const letEmploeeysWork = (stateGetter, dispatcher) => {
 
 export const employeePayment = (stateGetter, dispatcher) => {
   let payment = 0;
-  let employees = stateGetter('employees');
-  for(let employee of employees){
+  let employeesArr = stateGetter('employees');
+  let employeesTypeObj = stateGetter('employeesByType')
+
+  for(let i = employeesArr.length - 1; i >= 0; i--){
+    let employee = employeesArr[i];
     payment += Math.floor(employee.payment * employee.workingDays / 30);
-    if(employee.working === false){
-      employees = deleteEmployee(stateGetter, dispatcher, employee, employees);
+    if(!employee.working){
+      [ employeesArr, employeesTypeObj ] = deleteEmployee(stateGetter, dispatcher, employee, employeesArr)      
     }
     employee.workingDays = 0;
 
   }
   dispatcher({ name: UPDATE_MONEY, value: -payment })
-
-  return { employees: employees };
+  return Object.assign({}, {employees: employeesArr, employeesByType: employeesTypeObj})
 }
 
 export const acceptApplications = (stateGetter, dispatcher, application, team = 0) => {
@@ -63,11 +65,10 @@ export const acceptApplications = (stateGetter, dispatcher, application, team = 
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
-  const expanses = updateMonthlyExpenses(stateGetter, employeesArr);
-  const dayliLoc = updateDailyLoc(stateGetter, employeesArr);
+  dispatcher({ name: UPDATE_EMPLOYEES_STATS, employeesArr: employeesArr})
   dispatcher({ name: UPDATE_MONEY, value: -environment.settings.employees.hardwareCosts });
 
-  return Object.assign({ employees: employeesArr, employeesByType: addEmployeeByTypeToObj(employeesTypeObj, application) }, expanses, dayliLoc, applications);
+  return Object.assign({ employees: employeesArr, employeesByType: addEmployeeByTypeToObj(employeesTypeObj, application) }, applications);
 }
 
 export const declineApplication = (stateGetter, application, team) => {
@@ -78,27 +79,25 @@ export const declineApplication = (stateGetter, application, team) => {
   return { availableApplications: availableApplicationsArr };
 }
 
-export const fireEmployee = (employee) => {
+export const fireEmployee = (stateGetter, employee, team) => {
   employee.working = false;
+  return employee;
 }
 
-export const deleteEmployee = (stateGetter, dispatcher, employee, newEmployeesArray) => {
-  const employeesArr = stateGetter('employees');
-  const employeesTypeObj = stateGetter('employeesByType')
+export const deleteEmployee = (stateGetter, dispatcher, employee, employeesArr = stateGetter('employees')) => {
+  let employeesTypeObj = stateGetter('employeesByType')
   const index = employeesArr.indexOf(employee);
-  
   if(index > -1){
     employeesArr.splice(index, 1);
-  }
-  
+  }  
+ 
   // We have to update our monthly loc and expenses when firing a employee
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
-  const expanses = updateMonthlyExpenses(stateGetter, newEmployeesArray);
-  const dayliLoc = updateDailyLoc(stateGetter, newEmployeesArray);
-  
-  return Object.assign({ employees: employeesArr, employeesByType: removeEmployeeFromTypeObj(employeesTypeObj, employee)}, expanses, dayliLoc);
+  dispatcher({ name: UPDATE_EMPLOYEES_STATS, employeesArr: employeesArr})
+
+  return [employeesArr, removeEmployeeFromTypeObj(employeesTypeObj, employee)]
 }
 
 const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
@@ -115,7 +114,7 @@ const addEmployeeByTypeToObj = (employeesTypeObj, application) => {
 }
 
 const removeEmployeeFromTypeObj = (employeesTypeObj, employee) => {
-  const employeesTypeArr = employeesTypeObj[employee.employeeType][employee.team]
+  const employeesTypeArr = employeesTypeObj[employee.employeetype][employee.team]
   const index = employeesTypeArr.indexOf(employee);
   employeesTypeArr.splice(index, 1);
 
