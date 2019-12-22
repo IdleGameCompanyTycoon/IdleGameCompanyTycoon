@@ -121,14 +121,16 @@ export const onMonthChange = (stateGetter) => {
     })
   }
   for(let team in employeesByType.freelancer) {
+
     employeesByType.freelancer[team].forEach(employee => {
-      if (parseInt(employee.contractTime)) {
-        const currentContractTime = parseInt(employee.contractTime);
+      const currentContractTime = parseInt(employee.contractTime);
+
+      if (currentContractTime || currentContractTime === 0) {
         if (currentContractTime > 0) {
           employee.contractTime = currentContractTime-1;
+        }else{
+          employee.working = false;
         }
-      }else{
-        employee.working = false;
       }
     })
   }
