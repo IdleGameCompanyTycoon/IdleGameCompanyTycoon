@@ -2,7 +2,7 @@
   "backend":"igct-backend.rgrimm.org:37100",
   "settings": {
     "general": {
-      "timeForDay": 1,
+      "timeForDay": 5,
       "locGenerationPerClick": 100
     },
     "employees": {

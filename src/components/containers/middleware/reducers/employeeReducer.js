@@ -15,7 +15,6 @@ export const employeeReducer = next => stateGetter => dispatcher => (action, pre
         case KEEP_TRAINEE: 
             previousObject = Object.assign({}, previousObject, keepTrainee(stateGetter, action.value, action.selectedTeam));
             break;
-        
     }
 
     next(action, previousObject);

@@ -24,7 +24,6 @@ export const updateDate = (days = 1, stateGetter, dispatcher) => {
     tmpDate.day -= 30;
     tmpDate.month += 1;
     const employees = employeePayment(stateGetter, dispatcher);
-    console.log("monthly: ", employees)
     employeeWork = Object.assign({}, employeeWork, volumeContracts, employees)
     newMonth = true;
   } else if( tmpDate.month >= 12) {
@@ -107,8 +106,6 @@ export const updateLoc = (stateGetter, dispatcher, loc, team = 0, activeContract
 */
 export const onMonthChange = (stateGetter) => {
   const employeesByType = stateGetter('employeesByType');
-  console.log(employeesByType)
-
   // Update trainee time
   let traineesLeaving = 0;
   for(let team in employeesByType.trainee) {

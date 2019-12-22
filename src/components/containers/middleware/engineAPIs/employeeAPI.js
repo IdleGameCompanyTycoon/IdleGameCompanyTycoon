@@ -37,20 +37,19 @@ export const letEmployeesWork = (stateGetter, dispatcher) => {
 export const employeePayment = (stateGetter, dispatcher) => {
   let payment = 0;
   let employeesArr = stateGetter('employees');
-  let employeesByType;
-  let employees = {}
-  for(let employee of employeesArr){
+  let employeesTypeObj = stateGetter('employeesByType')
+
+  for(let i = employeesArr.length - 1; i >= 0; i--){
+    let employee = employeesArr[i];
     payment += Math.floor(employee.payment * employee.workingDays / 30);
     if(!employee.working){
-      [ employeesArr, employeesByType ] = deleteEmployee(stateGetter, dispatcher, employee, employeesArr)
-      
+      [ employeesArr, employeesTypeObj ] = deleteEmployee(stateGetter, dispatcher, employee, employeesArr)      
     }
     employee.workingDays = 0;
 
   }
   dispatcher({ name: UPDATE_MONEY, value: -payment })
-
-  return Object.assign({}, {employees: employeesArr, employeesByType: employeesByType})
+  return Object.assign({}, {employees: employeesArr, employeesByType: employeesTypeObj})
 }
 
 export const acceptApplications = (stateGetter, dispatcher, application, team = 0) => {
@@ -66,8 +65,6 @@ export const acceptApplications = (stateGetter, dispatcher, application, team = 
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
   // But due to the async nature of setState we can't be sure that the current value is up to date therefore we need to somehow qeue
   // The calculations on multiple occasions or we have to somehow get the currently qeued setState value.
-  //const expanses = updateMonthlyExpenses(stateGetter, employeesArr);
-  //const dayliLoc = updateDailyLoc(stateGetter, employeesArr);
   dispatcher({ name: UPDATE_EMPLOYEES_STATS, employeesArr: employeesArr})
   dispatcher({ name: UPDATE_MONEY, value: -environment.settings.employees.hardwareCosts });
 
@@ -88,14 +85,11 @@ export const fireEmployee = (stateGetter, employee, team) => {
 }
 
 export const deleteEmployee = (stateGetter, dispatcher, employee, employeesArr = stateGetter('employees')) => {
-
   let employeesTypeObj = stateGetter('employeesByType')
-    const index = employeesArr.indexOf(employee);
-    if(index > -1){
-
-      employeesArr.splice(index, 1);
-
-    }  
+  const index = employeesArr.indexOf(employee);
+  if(index > -1){
+    employeesArr.splice(index, 1);
+  }  
  
   // We have to update our monthly loc and expenses when firing a employee
   // TODO: In theory we can pass application.payment in the second parameter to update more efficently.
