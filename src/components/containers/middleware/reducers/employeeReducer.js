@@ -10,7 +10,7 @@ export const employeeReducer = next => stateGetter => dispatcher => (action, pre
             previousObject = Object.assign({}, previousObject, declineApplication(stateGetter, action.value, action.selectedTeam));
             break;
         case FIRE_EMPLOYEE: 
-            fireEmployee(action.value);
+            previousObject = Object.assign({}, previousObject,  fireEmployee(stateGetter, action.value,action.selectedTeam));
             break;
         case KEEP_TRAINEE: 
             previousObject = Object.assign({}, previousObject, keepTrainee(stateGetter, action.value, action.selectedTeam));

@@ -1,5 +1,5 @@
 import { timeContracts, resetVolumeContract, getActiveContractForTeam, updateProgress } from './contractAPI';
-import { letEmploeeysWork, employeePayment } from './employeeAPI';
+import { letEmployeesWork, employeePayment } from './employeeAPI';
 import { ON_MONTH_CHANGE } from '../actions/mainActions';
 
 // Update the money, accepts an integer as dataObj
@@ -15,7 +15,7 @@ export const updateDate = (days = 1, stateGetter, dispatcher) => {
   let newMonth = false;
   tmpDate.day += days;
 
-  let employeeWork = letEmploeeysWork(stateGetter, dispatcher);
+  let employeeWork = letEmployeesWork(stateGetter, dispatcher);
 
   employeeWork = timeContracts(stateGetter, dispatcher, employeeWork.activeContractsArray, employeeWork.volumeContracts);
   
@@ -106,7 +106,6 @@ export const updateLoc = (stateGetter, dispatcher, loc, team = 0, activeContract
 */
 export const onMonthChange = (stateGetter) => {
   const employeesByType = stateGetter('employeesByType');
-
   // Update trainee time
   let traineesLeaving = 0;
   for(let team in employeesByType.trainee) {

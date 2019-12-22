@@ -23,9 +23,11 @@ const Employee = (props) => {
               <p>Work speed: {props.employee.loc} LoC</p>
               <p>Salary: {props.employee.payment}€</p>
               <SkillView skills={props.employee.skills} />
+              {props.employee.working ? 
               <button
-                onClick={() => props.action({ name: FIRE_EMPLOYEE, value: props.employee })
-                }>Fire</button>
+              onClick={() => props.action({ name: FIRE_EMPLOYEE, value: props.employee })
+              }>Fire</button>:
+              "Not Working"}
               { props.employee.traineeTime === 6 && !props.employee.working &&
                 <button
                   onClick={() => props.action({ name: KEEP_TRAINEE, value: props.employee})
