@@ -37,7 +37,7 @@ class Offline extends Component {
       savedSelection = JSON.parse(savedSelection);
 
       savedSelection = this.workAroundEmployeeByTypeToEmplyoeesArrayPleaseFix(savedSelection);
-      console.log(savedSelection)
+      
       this.setState({
         ...savedSelection
       })
@@ -46,7 +46,6 @@ class Offline extends Component {
 
   saveToLocalStorage = () => {
     let selection = JSON.stringify(this.state);
-    console.log(this.state)
     localStorage.setItem('Saves', selection);
   }
 
