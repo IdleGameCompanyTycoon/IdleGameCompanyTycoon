@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SkillView from './SkillView';
 import environment from '../../../environment.json';
 import { ACCEPT_APPLICATIONS, DECLINE_APPLICATION } from '../../containers/middleware/actions/employeeActions';
-
+import EmployeeTypeApplicationOptions from './EmployTypeApplicationOptions';
 
 const EmployeeApplication = (props) => {
-  
+  const [optionsSet, setOptionsSet] = useState(true);
+
+
   return (
     <div>
       <hr>
@@ -25,11 +27,12 @@ const EmployeeApplication = (props) => {
               <p>Salary: {props.application.payment}€</p>
               <SkillView skills={props.application.skills} />
               <button
-                onClick={() => props.action({ name: ACCEPT_APPLICATIONS, value: props.application })
+                onClick={() => optionsSet ? props.action({ name: ACCEPT_APPLICATIONS, value: props.application }) : null // We still need some kind of error message for when options are not set
                 }>Accept</button>
               <button
                 onClick={() => props.action({ name: DECLINE_APPLICATION, value: props.application })
                 }>Decline</button>
+              <EmployeeTypeApplicationOptions application={props.application} setOptions={setOptionsSet} optionsSet={optionsSet} />  
             </td>
           </tr>
           </tbody>

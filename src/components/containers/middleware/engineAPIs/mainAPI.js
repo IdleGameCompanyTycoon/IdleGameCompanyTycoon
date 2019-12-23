@@ -120,8 +120,21 @@ export const onMonthChange = (stateGetter) => {
       }
     })
   }
+  for(let team in employeesByType.freelancer) {
 
-  return { traineesLeaving: traineesLeaving, employeesByType: employeesByType };
+    employeesByType.freelancer[team].forEach(employee => {
+      const currentContractTime = parseInt(employee.contractTime);
+
+      if (currentContractTime || currentContractTime === 0) {
+        if (currentContractTime > 0) {
+          employee.contractTime = currentContractTime-1;
+        }else{
+          employee.working = false;
+        }
+      }
+    })
+  }
+  return {traineesLeaving: traineesLeaving, employeesByType: employeesByType }
 }
 
 

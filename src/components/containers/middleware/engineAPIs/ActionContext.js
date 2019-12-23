@@ -28,7 +28,7 @@ export class ActionProvider extends Component {
 export const ActionWrapper = (props) => {
 
     return (
-        <ActionContext>
+        <ActionContext.Consumer>
           { actionContext => (
               <React.Fragment>
 
@@ -36,6 +36,6 @@ export const ActionWrapper = (props) => {
               </React.Fragment>
             )
           }
-        </ActionContext>
+        </ActionContext.Consumer>
       )
 }

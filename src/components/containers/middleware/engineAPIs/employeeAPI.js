@@ -117,7 +117,6 @@ const removeEmployeeFromTypeObj = (employeesTypeObj, employee) => {
   const employeesTypeArr = employeesTypeObj[employee.employeetype][employee.team]
   const index = employeesTypeArr.indexOf(employee);
   employeesTypeArr.splice(index, 1);
-
   return employeesTypeObj;
 }
 

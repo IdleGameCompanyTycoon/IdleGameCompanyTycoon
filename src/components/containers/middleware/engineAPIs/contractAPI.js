@@ -105,6 +105,9 @@ export const updateProgress = (stateGetter, dispatcher, contract, loc, activeCon
   return [remain, volumeContracts, activeContractsArr];
 }
 
+
+
+
 export const declineContract = (stateGetter, contract, team = 0) => {
   let availableContractsArr = stateGetter('availableContracts');
   let index = availableContractsArr.indexOf(contract);
@@ -113,6 +116,9 @@ export const declineContract = (stateGetter, contract, team = 0) => {
 
   return { availableContracts: availableContractsArr };
 }
+
+
+
 
 export const acceptContract =  (stateGetter, dispatcher, contract, team = 0) => {
 
@@ -148,6 +154,12 @@ export const acceptContract =  (stateGetter, dispatcher, contract, team = 0) => 
   return Object.assign({ activeContracts: activeContractsArr, volumeContracts: volumeContracts, availableContracts: availableContracts }, activeContractResponse);
 }
 
+
+
+/**
+ * Function for Timed Contract
+ * param
+ */
 export const timeContracts = (stateGetter, dispatcher, activeContractsArr = stateGetter('activeContracts'), volumeContracts = stateGetter('volumeContracts')) => {
   activeContractsArr.forEach((contract) => {
     if((contract.contractType === "timed" || contract.terminated === true) && --contract.time < 1){
@@ -188,6 +200,12 @@ export const calcNumberOfContracts = (getParentState, team) => {
 
 }
 
+
+
+/**
+ * Function to set the active contract via manual trigger
+ * param
+ */
 export const setContractManualActive = (stateGetter, contract, team, activeContractsArray = stateGetter('activeContracts')) => {
   contract.pinned = true;
   if(stateGetter('activeContracts')[0] === contract) {

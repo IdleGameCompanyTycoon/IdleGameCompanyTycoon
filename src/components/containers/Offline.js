@@ -35,6 +35,9 @@ class Offline extends Component {
     let savedSelection = localStorage.getItem('Saves');
     if(savedSelection) {
       savedSelection = JSON.parse(savedSelection);
+
+      savedSelection = this.workAroundEmployeeByTypeToEmplyoeesArrayPleaseFix(savedSelection);
+      
       this.setState({
         ...savedSelection
       })
@@ -54,6 +57,19 @@ class Offline extends Component {
 
   getParentState = (key) => {
     return this.state[key];
+  }
+
+  workAroundEmployeeByTypeToEmplyoeesArrayPleaseFix = (save) => {
+    const employees = [];
+
+    Object.values(save.employeesByType).forEach(team => {
+      Object.values(team).forEach( employeesByTeam => {
+        employeesByTeam.forEach(employee => employees.push(employee));
+      })
+    })
+
+    save.employees = employees;
+    return save;
   }
 
   render() {
