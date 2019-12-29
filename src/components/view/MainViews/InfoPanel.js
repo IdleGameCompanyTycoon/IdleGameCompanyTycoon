@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../../assets/css/App-main-view-infopanel.css';
+import Loginpage from '../Pages/Loginpage.js';
 
 const InfoPanel = (props) => {
   return (
@@ -11,8 +12,11 @@ const InfoPanel = (props) => {
           <p className="App-info-panel-date">Date: {props.date.month}.{props.date.day}.{props.date.year}</p>
           <button className="App-info-panel-info"
                 onClick={() => props.noti("info") }> Info </button>
-        <button className="App-info-panel-homebutton"
+          <button className="App-indo-panel-Login"
+            onClick={() => <Loginpage></Loginpage>}>Login</button>
+          <button className="App-info-panel-homebutton"
                 onClick={props.goToHome}>Home</button>
+                 <Loginpage></Loginpage>
     </div>
   )
 }

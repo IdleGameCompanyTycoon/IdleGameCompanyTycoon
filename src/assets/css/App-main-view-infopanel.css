@@ -1,3 +1,14 @@
+button{
+  margin-right: 0.5vw;
+  margin-top:1vh;
+  height: 4vh;
+  background-color: #2292a4;
+  color: white;
+  border-radius: 0.5vh;
+  padding: 1vh;
+  border: none;
+  cursor: pointer;
+}
 .App-info-panel-homebutton{
   margin-right: 0.5vw;
   margin-top:1vh;
